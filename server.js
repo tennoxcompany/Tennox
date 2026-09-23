@@ -18,38 +18,17 @@ app.use(express.json());
 
 const ai = new GoogleGenAI({});
 
-async function generateAiContentWithFallback(promptContents, systemInstruction) {
-  const candidateModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.1-flash-lite'];
-  let lastError = null;
-
-  for (const model of candidateModels) {
-    for (let attempt = 1; attempt <= 2; attempt++) {
-      try {
-        const response = await ai.models.generateContent({
-          model,
-          contents: promptContents,
-          config: {
-            systemInstruction,
-            temperature: 0.7,
-          }
-        });
-        if (response && response.text) {
-          return response.text;
-        }
-      } catch (err) {
-        lastError = err;
-        console.warn(`[Tennox AI] Model ${model} (deneme ${attempt}) hatası:`, err?.message || err);
-        const errMsg = (err?.message || '').toLowerCase();
-        const isTransient = err?.status === 'UNAVAILABLE' || errMsg.includes('503') || errMsg.includes('high demand') || errMsg.includes('429') || errMsg.includes('overloaded');
-        if (isTransient && attempt === 1) {
-          await new Promise(res => setTimeout(res, 800));
-        } else {
-          break; // Diğer modele geç
-        }
-      }
-    }
+function getSmartFallbackReply(prompt) {
+  const lower = (prompt || '').toLowerCase();
+  if (lower.includes('aksiyon') || lower.includes('dövüş')) {
+    return "Aksiyon seviyorsan *Demon Slayer*, *Chainsaw Man*, *Jujutsu Kaisen* veya *Attack on Titan* tam sana göre! Sitemizdeki arama çubuğundan bu animeleri kolayca bulabilirsin.";
   }
-
+  if (lower.includes('romantik') || lower.includes('aşk') || lower.includes('komedi')) {
+    return "Keyifli vakit geçirmek için *Horimiya*, *Kaguya-sama: Love is War* veya *My Dress-Up Darling* animelerini kesinlikle öneririm!";
+  }
+  if (lower.includes('öneri') || lower.includes('tavsiye') || lower.includes('izle')) {
+    return "Sana harika anime önerilerim var! Aksiyon için *Attack on Titan* veya *Jujutsu Kaisen*, romantizm/komedi için *Kaguya-sama* veya *Spy x Family*, gizem için *Death Note* izleyebilirsin. Siteden dilediğin animeye hemen göz atabilirsin!";
+  }
   return `Selam! Yapay zeka servisimiz şu anda yoğunluk (kota) nedeniyle kısa bir mola veriyor. 🎬🍿
 
 Bu sırada sana popüler önerilerimizden birkaçını sunabilirim:
@@ -58,6 +37,35 @@ Bu sırada sana popüler önerilerimizden birkaçını sunabilirim:
 * **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.
 
 Sitenin kurucusu **Kağan Sami** (@sennoxbygok) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`;
+}
+
+async function generateAiContentWithFallback(promptContents, systemInstruction) {
+  const candidateModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.1-flash-lite'];
+
+  for (const model of candidateModels) {
+    try {
+      const response = await ai.models.generateContent({
+        model,
+        contents: promptContents,
+        config: {
+          systemInstruction,
+          temperature: 0.7,
+        }
+      });
+      if (response && response.text) {
+        return response.text;
+      }
+    } catch (err) {
+      const errMsg = (err?.message || '').toLowerCase();
+      const isQuotaOrRateLimit = errMsg.includes('429') || errMsg.includes('quota') || errMsg.includes('resource_exhausted') || errMsg.includes('limit');
+      if (isQuotaOrRateLimit) {
+        return getSmartFallbackReply(typeof promptContents === 'string' ? promptContents : '');
+      }
+      console.warn(`[Tennox AI] Model ${model} hatası:`, err?.message || err);
+    }
+  }
+
+  return getSmartFallbackReply(typeof promptContents === 'string' ? promptContents : '');
 }
 
 function getDirectIntentAnswer(msg) {
