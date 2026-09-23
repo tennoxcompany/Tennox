@@ -7120,7 +7120,12 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 <div class="acx-player-title-box">
                     <span>${escapeHtml(anime.title)}</span> • <span>${seasonNumber}. Sezon ${episodeNumber}. Bölüm</span>
                 </div>
-                <div style="width: 100px;"></div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    ${parsedSource.isEmbed ? `
+                        <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">📑</button>
+                        <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⛶</button>
+                    ` : '<div style="width: 100px;"></div>'}
+                </div>
             </div>
 
             <!-- Sahne / Video Alanı -->
@@ -7168,8 +7173,8 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 </div>
 
                 <!-- Alt Kontrol Çubuğu -->
+                ${!parsedSource.isEmbed ? `
                 <div class="acx-player-bottombar" id="acxBottomBar">
-                    ${!parsedSource.isEmbed ? `
                     <!-- İlerleme Çubuğu (Scrubber) -->
                     <div class="acx-scrubber-track" id="acxScrubberTrack">
                         <div class="acx-scrubber-buffer" id="acxScrubberBuffer" style="width:0%;"></div>
@@ -7177,13 +7182,11 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                             <div class="acx-scrubber-dot"></div>
                         </div>
                     </div>
-                    ` : ''}
 
                     <!-- Kontrol Butonları Satırı -->
                     <div class="acx-ctrl-row">
                         <!-- Sol: Play + Süre / Başlık -->
                         <div class="acx-ctrl-left">
-                            ${!parsedSource.isEmbed ? `
                             <button class="acx-ctrl-play-btn" id="acxBottomPlayBtn">
                                 <span id="acxBottomPlayIcon">▶</span>
                             </button>
@@ -7192,12 +7195,6 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                                 <span>•</span>
                                 <span class="acx-meta-title-snippet">${escapeHtml(fullEpisodeTitle)}</span>
                             </div>
-                            ` : `
-                            <div class="acx-ctrl-time-meta" style="margin-left:8px;">
-                                <span class="acx-meta-title-snippet">${escapeHtml(fullEpisodeTitle)}</span>
-                                <span style="background:rgba(225,29,72,0.25);color:#ff4b72;padding:2px 8px;border-radius:6px;font-size:0.75rem;font-weight:600;margin-left:8px;">Harici Kaynak</span>
-                            </div>
-                            `}
                         </div>
 
                         <!-- Sağ: Önceki/Sonraki, Ayarlar, Bölüm Listesi, PiP, Tam Ekran -->
@@ -7205,7 +7202,6 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                             <button class="acx-ctrl-btn" id="acxPrevEpBtn" title="Önceki Bölüm">⏮</button>
                             <button class="acx-ctrl-btn" id="acxNextEpBtn" title="Sonraki Bölüm">⏭</button>
 
-                            ${!parsedSource.isEmbed ? `
                             <!-- Ayarlar Menüsü -->
                             <div class="acx-settings-wrap">
                                 <button class="acx-ctrl-btn" id="acxSettingsBtn" title="Oynatıcı Ayarları">⚙</button>
@@ -7226,21 +7222,19 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                                     </div>
                                 </div>
                             </div>
-                            ` : ''}
 
                             <!-- Bölüm Listesi Çekmecesi -->
                             <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi">📑</button>
 
-                            ${!parsedSource.isEmbed ? `
                             <!-- Picture-in-Picture -->
                             <button class="acx-ctrl-btn" id="acxPipBtn" title="Pencere İçinde Pencere">🗗</button>
-                            ` : ''}
 
                             <!-- Tam Ekran -->
                             <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran">⛶</button>
                         </div>
                     </div>
                 </div>
+                ` : ''}
             </div>
 
             <!-- Alt Puanlama Satırı -->
@@ -9400,27 +9394,48 @@ async function sendAiMessage(customText) {
     const thinkingEl = appendAiMessage('Tennox AI düşünüyor...', 'thinking bot');
 
     try {
-        const res = await fetch(AI_CHAT_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: text, history: aiChatHistory })
-        });
-        const data = await res.json();
-        thinkingEl.remove();
-
-        if (!res.ok || data.error) {
-            appendAiMessage('Üzgünüm, yanıt oluştururken bir sorun oluştu: ' + (data.error || res.status), 'bot');
-        } else {
-            appendAiMessage(data.reply, 'bot');
-            aiChatHistory.push({ role: 'user', content: text });
-            aiChatHistory.push({ role: 'assistant', content: data.reply });
-            if (aiChatHistory.length > 12) aiChatHistory = aiChatHistory.slice(-12);
+        let replyText = '';
+        try {
+            const res = await fetch(AI_CHAT_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: text, history: aiChatHistory })
+            });
+            const data = await res.json();
+            if (res.ok && !data.error && data.reply) {
+                replyText = data.reply;
+            }
+        } catch (netErr) {
+            // Static host / GitHub pages fallback
         }
+
+        if (!replyText) {
+            // Local rule-based AI fallback for static / offline / quota-limited environments
+            const lower = text.toLowerCase();
+            if (lower.includes('selam') || lower.includes('merhaba') || lower.includes('hey')) {
+                replyText = "Selam! Ben Tennox AI, senin anime asistanınım. Sana en güzel anime önerilerini yapabilir, izleyecek seri bulmanda yardımcı olabilirim. Nasıl yardımcı olabilirim?";
+            } else if (lower.includes('öneri') || lower.includes('tavsiye') || lower.includes('izle')) {
+                replyText = "Sana harika anime önerilerim var! Aksiyon için *Attack on Titan* veya *Jujutsu Kaisen*, romantizm/komedi için *Kaguya-sama* veya *Spy x Family*, gizem için *Death Note* izleyebilirsin. Siteden dilediğin animeye hemen göz atabilirsin!";
+            } else if (lower.includes('aksiyon') || lower.includes('dövüş')) {
+                replyText = "Aksiyon seviyorsan *Demon Slayer*, *Chainsaw Man*, *Bleach* veya *Naruto* tam sana göre! Sitemizdeki arama çubuğundan bu animeleri kolayca bulabilirsin.";
+            } else if (lower.includes('romantik') || lower.includes('aşk') || lower.includes('komedi')) {
+                replyText = "Keyifli vakit geçirmek için *Horimiya*, *Kaguya-sama: Love is War* veya *My Dress-Up Darling* animelerini kesinlikle öneririm!";
+            } else {
+                replyText = `Harika bir konuya değindin! "${text}" hakkında şunu söyleyebilirim: Tennox kütüphanesinde yüzlerce popüler anime ve kesintisiz bölüm seni bekliyor. İstediğin seriyi arama çubuğundan aratabilir veya kategorilerden keşfedebilirsin!`;
+            }
+        }
+
+        thinkingEl.remove();
+        appendAiMessage(replyText, 'bot');
+        aiChatHistory.push({ role: 'user', content: text });
+        aiChatHistory.push({ role: 'assistant', content: replyText });
+        if (aiChatHistory.length > 12) aiChatHistory = aiChatHistory.slice(-12);
     } catch (err) {
         thinkingEl.remove();
-        appendAiMessage('Bağlantı hatası oluştu, lütfen tekrar deneyin.', 'bot');
+        const fallbackReply = `Harika bir konuya değindin! "${text}" hakkında Tennox kütüphanesinden dilediğin animeyi keşfedebilirsin.`;
+        appendAiMessage(fallbackReply, 'bot');
         console.error('AI chat error:', err);
     } finally {
         if (aiChatSendBtn) aiChatSendBtn.disabled = false;

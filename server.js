@@ -50,7 +50,14 @@ async function generateAiContentWithFallback(promptContents, systemInstruction) 
     }
   }
 
-  throw lastError || new Error('Yapay zeka modelleri şu anda yoğunluk nedeniyle yanıt veremiyor.');
+  return `Selam! Yapay zeka servisimiz şu anda yoğunluk (kota) nedeniyle kısa bir mola veriyor. 🎬🍿
+
+Bu sırada sana popüler önerilerimizden birkaçını sunabilirim:
+* **Sousou no Frieren** — Büyüleyici fantezi ve derin bir macera.
+* **Jujutsu Kaisen** — Yüksek tempolu ve efsane dövüş sahneleri.
+* **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.
+
+Sitenin kurucusu **Kağan Sami** (@krtonsamiigrn) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`;
 }
 
 function getDirectIntentAnswer(msg) {
