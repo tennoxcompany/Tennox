@@ -4992,7 +4992,7 @@ button { font-family: inherit; }
             <div class="founder-tag">Merkez Lider / Kurucu</div>
             <h3>Kağan Sami</h3>
             <p class="role">Tennox Kurucusu ve Genel Lideri</p>
-            <a href="https://instagram.com/krtonsamiigrn" target="_blank" class="founder-ig">@krtonsamiigrn</a>
+            <a href="https://instagram.com/sennoxbygok" target="_blank" class="founder-ig">@sennoxbygok</a>
         </div>
 
         <div class="founder-card">
@@ -9675,8 +9675,10 @@ async function sendAiMessage(customText) {
         if (!replyText) {
             // Local rule-based AI fallback for static / offline / quota-limited environments
             const lower = text.toLowerCase();
-            if (lower.includes('selam') || lower.includes('merhaba') || lower.includes('hey')) {
-                replyText = "Selam! Ben Tennox AI, senin anime asistanınım. Sana en güzel anime önerilerini yapabilir, izleyecek seri bulmanda yardımcı olabilirim. Nasıl yardımcı olabilirim?";
+            if (lower.includes('selam') || lower.includes('merhaba') || lower.includes('hey') || lower.includes('naber')) {
+                replyText = "Aleykümselam! Hoş geldin. Bugün hangi animeyi izlemek istiyorsun? Sana harika öneriler yapabilirim!";
+            } else if (lower.includes('sahibi') || lower.includes('kurdu') || lower.includes('kim') || lower.includes('yapımcı') || lower.includes('kimdir')) {
+                replyText = "Tennox platformu, anime ve manga severler için özel olarak geliştirilmiş modern bir akış platformudur. Projenin arkasında tutkulu bir geliştirici ekibi ve anime sevdalıları yer alıyor!";
             } else if (lower.includes('öneri') || lower.includes('tavsiye') || lower.includes('izle')) {
                 replyText = "Sana harika anime önerilerim var! Aksiyon için *Attack on Titan* veya *Jujutsu Kaisen*, romantizm/komedi için *Kaguya-sama* veya *Spy x Family*, gizem için *Death Note* izleyebilirsin. Siteden dilediğin animeye hemen göz atabilirsin!";
             } else if (lower.includes('aksiyon') || lower.includes('dövüş')) {
@@ -9684,7 +9686,7 @@ async function sendAiMessage(customText) {
             } else if (lower.includes('romantik') || lower.includes('aşk') || lower.includes('komedi')) {
                 replyText = "Keyifli vakit geçirmek için *Horimiya*, *Kaguya-sama: Love is War* veya *My Dress-Up Darling* animelerini kesinlikle öneririm!";
             } else {
-                replyText = `Harika bir konuya değindin! "${text}" hakkında şunu söyleyebilirim: Tennox kütüphanesinde yüzlerce popüler anime ve kesintisiz bölüm seni bekliyor. İstediğin seriyi arama çubuğundan aratabilir veya kategorilerden keşfedebilirsin!`;
+                replyText = `"${text}" konusunda sana yardımcı olmak isterim! Tennox kütüphanesinden dilediğin animeyi aratabilir, bölümleri kesintisiz izleyebilirsin. Başka ne arıyorsun?`;
             }
         }
 

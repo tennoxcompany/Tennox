@@ -57,7 +57,7 @@ Bu sırada sana popüler önerilerimizden birkaçını sunabilirim:
 * **Jujutsu Kaisen** — Yüksek tempolu ve efsane dövüş sahneleri.
 * **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.
 
-Sitenin kurucusu **Kağan Sami** (@krtonsamiigrn) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`;
+Sitenin kurucusu **Kağan Sami** (@sennoxbygok) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`;
 }
 
 function getDirectIntentAnswer(msg) {
@@ -81,20 +81,20 @@ function getDirectIntentAnswer(msg) {
   ) {
     return `👑 **Tennox'un Sahibi ve Kurucusu:**
 
-Tennox'un kurucusu ve sahibi **Kağan Sami**'dir (**@krtonsamiigrn**).
+Tennox'un kurucusu ve sahibi **Kağan Sami**'dir (**@sennoxbygok**).
 
 * **Hakkında:** Kağan Sami, **2011 doğumlu** genç ve vizyoner bir girişimcidir.
 * **Amacı & Vizyonu:** Tennox'u kurarken temel gayesi hayallerinin peşinden koşmak, anime severlere en iyi dublaj ve altyazılı izleme deneyimini sunmak ve Tennox'u ileride devasa bir teknoloji ve medya şirketi haline getirmektir! 🚀
 
 📬 **İletişim:**
-* **Instagram:** [@krtonsamiigrn](https://instagram.com/krtonsamiigrn)`;
+* **Instagram:** [@sennoxbygok](https://instagram.com/sennoxbygok)`;
   }
 
   // İletişim / Instagram soruları
   if (lower.includes('iletişim') || lower.includes('instagram') || lower.includes('ulaşmak') || lower.includes('sosyal medya')) {
     return `📬 **Tennox İletişim & Sosyal Medya:**
 
-* **Kurucu & Merkez Lider (Kağan Sami):** [@krtonsamiigrn](https://instagram.com/krtonsamiigrn)
+* **Kurucu & Merkez Lider (Kağan Sami):** [@sennoxbygok](https://instagram.com/sennoxbygok)
 * **Dublaj Ekibi Lideri:** [@dublajcmyz](https://instagram.com/dublajcmyz)
 
 Görüş, öneri veya iş birlikleri için kurucumuz Kağan Sami'ye Instagram üzerinden ulaşabilirsin! ✨`;
@@ -120,10 +120,10 @@ app.post('/api/ai/chat', async (req, res) => {
     const systemInstruction = `Sen Tennox platformunun resmi yapay zeka anime asistanısın (Tennox AI).
 
 Platform ve Kurucu Bilgisi:
-- Tennox'un kurucusu ve sahibi **Kağan Sami**'dir (Instagram: **@krtonsamiigrn**).
+- Tennox'un kurucusu ve sahibi **Kağan Sami**'dir (Instagram: **@sennoxbygok**).
 - Kağan Sami, **2011 doğumlu genç ve vizyoner bir girişimcidir**.
 - Tennox'u kurarkenki temel amacı: Hayallerinin peşinden koşmak, anime tutkusunu herkesle paylaşmak, Türkiye'deki anime ve dublaj/altyazı deneyimini en kaliteli seviyeye çıkarmak ve gelecekte Tennox'u devasa, uluslararası bir şirket ve eğlence ekosistemi haline getirmektir.
-- Kullanıcılar "Buranın sahibi kim?", "Kurucusu kim?", "Kağan kim?", "Kimin sitesi?", "İletişim" gibi sorular sorduğunda Kağan Sami'yi, 2011 doğumlu genç bir girişimci olduğunu, hayallerini ve vizyonunu samimi, gururla ve net şekilde anlat ve iletişim için Instagram adresini (**@krtonsamiigrn** / https://instagram.com/krtonsamiigrn) ver.
+- Kullanıcılar "Buranın sahibi kim?", "Kurucusu kim?", "Kağan kim?", "Kimin sitesi?", "İletişim" gibi sorular sorduğunda Kağan Sami'yi, 2011 doğumlu genç bir girişimci olduğunu, hayallerini ve vizyonunu samimi, gururla ve net şekilde anlat ve iletişim için Instagram adresini (**@sennoxbygok** / https://instagram.com/sennoxbygok) ver.
 
 Genel Görevlerin:
 1. Kullanıcılara zevklerine, ruh hallerine veya favori türlerine göre en iyi anime ve manga önerilerini sunmak.
@@ -147,7 +147,7 @@ Genel Görevlerin:
     } catch (genErr) {
       console.warn('[Tennox AI] AI model fallback active:', genErr?.message || genErr);
       return res.json({
-        reply: `Selam! Yapay zeka servisimiz şu anda kısa bir mola veriyor. 🎬🍿\n\nBu sırada sana popüler önerilerimizden birkaçını sunabilirim:\n* **Sousou no Frieren** — Büyüleyici fantezi ve derin bir macera.\n* **Jujutsu Kaisen** — Yüksek tempolu ve efsane dövüş sahneleri.\n* **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.\n\nSitenin kurucusu **Kağan Sami** (@krtonsamiigrn) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`
+        reply: `Selam! Yapay zeka servisimiz şu anda kısa bir mola veriyor. 🎬🍿\n\nBu sırada sana popüler önerilerimizden birkaçını sunabilirim:\n* **Sousou no Frieren** — Büyüleyici fantezi ve derin bir macera.\n* **Jujutsu Kaisen** — Yüksek tempolu ve efsane dövüş sahneleri.\n* **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.\n\nSitenin kurucusu **Kağan Sami** (@sennoxbygok) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`
       });
     }
   } catch (err) {
