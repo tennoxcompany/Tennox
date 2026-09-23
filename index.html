@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
 /* =========================================================
    TOKENS — Modern karanlık, şık nötr / monokrom palet
@@ -5225,17 +5226,75 @@ button { font-family: inherit; }
     </div>
 </div>
 
-<!-- ================= GİRİŞ / KAYIT MODALI ================= -->
-<div class="modal-overlay" id="authModal">
-    <div class="modal-box admin-panel-box">
-        <button class="modal-close" id="authCloseBtn">×</button>
-        <div class="admin-body" id="authBody">
-            <h3>Giriş Yap / Kayıt Ol</h3>
-            <p style="font-size:0.85rem; color:var(--text-dim); margin-top:-8px;">Bölümleri izlemek için e-posta ve şifre yeterli. Hesabın yoksa otomatik oluşturulur.</p>
-            <div class="field"><label>E-posta</label><input type="email" id="authEmail" placeholder="ornek@mail.com"></div>
-            <div class="field"><label>Şifre</label><input type="password" id="authPassword" placeholder="••••••••"></div>
-            <button class="btn btn-primary" id="authSubmitBtn">Devam Et</button>
-            <div class="admin-msg" id="authMsg"></div>
+<!-- ================= GİRİŞ / KAYIT VIEW (SPLIT SCREEN) ================= -->
+<div class="view" id="view-giris">
+    <div style="display: flex; min-height: calc(100vh - 70px); background: #0c0d14; width: 100%;">
+        <!-- Sol taraf: Anime görseli ve slogan -->
+        <div style="flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 60px; background: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(12,13,20,0.85) 0%, rgba(12,13,20,0.3) 50%, rgba(12,13,20,0.98) 100%), linear-gradient(to right, rgba(12,13,20,0.2) 70%, #0c0d14 100%), linear-gradient(to top, #0c0d14 0%, transparent 60%);"></div>
+            
+            <div style="position: relative; z-index: 2; max-width: 600px;">
+                <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(229, 9, 20, 0.2); border: 1px solid rgba(229, 9, 20, 0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; color: #ff4d55; margin-bottom: 20px;">
+                    <span>🔥</span> ŞU AN TENNOX'TE
+                </div>
+                <h1 style="font-size: 3.2rem; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 16px; letter-spacing: -1px;">
+                    Anime, manga ve daha fazlası tek yerde.
+                </h1>
+                <p style="font-size: 1.05rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px;">
+                    4K görüntü kalitesi, Türkçe altyazı ve dublaj seçenekleriyle animeleri yüksek kalitede izle. Kaldığın yerden izle, listelerini oluştur.
+                </p>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                    <span style="font-weight: 700; color: #fff; font-size: 0.95rem;">One Piece</span>
+                    <span style="color: #fbbf24; font-size: 0.9rem;">★ 8.7</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ taraf: Giriş formu kartı -->
+        <div style="width: 520px; display: flex; align-items: center; justify-content: center; padding: 40px; background: #0c0d14; border-left: 1px solid rgba(255,255,255,0.06);">
+            <div style="width: 100%; max-width: 400px;" id="authBody">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                    <button onclick="showView('home')" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">×</button>
+                </div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 6px; letter-spacing: -0.5px;">Tekrar hoş geldin</h2>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 28px;">Kaldığın yerden izlemeye devam etmek için giriş yap.</p>
+
+                <!-- Tabs: Giriş Yap / Kayıt Ol -->
+                <div style="display: flex; background: #13151f; border-radius: 12px; padding: 4px; margin-bottom: 24px;">
+                    <button class="auth-tab-btn" id="authTabLogin" style="flex: 1; padding: 12px; border: none; background: #fff; color: #000; font-weight: 700; border-radius: 9px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;">Giriş Yap</button>
+                    <button class="auth-tab-btn" id="authTabRegister" style="flex: 1; padding: 12px; border: none; background: transparent; color: #94a3b8; font-weight: 600; border-radius: 9px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;">Kayıt Ol</button>
+                </div>
+
+                <!-- Fields -->
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">E-posta veya kullanıcı adı</label>
+                    <input type="email" id="authEmail" placeholder="ornek@mail.com" style="width: 100%; background: #13151f; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 13px 16px; color: #fff; font-size: 0.95rem; outline: none;">
+                </div>
+
+                <div style="margin-bottom: 18px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="font-size: 0.85rem; font-weight: 600; color: #cbd5e1;">Şifre</label>
+                        <a href="#" id="authForgotPass" style="font-size: 0.8rem; color: #94a3b8; text-decoration: none;">Şifremi unuttum</a>
+                    </div>
+                    <input type="password" id="authPassword" placeholder="••••••••" style="width: 100%; background: #13151f; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 13px 16px; color: #fff; font-size: 0.95rem; outline: none;">
+                </div>
+
+                <!-- Gerçek Cloudflare Turnstile İnsan Doğrulaması -->
+                <div style="margin: 16px 0; display:flex; justify-content:center; height: 65px; overflow: hidden; border-radius: 8px;">
+                    <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-theme="dark"></div>
+                </div>
+
+                <!-- Remember me -->
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1; cursor: pointer;">
+                        <input type="checkbox" id="authRememberMe" style="accent-color: #e50914; width: 16px; height: 16px; cursor: pointer;">
+                        Beni hatırla
+                    </label>
+                </div>
+
+                <button class="btn btn-primary" id="authSubmitBtn" style="width: 100%; padding: 14px; font-weight: 700; border-radius: 10px; font-size: 1rem; cursor: pointer; background: #e50914; color: #fff; border: none; transition: all 0.2s;">Giriş Yap</button>
+                <div class="admin-msg" id="authMsg" style="margin-top: 14px;"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -7700,17 +7759,95 @@ animeModal?.addEventListener('click', e => {
    ========================================================= */
 const authModal = document.getElementById('authModal');
 
+function logout() {
+    sb.auth.signOut().then(() => {
+        currentUser = null;
+        currentProfile = null;
+        renderNavAuth();
+        showView('home');
+    }).catch(err => {
+        console.error('Logout error:', err);
+        currentUser = null;
+        currentProfile = null;
+        renderNavAuth();
+        showView('home');
+    });
+}
+window.logout = logout;
+
+let isAuthHumanVerified = false;
+
+window.onTurnstileSuccess = function(token) {
+    isAuthHumanVerified = true;
+};
+
+window.onTurnstileExpired = function() {
+    isAuthHumanVerified = false;
+};
+
+function resetAuthHumanVerification() {
+    isAuthHumanVerified = false;
+    if (typeof turnstile !== 'undefined') {
+        try {
+            turnstile.reset();
+        } catch(e) {}
+    }
+}
+
+let authMode = 'login';
+const tabLogin = document.getElementById('authTabLogin');
+const tabRegister = document.getElementById('authTabRegister');
+const submitBtn = document.getElementById('authSubmitBtn');
+
+tabLogin?.addEventListener('click', () => {
+    authMode = 'login';
+    tabLogin.style.background = '#fff';
+    tabLogin.style.color = '#000';
+    tabLogin.style.fontWeight = '700';
+    if (tabRegister) {
+        tabRegister.style.background = 'transparent';
+        tabRegister.style.color = '#94a3b8';
+        tabRegister.style.fontWeight = '600';
+    }
+    if (submitBtn) submitBtn.textContent = 'Giriş Yap';
+});
+
+tabRegister?.addEventListener('click', () => {
+    authMode = 'signup';
+    tabRegister.style.background = '#fff';
+    tabRegister.style.color = '#000';
+    tabRegister.style.fontWeight = '700';
+    if (tabLogin) {
+        tabLogin.style.background = 'transparent';
+        tabLogin.style.color = '#94a3b8';
+        tabLogin.style.fontWeight = '600';
+    }
+    if (submitBtn) submitBtn.textContent = 'Kayıt Ol';
+});
+
+document.getElementById('authGoogleBtn')?.addEventListener('click', () => {
+    alert('Google ile giriş için Supabase OAuth ayarları gereklidir. Lütfen e-posta ve şifrenizle giriş yapın.');
+});
+
+document.getElementById('authDiscordBtn')?.addEventListener('click', () => {
+    alert('Discord ile giriş için Supabase OAuth ayarları gereklidir. Lütfen e-posta ve şifrenizle giriş yapın.');
+});
+
+
+
 function openAuthModal() {
-    authModal?.classList.add('open');
+    showView('giris');
+    resetAuthHumanVerification();
 }
 function closeAuthModal() {
-    authModal?.classList.remove('open');
+    showView('home');
     const msg = document.getElementById('authMsg');
     if (msg) msg.className = 'admin-msg';
     const emailEl = document.getElementById('authEmail');
     if (emailEl) emailEl.value = '';
     const passEl = document.getElementById('authPassword');
     if (passEl) passEl.value = '';
+    resetAuthHumanVerification();
 }
 
 document.getElementById('authNavBtn')?.addEventListener('click', () => {
@@ -7723,8 +7860,6 @@ document.getElementById('authNavBtn')?.addEventListener('click', () => {
 document.getElementById('signupNavBtn')?.addEventListener('click', () => {
     if (!currentUser) openAuthModal();
 });
-document.getElementById('authCloseBtn')?.addEventListener('click', closeAuthModal);
-authModal?.addEventListener('click', e => { if (e.target === authModal) closeAuthModal(); });
 
 document.getElementById('authSubmitBtn')?.addEventListener('click', async () => {
     const email = document.getElementById('authEmail').value.trim();
@@ -7733,6 +7868,11 @@ document.getElementById('authSubmitBtn')?.addEventListener('click', async () => 
     if (!email || !password) {
         msg.className = 'admin-msg show err';
         msg.textContent = 'E-posta ve şifre gerekli.';
+        return;
+    }
+    if (!isAuthHumanVerified) {
+        msg.className = 'admin-msg show err';
+        msg.textContent = 'Lütfen devam etmek için insan doğrulamasını tamamlayın.';
         return;
     }
     msg.className = 'admin-msg show';
@@ -10443,16 +10583,27 @@ document.getElementById('wpLeaveRoomBtn')?.addEventListener('click', () => {
     initWatchPartyLobby();
 });
 
-window.addEventListener('load', () => {
-    setTimeout(() => {
+(function() {
+    const removeSplash = () => {
         const splash = document.getElementById('tennoxSplashScreen');
         if (splash) {
+            splash.style.transition = 'opacity 0.6s ease, visibility 0.6s ease';
             splash.style.opacity = '0';
             splash.style.visibility = 'hidden';
             setTimeout(() => splash.remove(), 600);
         }
-    }, 1400);
-});
+    };
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(removeSplash, 2000);
+    } else {
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(removeSplash, 2000);
+        });
+        window.addEventListener('load', () => {
+            setTimeout(removeSplash, 2000);
+        });
+    }
+})();
 </script>
 </body>
 </html>
