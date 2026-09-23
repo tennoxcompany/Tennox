@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <!-- Background pure black -->
+    <radialGradient id="tGlow" cx="62%" cy="48%" r="45%">
+      <stop offset="0%" stop-color="#e50914" stop-opacity="0.30"/>
+      <stop offset="35%" stop-color="#e50914" stop-opacity="0.08"/>
+      <stop offset="70%" stop-color="#000000" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tCoreGlow" cx="62%" cy="48%" r="22%">
+      <stop offset="0%" stop-color="#ff1e27" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="subtleShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="24" flood-color="#000000" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+
+  <!-- Pitch Black Canvas -->
+  <rect width="1920" height="1080" fill="#000000"/>
+
+  <!-- Atmospheric Ambient Glows behind the emblem -->
+  <circle cx="1180" cy="510" r="680" fill="url(#tGlow)"/>
+  <circle cx="1180" cy="510" r="320" fill="url(#tCoreGlow)"/>
+
+  <!-- Subtle anime cinematic horizontal light streaks -->
+  <line x1="500" y1="510" x2="1860" y2="510" stroke="#e50914" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="700" y1="360" x2="1660" y2="360" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+
+  <!-- The Official Iconic TENNOX Logo from file_00000000e3f48243a37877e23d638f8c.png -->
+  <!-- Centered at x=1180 (cinematic right-half positioning for desktop hero), y=510, scaled to 620px height -->
+  <g transform="translate(860, 200) scale(6.4)" filter="url(#subtleShadow)">
+    <!-- White T -->
+    <path d="M14 18 L76 18 L68 29 L54 29 L54 78 L41 90 L41 29 L23 29 L14 18 Z" fill="#FFFFFF"/>
+    <!-- Red Accent Wing -->
+    <path d="M55 41 L89 18 L96 28 L69 49 L69 98 L55 98 Z" fill="#E50914"/>
+  </g>
+</svg>
