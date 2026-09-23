@@ -4255,9 +4255,130 @@ button { font-family: inherit; }
 .admin-list-item button:disabled {
     opacity: 0.5; cursor: not-allowed; transform: none;
 }
+
+/* Splash / Loading Screen */
+#tennoxSplashScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #06070a;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.splash-orbit-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.splash-orbit-ring {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 50%;
+}
+.splash-orbit-ring.r1 { width: 500px; height: 180px; transform: rotate(-10deg); }
+.splash-orbit-ring.r2 { width: 850px; height: 300px; transform: rotate(10deg); }
+
+.splash-orbit-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #fff, 0 0 25px #e50914;
+    animation: splashOrbitAnim 5s linear infinite;
+}
+@keyframes splashOrbitAnim {
+    0% { transform: rotate(0deg) translateX(250px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(250px) rotate(-360deg); }
+}
+
+.splash-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.splash-logo {
+    font-size: 3.8rem;
+    font-weight: 900;
+    letter-spacing: 5px;
+    color: #ffffff;
+    text-shadow: 0 0 35px rgba(255,255,255,0.35);
+    margin-bottom: 6px;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+.splash-logo span {
+    color: #e50914;
+    text-shadow: 0 0 35px rgba(229,9,20,0.65);
+}
+.splash-sub {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    letter-spacing: 3px;
+    font-weight: 500;
+    margin-bottom: 70px;
+}
+.splash-footer {
+    position: absolute;
+    bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 2;
+}
+.splash-loading-text {
+    font-size: 0.82rem;
+    letter-spacing: 5px;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.splash-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #e50914;
+    border-radius: 50%;
+    animation: splashSpin 0.75s linear infinite;
+}
+@keyframes splashSpin {
+    to { transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
+
+<!-- Yükleme (Splash) Ekranı -->
+<div id="tennoxSplashScreen">
+    <div class="splash-orbit-container">
+        <div class="splash-orbit-ring r1">
+            <div class="splash-orbit-dot"></div>
+        </div>
+        <div class="splash-orbit-ring r2"></div>
+    </div>
+    <div class="splash-content">
+        <div class="splash-logo">TEN<span>NOX</span></div>
+        <div class="splash-sub">Anime • Manga • Topluluk</div>
+    </div>
+    <div class="splash-footer">
+        <div class="splash-loading-text">Y Ü K L E N İ Y O R</div>
+        <div class="splash-spinner"></div>
+    </div>
+</div>
 
 <!-- ================= NAVBAR ================= -->
 <nav class="navbar">
@@ -10322,6 +10443,16 @@ document.getElementById('wpLeaveRoomBtn')?.addEventListener('click', () => {
     initWatchPartyLobby();
 });
 
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('tennoxSplashScreen');
+        if (splash) {
+            splash.style.opacity = '0';
+            splash.style.visibility = 'hidden';
+            setTimeout(() => splash.remove(), 600);
+        }
+    }, 1400);
+});
 </script>
 </body>
 </html>
