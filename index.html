@@ -8001,20 +8001,20 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     let initialEmbedUrl = parsedSource.url;
 
     if (parsedSource.isEmbed) {
-        // 1. Orijinal Japonca Sesli Özel Anime Sunucuları (Öncelikli)
+        // 1. Orijinal Japonca Sesli Özel Anime Sunucuları (Yalnızca Japonca SUB)
         if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-vidsrcto-ani',
-                    name: '🇯🇵 Sunucu 1 (Orijinal Japonca HD)',
-                    badge: 'Japonca Ses',
-                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
+                    id: 'srv-vidsrcpm-ani',
+                    name: '🇯🇵 Sunucu 1 (Japonca Ses / Sub)',
+                    badge: 'Orijinal Ses',
+                    url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
                 },
                 {
-                    id: 'srv-vidsrcpm-ani',
-                    name: '🇯🇵 Sunucu 2 (Japonca / VidSrc)',
-                    badge: 'Altyazılı',
-                    url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
+                    id: 'srv-vidsrcto-ani',
+                    name: '🇯🇵 Sunucu 2 (VidSrc TO Japonca)',
+                    badge: 'Japonca HD',
+                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-videasy-ani',
@@ -8023,34 +8023,43 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     url: `https://player.videasy.to/anime/${aniId}/${eNum}`
                 },
                 {
+                    id: 'srv-vidsrcsh-ani',
+                    name: '🇯🇵 Sunucu 4 (VidSrc SH Japonca)',
+                    badge: 'Japonca',
+                    url: `https://vidsrc.sh/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
+                },
+                {
                     id: 'srv-2embed-ani',
-                    name: '🇯🇵 Sunucu 4 (2Embed Japonca)',
+                    name: '🇯🇵 Sunucu 5 (2Embed Japonca)',
                     badge: 'Alternatif',
                     url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
                 },
                 {
-                    id: 'srv-vidsrcsh-ani',
-                    name: '🇯🇵 Sunucu 5 (VidSrc SH Japonca)',
-                    badge: 'Stabil',
-                    url: `https://vidsrc.sh/embed/anime?anilist=${aniId}&episode=${eNum}`
+                    id: 'srv-vidsrcme-ani',
+                    name: '🇯🇵 Sunucu 6 (VidSrc ME Japonca)',
+                    badge: 'Alternatif',
+                    url: `https://vidsrc.me/embed/anime?anilist=${aniId}&episode=${eNum}`
                 }
             );
-        }
-
-        // 2. TMDB Tabanlı Alternatif ve Çoklu Dil Sunucuları
-        if (tmdbId) {
+        } else if (tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-autoembed',
-                    name: '⚡ Sunucu 6 (AutoEmbed Çoklu Dil)',
-                    badge: 'Hızlı',
-                    url: `https://autoembed.co/tv/tmdb/${tmdbId}-${seasonNumber}-${eNum}`
+                    id: 'srv-vidsrcpm-sub',
+                    name: '🇯🇵 Sunucu 1 (Japonca Ses)',
+                    badge: 'Orijinal',
+                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&ds_lang=ja`
                 },
                 {
-                    id: 'srv-vidsrcto-tv',
-                    name: '🇺🇸 Sunucu 7 (İngilizce Dublaj)',
-                    badge: 'Dublaj',
-                    url: `https://vidsrc.to/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                    id: 'srv-videasy-sub',
+                    name: '🇯🇵 Sunucu 2 (Videasy HD)',
+                    badge: 'Japonca',
+                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                },
+                {
+                    id: 'srv-autoembed-sub',
+                    name: '🇯🇵 Sunucu 3 (AutoEmbed)',
+                    badge: 'Japonca',
+                    url: `https://autoembed.co/tv/tmdb/${tmdbId}-${seasonNumber}-${eNum}`
                 }
             );
         }
@@ -10371,7 +10380,7 @@ function renderAdminTab(tab) {
                                 for (let ep = startEp; ep <= endEp; ep++) {
                                     if (existingNums.has(ep)) continue;
 
-                                    const epUrl = `https://vidsrc.me/embed/anime?anilist=${anilistId}&episode=${ep}`;
+                                    const epUrl = `https://vidsrc.pm/embed/anime?anilist=${anilistId}&episode=${ep}&sub=1`;
                                     const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
 
                                     batchPromises.push(
@@ -12004,15 +12013,15 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
     if (aniId) {
         servers.push(
             {
-                id: 'vidsrcto-ani',
-                name: '🇯🇵 Sunucu 1 (Orijinal Japonca HD)',
-                url: `https://vidsrc.to/embed/anime/${aniId}/${episodeNum}`,
+                id: 'vidsrcpm-ani',
+                name: '🇯🇵 Sunucu 1 (Japonca Ses / Sub)',
+                url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
                 isDirect: false
             },
             {
-                id: 'vidsrcpm-ani',
-                name: '🇯🇵 Sunucu 2 (Japonca / VidSrc)',
-                url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
+                id: 'vidsrcto-ani',
+                name: '🇯🇵 Sunucu 2 (VidSrc TO Japonca)',
+                url: `https://vidsrc.to/embed/anime/${aniId}/${episodeNum}`,
                 isDirect: false
             },
             {
@@ -12022,28 +12031,34 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
                 isDirect: false
             },
             {
+                id: 'vidsrcsh-ani',
+                name: '🇯🇵 Sunucu 4 (VidSrc SH Japonca)',
+                url: `https://vidsrc.sh/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
+                isDirect: false
+            },
+            {
                 id: '2embed-ani',
-                name: '🇯🇵 Sunucu 4 (2Embed Japonca)',
+                name: '🇯🇵 Sunucu 5 (2Embed Japonca)',
                 url: `https://www.2embed.cc/embed/anime/${aniId}/${episodeNum}`,
                 isDirect: false
             }
         );
+    } else {
+        servers.push(
+            {
+                id: 'vidsrcpm-fallback',
+                name: '🇯🇵 Sunucu 1 (Japonca / VidSrc)',
+                url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=1&episode=${episodeNum}&ds_lang=ja`,
+                isDirect: false
+            },
+            {
+                id: 'videasy-fallback',
+                name: '🇯🇵 Sunucu 2 (Videasy HD)',
+                url: `https://player.videasy.to/tv/${tmdbId}/1/${episodeNum}`,
+                isDirect: false
+            }
+        );
     }
-
-    servers.push(
-        {
-            id: 'autoembed',
-            name: '⚡ Sunucu 5 (AutoEmbed Çoklu Dil)',
-            url: `https://autoembed.co/tv/tmdb/${tmdbId}-1-${episodeNum}`,
-            isDirect: false
-        },
-        {
-            id: 'vidsrcto-tv',
-            name: '🇺🇸 Sunucu 6 (İngilizce Dublaj)',
-            url: `https://vidsrc.to/embed/tv/${tmdbId}/1/${episodeNum}`,
-            isDirect: false
-        }
-    );
 
     return servers;
 }
