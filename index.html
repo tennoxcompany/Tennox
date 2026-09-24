@@ -519,10 +519,10 @@ button { font-family: inherit; }
    HERO (Animpow & AnimeciX Stili)
    ========================================================= */
 .hero {
-    min-height: 88vh;
+    min-height: 85vh;
     display: flex;
     align-items: flex-end;
-    padding: 120px 0 64px;
+    padding: 110px 48px 56px;
     position: relative;
     overflow: hidden;
     background: #000000;
@@ -538,7 +538,7 @@ button { font-family: inherit; }
     position: absolute;
     inset: 0;
     background-size: cover;
-    background-position: center 25%;
+    background-position: center 40%;
     z-index: 1;
     opacity: 0;
     transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
@@ -551,9 +551,9 @@ button { font-family: inherit; }
     content: '';
     position: absolute; inset: 0;
     background:
-        linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.92) 32%, rgba(0, 0, 0, 0.35) 65%, rgba(0, 0, 0, 0.55) 100%),
-        linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0.96) 14%, rgba(0, 0, 0, 0.45) 35%, transparent 60%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, transparent 22%);
+        linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.2) 70%, rgba(0, 0, 0, 0.4) 100%),
+        linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0, 0, 0, 0.7) 18%, rgba(0, 0, 0, 0.2) 45%, transparent 70%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, transparent 20%);
 }
 
 .hero-fade {
@@ -595,8 +595,8 @@ button { font-family: inherit; }
 .hero-bar:hover { background: rgba(255, 255, 255, 0.45); }
 .hero-bar.active {
     width: 52px;
-    background: #e50914;
-    box-shadow: 0 0 12px rgba(229, 9, 20, 0.8);
+    background: #a855f7;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.8);
 }
 
 .hero-meta-row {
@@ -671,24 +671,24 @@ button { font-family: inherit; }
 }
 
 .btn-hero-watch {
-    background: #e50914;
+    background: linear-gradient(135deg, #a855f7, #9333ea);
     border: none;
     color: #ffffff;
     font-size: 0.95rem;
     font-weight: 700;
     padding: 12px 28px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
 }
 .btn-hero-watch:hover {
-    background: #dc2626;
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.6);
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6);
 }
 
 .btn-hero-list {
@@ -2395,10 +2395,11 @@ button { font-family: inherit; }
 /* HERO */
 .izle-hero {
     position: relative;
-    margin: 18px 20px 0;
-    border-radius: 16px;
+    margin: 0;
+    border-radius: 0;
     overflow: hidden;
-    aspect-ratio: 16 / 8.4;
+    width: 100%;
+    aspect-ratio: 16 / 7.2;
     background: linear-gradient(150deg, var(--surface), var(--bg-elevated));
     cursor: pointer;
 }
@@ -3263,7 +3264,7 @@ button { font-family: inherit; }
 .acx-hero-banner {
     position: relative;
     width: 100%;
-    height: 380px;
+    height: 480px;
     overflow: hidden;
     background: #06070a;
     display: flex;
@@ -4107,7 +4108,7 @@ button { font-family: inherit; }
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .acx-hero-banner {
-        height: 240px;
+        height: 320px;
     }
     .acx-main-grid {
         grid-template-columns: 1fr;
@@ -4206,7 +4207,7 @@ button { font-family: inherit; }
 }
 .ai-chat-input-row button:disabled { opacity: 0.5; cursor: default; }
 
-.admin-panel-box { max-width: 520px; }
+.admin-panel-box { max-width: 640px; }
 .admin-body { padding: 22px 26px 28px; display: flex; flex-direction: column; gap: 14px; }
 .admin-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; }
 
@@ -4268,6 +4269,49 @@ button { font-family: inherit; }
 .admin-list-item button:disabled {
     opacity: 0.5; cursor: not-allowed; transform: none;
 }
+
+/* =========================================================
+   OTOMATİK ANİME ÇEKİCİ & TOPLU BÖLÜM EKLEYİCİ STİLLERİ
+   ========================================================= */
+.auto-anime-search-bar { display: flex; gap: 8px; margin-bottom: 10px; }
+.auto-anime-search-bar input { flex: 1; }
+.auto-quick-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.auto-quick-btn {
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-dim); padding: 5px 10px; border-radius: 6px; font-size: 0.75rem;
+    font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.auto-quick-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.auto-anime-results { display: flex; flex-direction: column; gap: 10px; max-height: 380px; overflow-y: auto; padding-right: 4px; }
+.auto-anime-card {
+    display: flex; gap: 12px; background: #141722; border: 1px solid #282e42;
+    border-radius: 10px; padding: 10px; align-items: center; transition: all 0.2s;
+}
+.auto-anime-card:hover { border-color: #38bdf8; background: #181d2c; }
+.auto-anime-thumb {
+    width: 58px; height: 80px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #0b0d14;
+}
+.auto-anime-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.auto-anime-title { font-weight: 700; font-size: 0.92rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.auto-anime-sub { font-size: 0.75rem; color: var(--text-dim); display: flex; gap: 8px; align-items: center; }
+.auto-anime-genres { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 2px; }
+.auto-genre-pill {
+    background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25);
+    font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; font-weight: 600;
+}
+.auto-anime-actions { flex-shrink: 0; }
+.auto-add-btn {
+    background: linear-gradient(135deg, #0284c7, #38bdf8); border: none; color: #fff;
+    font-weight: 700; font-size: 0.8rem; padding: 8px 14px; border-radius: 6px; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap;
+}
+.auto-add-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
+.auto-add-btn.added { background: #10b981 !important; border: 1px solid #059669 !important; color: #fff !important; cursor: default; }
+
+.bulk-progress-wrap { margin-top: 12px; background: rgba(255, 255, 255, 0.05); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); }
+.bulk-progress-track { height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.bulk-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #38bdf8, #10b981); transition: width 0.3s; }
 
 /* Splash / Loading Screen */
 #tennoxSplashScreen {
@@ -7282,8 +7326,8 @@ function parseVideoSource(rawUrl) {
         return { isEmbed: true, url: `https://www.dailymotion.com/embed/video/${dmMatch[1]}?autoplay=1` };
     }
 
-    // Bilinen anime video sunucuları ve embed oynatıcılar (Vidmoly, Doodstream, Streamwish, Filemoon, Sibnet, Ok.ru vb.)
-    const isEmbedDomain = /vidmoly|dood|streamwish|filemoon|sibnet|ok\.ru|mega\.nz\/embed|vidspeeds|streamtape|play/i.test(clean);
+    // Bilinen anime video sunucuları ve embed oynatıcılar (Vidmoly, Doodstream, Streamwish, Filemoon, Sibnet, Ok.ru, VidSrc, MultiEmbed vb.)
+    const isEmbedDomain = /vidmoly|dood|streamwish|filemoon|sibnet|ok\.ru|mega\.nz\/embed|vidspeeds|streamtape|play|vidsrc|multiembed|2embed|embed/i.test(clean) || clean.includes('/embed') || clean.includes('embed=') || clean.includes('anilist=');
     const isDirectExt = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(clean);
 
     if (isEmbedDomain && !isDirectExt) {
@@ -7304,6 +7348,20 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     const fullEpisodeTitle = `${anime.title} ${seasonNumber}. Sezon ${episodeNumber}. Bölüm`;
     const parsedSource = parseVideoSource(videoUrl);
 
+    const aniMatch = parsedSource.url.match(/anilist=(\d+)&episode=(\d+)/i);
+    let serverSwitchHtml = '';
+    if (parsedSource.isEmbed && aniMatch) {
+        const aId = aniMatch[1];
+        const eNum = aniMatch[2];
+        serverSwitchHtml = `
+            <div class="acx-servers-bar" style="display:flex;align-items:center;gap:6px;margin-right:8px;">
+                <button class="acx-server-btn active" data-url="https://vidsrc.me/embed/anime?anilist=${aId}&episode=${eNum}" style="background:rgba(229,9,20,0.85);border:1px solid #e50914;color:#fff;font-size:0.74rem;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:700;">⚡ Sunucu 1</button>
+                <button class="acx-server-btn" data-url="https://2embed.skin/embed/${aId}/${eNum}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#cbd5e1;font-size:0.74rem;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:600;">⚡ Sunucu 2</button>
+                <button class="acx-server-btn" data-url="https://vidsrc.pm/embed/anime?anilist=${aId}&episode=${eNum}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#cbd5e1;font-size:0.74rem;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:600;">⚡ Sunucu 3</button>
+            </div>
+        `;
+    }
+
     modalContent.innerHTML = `
         <div class="acx-player-screen" id="acxPlayerContainer">
             <!-- Üst Bar: Bölümlere Dön & Başlık -->
@@ -7313,17 +7371,35 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     <span>${escapeHtml(anime.title)}</span> • <span>${seasonNumber}. Sezon ${episodeNumber}. Bölüm</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;">
+                    ${serverSwitchHtml}
                     ${parsedSource.isEmbed ? `
-                        <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">📑</button>
-                        <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⛶</button>
+                        <a id="acxOpenExtLink" href="${escapeHtml(parsedSource.url)}" target="_blank" rel="noopener noreferrer" title="Yeni Sekmede Sorunsuz İzle" style="display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg, #e50914, #f43f5e);color:#fff;font-size:0.74rem;padding:5px 11px;border-radius:6px;text-decoration:none;font-weight:700;box-shadow:0 2px 10px rgba(229,9,20,0.4);white-space:nowrap;">
+                            <span>🚀 Yeni Sekmede Aç ↗</span>
+                        </a>
+                        <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">📑</button>
+                        <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">⛶</button>
                     ` : '<div style="width: 100px;"></div>'}
                 </div>
             </div>
 
             <!-- Sahne / Video Alanı -->
-            <div class="acx-stage-container" id="acxStage">
+            <div class="acx-stage-container" id="acxStage" style="position:relative;">
                 ${parsedSource.isEmbed ? `
-                    <iframe id="acxIframePlayer" src="${escapeHtml(parsedSource.url)}" style="width:100%;height:100%;border:none;background:#000;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+                    <iframe id="acxIframePlayer" 
+                            src="${escapeHtml(parsedSource.url)}" 
+                            style="width:100%;height:100%;border:none;background:#000;" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" 
+                            allowfullscreen></iframe>
+
+                    <!-- AI Studio Sandbox Helper Notice -->
+                    <div id="acxSandboxNotice" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(11,13,20,0.92);border:1px solid rgba(56,189,248,0.35);backdrop-filter:blur(10px);border-radius:10px;padding:8px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;z-index:20;max-width:92%;box-shadow:0 10px 30px rgba(0,0,0,0.8);font-size:0.77rem;color:#e2e8f0;">
+                        <span style="font-size:1rem;">💡</span>
+                        <span>Önizlemede sandbox engeli olursa doğrudan izleyin:</span>
+                        <a id="acxNoticeExtLink" href="${escapeHtml(parsedSource.url)}" target="_blank" rel="noopener noreferrer" style="background:#e50914;color:#fff;padding:4px 10px;border-radius:6px;font-weight:700;text-decoration:none;font-size:0.74rem;">▶ Yeni Sekmede Oynat ↗</a>
+                        <a href="https://ais-pre-33n3cfuqkk7lhy3ajzql3o-534159098630.europe-west2.run.app" target="_blank" rel="noopener noreferrer" style="background:rgba(255,255,255,0.1);color:#38bdf8;padding:4px 10px;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.74rem;">🌐 Bağımsız Sitede Aç</a>
+                        <button type="button" onclick="document.getElementById('acxSandboxNotice').style.display='none'" style="background:transparent;border:none;color:#94a3b8;cursor:pointer;font-size:0.9rem;padding:0 4px;" title="Kapat">✕</button>
+                    </div>
                 ` : `
                     <video id="acxVideoPlayer" src="${escapeHtml(parsedSource.url)}" playsinline preload="auto"></video>
 
@@ -7468,6 +7544,34 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     document.getElementById('acxPlayerBackBtn')?.addEventListener('click', () => {
         if (video) video.pause();
         openAnimeModal(anime.id, `${seasonNumber}. Sezon`);
+    });
+
+    // Embed Çoklu Sunucu Seçimi (VidSrc / MultiEmbed / VidSrc PM)
+    document.querySelectorAll('.acx-server-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.acx-server-btn').forEach(b => {
+                b.classList.remove('active');
+                b.style.background = 'rgba(255,255,255,0.1)';
+                b.style.borderColor = 'rgba(255,255,255,0.2)';
+                b.style.color = '#cbd5e1';
+            });
+            btn.classList.add('active');
+            btn.style.background = 'rgba(229,9,20,0.85)';
+            btn.style.borderColor = '#e50914';
+            btn.style.color = '#fff';
+            const iframe = document.getElementById('acxIframePlayer');
+            if (iframe && btn.dataset.url) {
+                iframe.src = btn.dataset.url;
+            }
+            const extLink = document.getElementById('acxOpenExtLink');
+            if (extLink && btn.dataset.url) {
+                extLink.href = btn.dataset.url;
+            }
+            const noticeExtLink = document.getElementById('acxNoticeExtLink');
+            if (noticeExtLink && btn.dataset.url) {
+                noticeExtLink.href = btn.dataset.url;
+            }
+        });
     });
 
     // Oynat / Durdur Fonksiyonu
@@ -8863,11 +8967,60 @@ document.getElementById('adminPasswordInput')?.addEventListener('keydown', e => 
     if (e.key === 'Enter') handleAdminLogin();
 });
 
+const ANIME_GENRE_TR = {
+    'Action': 'Aksiyon',
+    'Adventure': 'Macera',
+    'Comedy': 'Komedi',
+    'Drama': 'Dram',
+    'Ecchi': 'Ecchi',
+    'Fantasy': 'Fantezi',
+    'Horror': 'Korku',
+    'Mahou Shoujo': 'Büyü',
+    'Mecha': 'Mecha',
+    'Music': 'Müzik',
+    'Mystery': 'Gizem',
+    'Psychological': 'Psikolojik',
+    'Romance': 'Romantizm',
+    'Sci-Fi': 'Bilim Kurgu',
+    'Slice of Life': 'Günlük Yaşam',
+    'Sports': 'Spor',
+    'Supernatural': 'Doğaüstü',
+    'Thriller': 'Gerilim'
+};
+
+async function searchAniListAnime(query) {
+    const gql = `
+    query ($search: String) {
+      Page(page: 1, perPage: 8) {
+        media(search: $search, type: ANIME) {
+          id
+          title { romaji english native }
+          coverImage { extraLarge large }
+          bannerImage
+          genres
+          status
+          episodes
+          averageScore
+          description
+        }
+      }
+    }`;
+    const res = await fetch('https://graphql.anilist.co', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ query: gql, variables: { search: query } })
+    });
+    const json = await res.json();
+    return json?.data?.Page?.media || [];
+}
+
 function renderAdminDashboard() {
     adminBody.innerHTML = `
         <h3>Yönetici Paneli</h3>
         <div class="admin-tabs">
-            <button class="admin-tab active" data-tab="anime">Anime Ekle</button>
+            <button class="admin-tab active" data-tab="auto-anime">🔥 Otomatik Anime Çek</button>
+            <button class="admin-tab" data-tab="bulk-episodes">⚡ Toplu Bölüm Ekle</button>
+            <button class="admin-tab" data-tab="anime">Manuel Anime</button>
             <button class="admin-tab" data-tab="season">Sezon Ekle</button>
             <button class="admin-tab" data-tab="episode">Bölüm Ekle</button>
             <button class="admin-tab" data-tab="news">Haber Ekle</button>
@@ -8890,7 +9043,7 @@ function renderAdminDashboard() {
             renderAdminTab(tab.dataset.tab);
         });
     });
-    renderAdminTab('anime');
+    renderAdminTab('auto-anime');
 }
 
 function showAdminMsg(text, ok) {
@@ -8960,7 +9113,500 @@ async function renderAdminShortsList() {
 
 function renderAdminTab(tab) {
     const wrap = document.getElementById('adminTabContent');
-    if (tab === 'anime') {
+    if (tab === 'auto-anime') {
+        wrap.innerHTML = `
+            <div style="background:linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(16, 185, 129, 0.1)); border:1px solid rgba(56, 189, 248, 0.3); border-radius:10px; padding:14px; margin-bottom:14px; font-size:0.84rem; color:#bae6fd; line-height:1.55;">
+                <div style="font-weight:700; font-size:0.92rem; color:#fff; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+                    <span>🚀 Otomatik Anime & Bölüm Çekici</span>
+                    <span style="background:#0284c7; color:#fff; font-size:0.68rem; padding:2px 6px; border-radius:4px; font-weight:700;">V2 — CANLI OYNATICI DESTEKLİ</span>
+                </div>
+                Animenin adını yazıp <strong>"Ara"</strong> butonuna basın. Tek tıkla animenin <strong>tüm bölümleri, çalışan video oynatıcı linkleri ve afişi</strong> Tennox veritabanına otomatik yüklenir! Eklediğiniz an ziyaretçiler hemen tıklayıp izleyebilir.
+            </div>
+
+            <div class="auto-anime-search-bar">
+                <input type="text" id="autoAnimeQuery" placeholder="Anime adı girin... (Örn: Jujutsu Kaisen, Demon Slayer, Solo Leveling, Death Note)">
+                <button class="btn btn-primary" id="autoAnimeSearchBtn" style="padding:0 20px; font-size:0.86rem; font-weight:700;">🔍 Ara</button>
+            </div>
+
+            <div style="margin-bottom:8px; font-size:0.75rem; color:var(--text-dim); font-weight:600;">Hızlı Popüler Öneriler:</div>
+            <div class="auto-quick-tags" id="autoQuickTags">
+                <button type="button" class="auto-quick-btn" data-q="Solo Leveling">Solo Leveling</button>
+                <button type="button" class="auto-quick-btn" data-q="Jujutsu Kaisen">Jujutsu Kaisen</button>
+                <button type="button" class="auto-quick-btn" data-q="Demon Slayer: Kimetsu no Yaiba">Demon Slayer</button>
+                <button type="button" class="auto-quick-btn" data-q="Attack on Titan">Attack on Titan</button>
+                <button type="button" class="auto-quick-btn" data-q="Death Note">Death Note</button>
+                <button type="button" class="auto-quick-btn" data-q="Chainsaw Man">Chainsaw Man</button>
+                <button type="button" class="auto-quick-btn" data-q="BLUE LOCK">BLUE LOCK</button>
+                <button type="button" class="auto-quick-btn" data-q="Sousou no Frieren">Frieren</button>
+                <button type="button" class="auto-quick-btn" data-q="Vinland Saga">Vinland Saga</button>
+                <button type="button" class="auto-quick-btn" data-q="One Piece">One Piece</button>
+            </div>
+
+            <div id="autoAnimeResults" class="auto-anime-results" style="margin-top:12px;">
+                <p style="font-size:0.82rem; color:var(--text-dimmer); text-align:center; padding:20px 0;">Yukarıdan bir anime aratın veya hızlı önerilerden birine tıklayın.</p>
+            </div>
+        `;
+
+        const qInput = document.getElementById('autoAnimeQuery');
+        const sBtn = document.getElementById('autoAnimeSearchBtn');
+        const rWrap = document.getElementById('autoAnimeResults');
+
+        const doSearch = async (term) => {
+            const query = (term || qInput?.value || '').trim();
+            if (!query) { showAdminMsg('Lütfen aranacak anime adını girin.', false); return; }
+            if (qInput) qInput.value = query;
+            if (rWrap) rWrap.innerHTML = '<p style="font-size:0.84rem; color:var(--text-dim); text-align:center; padding:24px 0;">🔍 Anime ve bölümleri aranıyor, lütfen bekleyin...</p>';
+            try {
+                const list = await searchAniListAnime(query);
+                if (!list.length) {
+                    if (rWrap) rWrap.innerHTML = '<p style="font-size:0.84rem; color:var(--text-dimmer); text-align:center; padding:20px 0;">Anime bulunamadı. Lütfen farklı bir isim deneyin.</p>';
+                    return;
+                }
+                if (rWrap) {
+                    rWrap.innerHTML = list.map((a, idx) => {
+                        const title = a.title?.english || a.title?.romaji || 'İsimsiz Anime';
+                        const sub = a.title?.romaji && a.title.romaji !== title ? a.title.romaji : (a.title?.native || '');
+                        const cover = a.coverImage?.extraLarge || a.coverImage?.large || '';
+                        const trGenres = (a.genres || []).map(g => ANIME_GENRE_TR[g] || g);
+                        const rawEpisodes = a.episodes || 12;
+                        const score = a.averageScore ? `★ ${(a.averageScore / 10).toFixed(1)}` : '';
+
+                        // Akıllı Sezon Tespiti (Örn: Season 2, 2nd Season, Part 2, S2 vs.)
+                        let detectedSeason = 1;
+                        const fullTitleString = `${title} ${sub}`;
+                        const seasonMatch = fullTitleString.match(/(?:season|sezon)\s*(\d+)|\b(\d+)(?:nd|rd|th)?\s*season|\bpart\s*(\d+)|\bS(\d+)\b/i);
+                        if (seasonMatch) {
+                            detectedSeason = parseInt(seasonMatch[1] || seasonMatch[2] || seasonMatch[3] || seasonMatch[4], 10) || 1;
+                        }
+
+                        // Mevcut animelerle eşleşme tespiti (Örn: Jujutsu Kaisen Season 2 -> Jujutsu Kaisen)
+                        const cleanBase = title.replace(/\s*(?:season\s*\d+|\d+(?:nd|rd|th)?\s*season|part\s*\d+|:\s*kimetsu no yaiba.*|\bseason\b.*)$/i, '').trim();
+                        const matchedAnime = animeList.find(item => {
+                            if (!item.title) return false;
+                            const itTitle = item.title.toLowerCase();
+                            const curTitle = title.toLowerCase();
+                            const curBase = cleanBase.toLowerCase();
+                            return itTitle === curTitle || (curBase.length > 3 && (itTitle === curBase || itTitle.includes(curBase) || curBase.includes(itTitle)));
+                        });
+
+                        return `
+                            <div class="auto-anime-card" style="flex-direction:column; align-items:stretch; gap:12px;">
+                                <div style="display:flex; gap:12px; align-items:center;">
+                                    <img class="auto-anime-thumb" src="${escapeHtml(cover)}" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'58\\' height=\\'80\\' fill=\\'%23222\\'><rect width=\\'100%\\' height=\\'100%\\'/></svg>'">
+                                    <div class="auto-anime-info">
+                                        <div class="auto-anime-title" title="${escapeHtml(title)}" style="font-size:0.95rem;">${escapeHtml(title)}</div>
+                                        <div class="auto-anime-sub">
+                                            <span>${escapeHtml(sub)}</span>
+                                            ${score ? `<span>•</span><span style="color:#fbbf24; font-weight:700;">${score}</span>` : ''}
+                                        </div>
+                                        <div class="auto-anime-genres">
+                                            ${trGenres.slice(0, 3).map(g => `<span class="auto-genre-pill">${escapeHtml(g)}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08);">
+                                    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px;">
+                                        <!-- Sezon Seçimi -->
+                                        <div style="display:flex; align-items:center; gap:5px;">
+                                            <span style="font-size:0.75rem; color:var(--text-dim); font-weight:600;">Sezon:</span>
+                                            <select id="autoSeason_${idx}" style="padding:4px 8px; background:#0b0d14; border:1px solid #38bdf8; border-radius:6px; color:#38bdf8; font-size:0.78rem; font-weight:700; cursor:pointer;">
+                                                ${[1, 2, 3, 4, 5, 6, 7, 8].map(s => `<option value="${s}" ${s === detectedSeason ? 'selected' : ''}>${s}. Sezon</option>`).join('')}
+                                            </select>
+                                        </div>
+
+                                        <!-- Bölüm Sayısı -->
+                                        <div style="display:flex; align-items:center; gap:5px;">
+                                            <span style="font-size:0.75rem; color:var(--text-dim); font-weight:600;">Bölüm:</span>
+                                            <input type="number" id="autoEpCount_${idx}" value="${rawEpisodes}" min="1" max="250" style="width:56px; padding:4px 6px; background:#0b0d14; border:1px solid #334155; border-radius:6px; color:#fff; font-size:0.78rem; text-align:center; font-weight:700;">
+                                            <span style="font-size:0.72rem; color:#38bdf8;">(Oynatıcı hazır)</span>
+                                        </div>
+
+                                        <!-- Mevcut Animeye Bağlama Seçeneği -->
+                                        ${matchedAnime ? `
+                                        <div style="display:flex; align-items:center; gap:5px;">
+                                            <span style="font-size:0.75rem; color:var(--text-dim); font-weight:600;">Hedef:</span>
+                                            <select id="autoTargetSelect_${idx}" style="max-width:180px; padding:4px 6px; background:#0b0d14; border:1px solid #0284c7; border-radius:6px; color:#bae6fd; font-size:0.74rem;">
+                                                <option value="${matchedAnime.id}">🔗 ${escapeHtml(matchedAnime.title)} (İçine Sezon Ekle)</option>
+                                                <option value="__NEW__">➕ Yeni Ayrı Anime Olarak Ekle</option>
+                                            </select>
+                                        </div>
+                                        ` : ''}
+                                    </div>
+
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <button type="button" class="auto-add-btn auto-add-with-eps-btn" data-idx="${idx}" style="background:linear-gradient(135deg, #e50914, #f43f5e); font-weight:700;">
+                                            🚀 Sezonu & Bölümleri Ekle
+                                        </button>
+                                        <button type="button" class="auto-add-only-anime-btn" data-idx="${idx}" style="background:transparent; border:1px solid rgba(255,255,255,0.18); color:#94a3b8; font-size:0.72rem; padding:6px 10px; border-radius:6px; cursor:pointer;">
+                                            Sadece Anime
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="autoCardProg_${idx}" class="bulk-progress-wrap" style="display:none; margin:0; padding:8px 12px; background:rgba(0,0,0,0.6);">
+                                    <div style="display:flex; justify-content:space-between; font-size:0.74rem; font-weight:600; color:#38bdf8;">
+                                        <span id="autoCardProgText_${idx}">Hazırlanıyor...</span>
+                                        <span id="autoCardProgPct_${idx}">0%</span>
+                                    </div>
+                                    <div class="bulk-progress-track" style="margin-top:5px; height:6px;">
+                                        <div id="autoCardProgBar_${idx}" class="bulk-progress-fill" style="width:0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    // "Sezonu & Bölümleri Ekle" butonu
+                    rWrap.querySelectorAll('.auto-add-with-eps-btn').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+                            const idx = parseInt(btn.dataset.idx, 10);
+                            const item = list[idx];
+                            if (!item) return;
+
+                            const epInput = document.getElementById(`autoEpCount_${idx}`);
+                            const desiredEps = parseInt(epInput?.value, 10) || item.episodes || 12;
+
+                            const seasonSelect = document.getElementById(`autoSeason_${idx}`);
+                            const selectedSeason = parseInt(seasonSelect?.value, 10) || 1;
+
+                            const targetSelect = document.getElementById(`autoTargetSelect_${idx}`);
+                            let chosenTargetId = targetSelect ? targetSelect.value : null;
+                            if (chosenTargetId === '__NEW__') chosenTargetId = null;
+
+                            const progWrap = document.getElementById(`autoCardProg_${idx}`);
+                            const progText = document.getElementById(`autoCardProgText_${idx}`);
+                            const progPct = document.getElementById(`autoCardProgPct_${idx}`);
+                            const progBar = document.getElementById(`autoCardProgBar_${idx}`);
+
+                            btn.disabled = true;
+                            if (progWrap) progWrap.style.display = 'block';
+
+                            const title = item.title?.english || item.title?.romaji || 'İsimsiz Anime';
+                            const cover = item.coverImage?.extraLarge || item.coverImage?.large || '';
+                            const trGenres = (item.genres || []).map(g => ANIME_GENRE_TR[g] || g);
+                            const status = item.status === 'FINISHED' ? 'completed' : (item.status === 'NOT_YET_RELEASED' ? 'upcoming' : 'ongoing');
+
+                            let targetAnimeId = chosenTargetId;
+
+                            // Hedef anime seçilmemişse yeni anime oluştur
+                            if (!targetAnimeId) {
+                                if (progText) progText.textContent = `"${title}" oluşturuluyor...`;
+                                const { error: addAnimeErr } = await sb.rpc('admin_add_anime', {
+                                    p_password: adminPassword,
+                                    p_title: title,
+                                    p_genres: trGenres,
+                                    p_status: status,
+                                    p_cover: cover
+                                });
+
+                                if (addAnimeErr) {
+                                    showAdminMsg('Hata: ' + addAnimeErr.message, false);
+                                    btn.disabled = false;
+                                    if (progWrap) progWrap.style.display = 'none';
+                                    return;
+                                }
+
+                                const { data: createdAnime } = await sb
+                                    .from('animes')
+                                    .select('id')
+                                    .eq('title', title)
+                                    .order('created_at', { ascending: false })
+                                    .limit(1)
+                                    .single();
+                                targetAnimeId = createdAnime?.id;
+                            }
+
+                            if (!targetAnimeId) {
+                                showAdminMsg('Anime ID tespit edilemedi.', false);
+                                btn.disabled = false;
+                                if (progWrap) progWrap.style.display = 'none';
+                                return;
+                            }
+
+                            // Bu sezondaki mevcut bölümleri kontrol et
+                            const { data: existingEps } = await sb
+                                .from('episodes')
+                                .select('episode_number, episode_title')
+                                .eq('anime_id', targetAnimeId);
+
+                            const existingNums = new Set(
+                                (existingEps || [])
+                                    .filter(e => {
+                                        const t = (e.episode_title || '').trim();
+                                        if (selectedSeason === 1) {
+                                            return !t.startsWith('[S') && !t.startsWith('[Sezon');
+                                        }
+                                        return t.startsWith(`[S${selectedSeason}]`) || t.startsWith(`[Sezon ${selectedSeason}]`);
+                                    })
+                                    .map(e => e.episode_number)
+                            );
+
+                            // Bölümleri sırayla ve çalışan video embed URL'siyle ekle
+                            let addedCount = 0;
+                            const anilistId = item.id;
+                            for (let ep = 1; ep <= desiredEps; ep++) {
+                                const pct = Math.round((ep / desiredEps) * 100);
+                                if (progBar) progBar.style.width = pct + '%';
+                                if (progPct) progPct.textContent = pct + '%';
+                                if (progText) progText.textContent = `${selectedSeason}. Sezon Bölüm ${ep} / ${desiredEps} yükleniyor...`;
+
+                                if (existingNums.has(ep)) {
+                                    continue;
+                                }
+
+                                const epUrl = `https://vidsrc.me/embed/anime?anilist=${anilistId}&episode=${ep}`;
+                                const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
+
+                                const { error: epErr } = await sb.rpc('admin_add_episode', {
+                                    p_password: adminPassword,
+                                    p_anime_id: targetAnimeId,
+                                    p_episode_number: ep,
+                                    p_episode_title: epTitle,
+                                    p_video_url: epUrl
+                                });
+
+                                if (!epErr) {
+                                    addedCount++;
+                                }
+                            }
+
+                            if (progBar) progBar.style.width = '100%';
+                            if (progPct) progPct.textContent = '100%';
+                            if (progText) progText.textContent = `✓ Tamamlandı! ${selectedSeason}. Sezon (${desiredEps} bölüm) hazır.`;
+
+                            // Sezon listesini kalıcı olarak güncelle
+                            const curSeasons = getAnimeSavedSeasons(targetAnimeId);
+                            const sName = `${selectedSeason}. Sezon`;
+                            if (!curSeasons.includes(sName)) {
+                                if (!curSeasons.includes('1. Sezon')) curSeasons.unshift('1. Sezon');
+                                curSeasons.push(sName);
+                                curSeasons.sort((a, b) => (parseInt(a, 10) || 1) - (parseInt(b, 10) || 1));
+                                saveAnimeSeasons(targetAnimeId, curSeasons);
+                            }
+
+                            delete episodesByAnime[targetAnimeId];
+                            await loadAllData();
+
+                            btn.classList.add('added');
+                            btn.textContent = `✓ ${selectedSeason}. Sezon Eklendi`;
+                            showAdminMsg(`"${title}" ${selectedSeason}. Sezon (${desiredEps} Bölüm) başarıyla Tennox'a eklendi ve oynatıcıda izlemeye hazır! 🚀`, true);
+                        });
+                    });
+
+                    // Sadece Anime Ekleme (Bölümsüz) butonu
+                    rWrap.querySelectorAll('.auto-add-only-anime-btn').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+                            const idx = parseInt(btn.dataset.idx, 10);
+                            const item = list[idx];
+                            if (!item) return;
+
+                            btn.disabled = true;
+                            btn.textContent = 'Ekleniyor...';
+
+                            const title = item.title?.english || item.title?.romaji || 'İsimsiz Anime';
+                            const cover = item.coverImage?.extraLarge || item.coverImage?.large || '';
+                            const trGenres = (item.genres || []).map(g => ANIME_GENRE_TR[g] || g);
+                            const status = item.status === 'FINISHED' ? 'completed' : (item.status === 'NOT_YET_RELEASED' ? 'upcoming' : 'ongoing');
+
+                            const { error } = await sb.rpc('admin_add_anime', {
+                                p_password: adminPassword,
+                                p_title: title,
+                                p_genres: trGenres,
+                                p_status: status,
+                                p_cover: cover
+                            });
+
+                            if (error) {
+                                showAdminMsg('Hata: ' + error.message, false);
+                                btn.disabled = false;
+                                btn.textContent = 'Sadece Anime';
+                                return;
+                            }
+
+                            btn.classList.add('added');
+                            btn.textContent = '✓ Eklendi';
+                            showAdminMsg(`"${title}" başarıyla Tennox'a eklendi! ✓`, true);
+                            await loadAllData();
+                        });
+                    });
+                }
+            } catch (err) {
+                console.error('Anime search error:', err);
+                if (rWrap) rWrap.innerHTML = '<p style="font-size:0.84rem; color:#f87171; text-align:center; padding:20px 0;">Arama sırasında bağlantı hatası oluştu. Lütfen tekrar deneyin.</p>';
+            }
+        };
+
+        sBtn?.addEventListener('click', () => doSearch());
+        qInput?.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+        document.querySelectorAll('#autoQuickTags .auto-quick-btn').forEach(b => {
+            b.addEventListener('click', () => doSearch(b.dataset.q));
+        });
+
+    } else if (tab === 'bulk-episodes') {
+        const options = animeList.map(a => `<option value="${a.id}">${escapeHtml(a.title)}</option>`).join('');
+        wrap.innerHTML = `
+            <div style="background:rgba(2, 132, 199, 0.1); border:1px solid rgba(56, 189, 248, 0.25); border-radius:8px; padding:12px 14px; margin-bottom:12px; font-size:0.83rem; color:#bae6fd; line-height:1.5;">
+                ⚡ <strong>Toplu Bölüm Aktarıcı:</strong> Tek tek uğraşmayın! Vidmoly, Streamwish, Catbox, Drive veya video linklerini alt alta yapıştırın. Sistem tüm bölümleri sırayla tek tıkla siteye yükler!
+            </div>
+            <div class="field">
+                <label>Anime Seç</label>
+                <select id="bulkAnimeId">${options || '<option value="">Önce bir anime ekleyin</option>'}</select>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Sezon</label>
+                    <select id="bulkSeasonNum"></select>
+                </div>
+                <div class="field">
+                    <label>Başlangıç Bölüm No</label>
+                    <input type="number" id="bulkStartEpNum" value="1" min="1">
+                </div>
+            </div>
+            <div class="field">
+                <label>Video Bağlantıları (Her satıra bir link yapıştırın)</label>
+                <textarea id="bulkUrlsText" rows="6" placeholder="Örnek: Her satıra bir video linki yapıştırın:
+https://vidmoly.to/embed-xxxx.html
+https://vidmoly.to/embed-yyyy.html
+https://drive.google.com/file/d/xxxx/view
+veya
+1 | https://...
+2 | https://..."></textarea>
+            </div>
+            <div class="field">
+                <label>Bölüm Başlığı Formatı (Opsiyonel)</label>
+                <input type="text" id="bulkTitleTemplate" placeholder="Örn: Bölüm {n} (Boş bırakırsanız varsayılan atanır)">
+            </div>
+            <div id="bulkProgressWrap" class="bulk-progress-wrap" style="display:none;">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:600;">
+                    <span id="bulkProgressText">Bölümler yükleniyor...</span>
+                    <span id="bulkProgressPercent">0%</span>
+                </div>
+                <div class="bulk-progress-track">
+                    <div id="bulkProgressBar" class="bulk-progress-fill"></div>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="bulkSubmitBtn" style="margin-top:10px; width:100%;">Tüm Bölümleri Kaydet 🚀</button>
+        `;
+
+        const animeSelectEl = document.getElementById('bulkAnimeId');
+        const seasonSelectEl = document.getElementById('bulkSeasonNum');
+
+        const refreshBulkSeasons = () => {
+            const curAnimeId = animeSelectEl ? animeSelectEl.value : '';
+            const savedSeasons = getAnimeSavedSeasons(curAnimeId);
+            const seasonsToOffer = savedSeasons.length > 0 ? savedSeasons : ['1. Sezon', '2. Sezon', '3. Sezon'];
+            if (seasonSelectEl) {
+                seasonSelectEl.innerHTML = seasonsToOffer.map(s => {
+                    const sNum = parseInt(s, 10) || 1;
+                    return `<option value="${sNum}">${escapeHtml(s)}</option>`;
+                }).join('');
+            }
+        };
+
+        animeSelectEl?.addEventListener('change', refreshBulkSeasons);
+        refreshBulkSeasons();
+
+        document.getElementById('bulkSubmitBtn')?.addEventListener('click', async () => {
+            const animeId = animeSelectEl?.value;
+            if (!animeId) { showAdminMsg('Lütfen bir anime seçin.', false); return; }
+            const seasonNum = parseInt(seasonSelectEl?.value, 10) || 1;
+            const startEp = parseInt(document.getElementById('bulkStartEpNum')?.value, 10) || 1;
+            const rawText = document.getElementById('bulkUrlsText')?.value || '';
+            const titleTpl = document.getElementById('bulkTitleTemplate')?.value.trim() || '';
+
+            const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+            if (!lines.length) {
+                showAdminMsg('Lütfen en az bir video linki yapıştırın.', false);
+                return;
+            }
+
+            const parsedItems = [];
+            let currentEp = startEp;
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                let epNumber = currentEp;
+
+                // iframe tag match
+                const ifm = line.match(/src=["']([^"']+)["']/i);
+                if (ifm) line = ifm[1];
+
+                // 1 | https://... or 1 - https://... match
+                const pipeMatch = line.match(/^(\d+)\s*[|\-:]\s*(https?:\/\/.+)/i);
+                if (pipeMatch) {
+                    epNumber = parseInt(pipeMatch[1], 10);
+                    line = pipeMatch[2].trim();
+                }
+
+                if (!line.startsWith('http')) continue;
+
+                let title = titleTpl ? titleTpl.replace('{n}', epNumber) : `Bölüm ${epNumber}`;
+                const finalTitle = seasonNum > 1 ? `[S${seasonNum}] ${title}` : title;
+
+                parsedItems.push({ epNumber, url: line, title: finalTitle });
+                currentEp = epNumber + 1;
+            }
+
+            if (!parsedItems.length) {
+                showAdminMsg('Geçerli bir video linki bulunamadı. Lütfen http:// veya https:// ile başlayan linkler yapıştırın.', false);
+                return;
+            }
+
+            const pWrap = document.getElementById('bulkProgressWrap');
+            const pText = document.getElementById('bulkProgressText');
+            const pPct = document.getElementById('bulkProgressPercent');
+            const pBar = document.getElementById('bulkProgressBar');
+            const submitBtn = document.getElementById('bulkSubmitBtn');
+
+            if (submitBtn) submitBtn.disabled = true;
+            if (pWrap) pWrap.style.display = 'block';
+
+            let successCount = 0;
+            for (let idx = 0; idx < parsedItems.length; idx++) {
+                const item = parsedItems[idx];
+                const pct = Math.round(((idx) / parsedItems.length) * 100);
+                if (pBar) pBar.style.width = `${pct}%`;
+                if (pPct) pPct.textContent = `${pct}%`;
+                if (pText) pText.textContent = `Yükleniyor: ${idx + 1} / ${parsedItems.length} (${item.title})...`;
+
+                const { error } = await sb.rpc('admin_add_episode', {
+                    p_password: adminPassword,
+                    p_anime_id: animeId,
+                    p_episode_number: item.epNumber,
+                    p_episode_title: item.title,
+                    p_video_url: item.url
+                });
+
+                if (!error) {
+                    successCount++;
+                } else {
+                    console.warn(`Bölüm ${item.epNumber} eklenemedi:`, error);
+                }
+            }
+
+            if (pBar) pBar.style.width = '100%';
+            if (pPct) pPct.textContent = '100%';
+            if (pText) pText.textContent = `Tamamlandı! Toplam ${successCount} bölüm eklendi.`;
+
+            // Sezon kaydını güncelle
+            const curSeasons = getAnimeSavedSeasons(animeId);
+            const sName = `${seasonNum}. Sezon`;
+            if (!curSeasons.includes(sName)) {
+                if (!curSeasons.includes('1. Sezon')) curSeasons.push('1. Sezon');
+                curSeasons.push(sName);
+                curSeasons.sort((a, b) => (parseInt(a, 10) || 1) - (parseInt(b, 10) || 1));
+                saveAnimeSeasons(animeId, curSeasons);
+            }
+            delete episodesByAnime[animeId];
+
+            showAdminMsg(`Tebrikler! ${successCount} adet bölüm başarıyla eklendi ✓`, true);
+            if (submitBtn) submitBtn.disabled = false;
+            const bText = document.getElementById('bulkUrlsText');
+            if (bText) bText.value = '';
+            await loadAllData();
+        });
+
+    } else if (tab === 'anime') {
         wrap.innerHTML = `
             <div class="field"><label>Anime Adı</label><input type="text" id="fTitle" placeholder="Örn: Baka to Test"></div>
             <div class="field"><label>Türler (virgülle ayır)</label><input type="text" id="fGenres" placeholder="Aksiyon, Komedi"></div>
