@@ -7353,7 +7353,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
 
     // Sunucu eşleme için AniList veya Dizi Kimliği yakalama
     let aId = null;
-    let eNum = episodeNumber;
+    let eNum = episodeNumber || 1;
     const aniUrlMatch = parsedSource.url.match(/anilist=(\d+)/i) || parsedSource.url.match(/\/anime\/(\d+)/i) || parsedSource.url.match(/\/embed\/(\d+)/i);
     if (aniUrlMatch) {
         aId = aniUrlMatch[1];
@@ -7363,15 +7363,45 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         eNum = epUrlMatch[1];
     }
 
-    let serverSwitchHtml = '';
+    // Doğrulanmış ve çalışan çoklu anime yayın sunucuları
+    let embedServers = [];
+    let initialEmbedUrl = parsedSource.url;
+
     if (parsedSource.isEmbed && aId) {
-        serverSwitchHtml = `
-            <div class="acx-servers-bar" style="display:flex;align-items:center;gap:6px;margin-right:8px;">
-                <button class="acx-server-btn active" data-url="https://vidsrc.me/embed/anime?anilist=${aId}&episode=${eNum}" style="background:rgba(229,9,20,0.85);border:1px solid #e50914;color:#fff;font-size:0.74rem;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:700;">⚡ Sunucu 1</button>
-                <button class="acx-server-btn" data-url="https://2embed.skin/embed/${aId}/${eNum}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#cbd5e1;font-size:0.74rem;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:600;">⚡ Sunucu 2</button>
-                <button class="acx-server-btn" data-url="https://vidsrc.pm/embed/anime?anilist=${aId}&episode=${eNum}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#cbd5e1;font-size:0.74rem;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:600;">⚡ Sunucu 3</button>
-            </div>
-        `;
+        embedServers = [
+            {
+                id: 'srv-videasy',
+                name: '⚡ Sunucu 1 (Videasy)',
+                badge: 'HD / Hızlı',
+                url: `https://player.videasy.to/anime/${aId}/${eNum}`
+            },
+            {
+                id: 'srv-vidsrcpm',
+                name: '⚡ Sunucu 2 (VidSrc PM)',
+                badge: 'Popüler',
+                url: `https://vidsrc.pm/embed/anime?anilist=${aId}&episode=${eNum}`
+            },
+            {
+                id: 'srv-vidsrcsh',
+                name: '⚡ Sunucu 3 (VidSrc SH)',
+                badge: 'Stabil',
+                url: `https://vidsrc.sh/embed/anime?anilist=${aId}&episode=${eNum}`
+            },
+            {
+                id: 'srv-videasy2',
+                name: '⚡ Sunucu 4 (Alternatif)',
+                badge: 'Ayna',
+                url: `https://player.videasy.net/anime/${aId}/${eNum}`
+            },
+            {
+                id: 'srv-vidsrcme',
+                name: '⚡ Sunucu 5 (VidSrc Global)',
+                badge: 'Global',
+                url: `https://vidsrc.me/embed/anime?anilist=${aId}&episode=${eNum}`
+            }
+        ];
+        // vidsrc.me 301 yönlendirmesi veya ISP engeli yerine başlangıçta en hızlı ve kesintisiz sunucuyu seç
+        initialEmbedUrl = embedServers[0].url;
     }
 
     modalContent.innerHTML = `
@@ -7383,11 +7413,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     <span>${escapeHtml(anime.title)}</span> • <span>${seasonNumber}. Sezon ${episodeNumber}. Bölüm</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;">
-                    ${serverSwitchHtml}
                     ${parsedSource.isEmbed ? `
-                        <a id="acxOpenExtLink" href="${escapeHtml(parsedSource.url)}" target="_blank" rel="noopener noreferrer" title="Yeni Sekmede Sorunsuz İzle" style="display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg, #e50914, #f43f5e);color:#fff;font-size:0.74rem;padding:5px 11px;border-radius:6px;text-decoration:none;font-weight:700;box-shadow:0 2px 10px rgba(229,9,20,0.4);white-space:nowrap;">
-                            <span>🚀 Yeni Sekmede Aç ↗</span>
-                        </a>
                         <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">📑</button>
                         <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">⛶</button>
                     ` : '<div style="width: 100px;"></div>'}
@@ -7398,19 +7424,11 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
             <div class="acx-stage-container" id="acxStage" style="position:relative;">
                 ${parsedSource.isEmbed ? `
                     <iframe id="acxIframePlayer" 
-                            src="${escapeHtml(parsedSource.url)}" 
+                            src="${escapeHtml(initialEmbedUrl)}" 
                             style="width:100%;height:100%;border:none;background:#000;" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                            referrerpolicy="origin"
                             allowfullscreen></iframe>
-
-                    <!-- AI Studio Sandbox Helper Notice -->
-                    <div id="acxSandboxNotice" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(11,13,20,0.92);border:1px solid rgba(56,189,248,0.35);backdrop-filter:blur(10px);border-radius:10px;padding:8px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;z-index:20;max-width:92%;box-shadow:0 10px 30px rgba(0,0,0,0.8);font-size:0.77rem;color:#e2e8f0;">
-                        <span style="font-size:1rem;">💡</span>
-                        <span>Oynatıcı engellenirse doğrudan izleyin:</span>
-                        <a id="acxNoticeExtLink" href="${escapeHtml(parsedSource.url)}" target="_blank" rel="noopener noreferrer" style="background:#e50914;color:#fff;padding:4px 10px;border-radius:6px;font-weight:700;text-decoration:none;font-size:0.74rem;">▶ Yeni Sekmede Oynat ↗</a>
-                        <a href="https://ais-pre-33n3cfuqkk7lhy3ajzql3o-534159098630.europe-west2.run.app" target="_blank" rel="noopener noreferrer" style="background:rgba(255,255,255,0.1);color:#38bdf8;padding:4px 10px;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.74rem;">🌐 Bağımsız Sitede Aç</a>
-                        <button type="button" onclick="document.getElementById('acxSandboxNotice').style.display='none'" style="background:transparent;border:none;color:#94a3b8;cursor:pointer;font-size:0.9rem;padding:0 4px;" title="Kapat">✕</button>
-                    </div>
                 ` : `
                     <video id="acxVideoPlayer" src="${escapeHtml(parsedSource.url)}" playsinline preload="auto"></video>
 
@@ -7451,7 +7469,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     </div>
                 </div>
 
-                <!-- Alt Kontrol Çubuğu -->
+                <!-- Alt Kontrol Çubuğu (HTML5 Video) -->
                 ${!parsedSource.isEmbed ? `
                 <div class="acx-player-bottombar" id="acxBottomBar">
                     <!-- İlerleme Çubuğu (Scrubber) -->
@@ -7516,6 +7534,41 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 ` : ''}
             </div>
 
+            ${parsedSource.isEmbed && embedServers.length > 0 ? `
+                <!-- Çoklu Sunucu Seçim Çubuğu -->
+                <div class="acx-servers-bar-wrap" style="background:#0c0d14;border-top:1px solid rgba(255,255,255,0.08);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+                    <div style="display:flex;align-items:center;gap:6px;overflow-x:auto;max-width:100%;padding:2px 0;-webkit-overflow-scrolling:touch;">
+                        <span style="font-size:0.75rem;font-weight:700;color:#94a3b8;white-space:nowrap;margin-right:4px;">📡 Sunucular:</span>
+                        ${embedServers.map((srv, idx) => `
+                            <button class="acx-server-btn ${idx === 0 ? 'active' : ''}" 
+                                    data-url="${srv.url}" 
+                                    style="${idx === 0 
+                                        ? 'background:#e50914;border:1px solid #e50914;color:#fff;' 
+                                        : 'background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;'}font-size:0.75rem;padding:6px 12px;border-radius:7px;cursor:pointer;font-weight:700;white-space:nowrap;transition:all 0.15s ease;display:inline-flex;align-items:center;gap:5px;">
+                                ${escapeHtml(srv.name)}
+                                <span style="font-size:0.64rem;opacity:0.85;background:rgba(0,0,0,0.35);padding:1px 5px;border-radius:4px;">${srv.badge}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <a id="acxOpenExtLink" href="${escapeHtml(initialEmbedUrl)}" target="_blank" rel="noopener noreferrer" title="Yeni Sekmede Kesintisiz İzle" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg, #e50914, #f43f5e);color:#fff;font-size:0.75rem;padding:6px 14px;border-radius:7px;text-decoration:none;font-weight:700;box-shadow:0 2px 10px rgba(229,9,20,0.35);white-space:nowrap;">
+                            <span>🚀 Yeni Sekmede Aç ↗</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Sunucu Durum Bilgilendirmesi -->
+                <div style="background:#08090d;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:#94a3b8;flex-wrap:wrap;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span style="color:#eab308;">💡</span>
+                        <span>Video açılmazsa veya bağlantı kesilirse üstteki <b>Sunucu 2</b> veya <b>Sunucu 3</b>'ü seçiniz ya da <b>Yeni Sekmede Aç</b>'ı kullanınız.</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;"></span>
+                        <span style="color:#10b981;font-weight:600;">Doğrulanmış Sunucular</span>
+                    </div>
+                </div>
+            ` : ''}
+
             <!-- Alt Puanlama Satırı -->
             <div style="padding: 20px 24px; background: #0c0d14;">
                 <div class="player-watch-rating-row">
@@ -7555,12 +7608,13 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     const switchToIframeFallback = (urlToUse) => {
         const stageEl = document.getElementById('acxStage');
         if (!stageEl) return;
-        const targetUrl = urlToUse || parsedSource.url;
+        const targetUrl = urlToUse || (embedServers.length > 0 ? embedServers[0].url : parsedSource.url);
         stageEl.innerHTML = `
             <iframe id="acxIframePlayer" 
                     src="${escapeHtml(targetUrl)}" 
                     style="width:100%;height:100%;border:none;background:#000;" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                    referrerpolicy="origin"
                     allowfullscreen></iframe>
         `;
         const bBar = document.getElementById('acxBottomBar');
@@ -7582,30 +7636,27 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         openAnimeModal(anime.id, `${seasonNumber}. Sezon`);
     });
 
-    // Embed Çoklu Sunucu Seçimi (VidSrc / MultiEmbed / VidSrc PM)
+    // Embed Çoklu Sunucu Seçimi (Videasy / VidSrc PM / VidSrc SH / Alternatif)
     document.querySelectorAll('.acx-server-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.acx-server-btn').forEach(b => {
                 b.classList.remove('active');
-                b.style.background = 'rgba(255,255,255,0.1)';
-                b.style.borderColor = 'rgba(255,255,255,0.2)';
+                b.style.background = 'rgba(255,255,255,0.08)';
+                b.style.borderColor = 'rgba(255,255,255,0.18)';
                 b.style.color = '#cbd5e1';
             });
             btn.classList.add('active');
-            btn.style.background = 'rgba(229,9,20,0.85)';
+            btn.style.background = '#e50914';
             btn.style.borderColor = '#e50914';
             btn.style.color = '#fff';
+            const targetUrl = btn.dataset.url;
             const iframe = document.getElementById('acxIframePlayer');
-            if (iframe && btn.dataset.url) {
-                iframe.src = btn.dataset.url;
+            if (iframe && targetUrl) {
+                iframe.src = targetUrl;
             }
             const extLink = document.getElementById('acxOpenExtLink');
-            if (extLink && btn.dataset.url) {
-                extLink.href = btn.dataset.url;
-            }
-            const noticeExtLink = document.getElementById('acxNoticeExtLink');
-            if (noticeExtLink && btn.dataset.url) {
-                noticeExtLink.href = btn.dataset.url;
+            if (extLink && targetUrl) {
+                extLink.href = targetUrl;
             }
         });
     });
@@ -9398,7 +9449,7 @@ function renderAdminTab(tab) {
                                     continue;
                                 }
 
-                                const epUrl = `https://vidsrc.me/embed/anime?anilist=${anilistId}&episode=${ep}`;
+                                const epUrl = `https://player.videasy.to/anime/${anilistId}/${ep}`;
                                 const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
 
                                 const { error: epErr } = await sb.rpc('admin_add_episode', {
