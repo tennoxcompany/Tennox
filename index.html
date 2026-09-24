@@ -7365,6 +7365,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
 
     // Bilinen AniList -> TMDB TV Dizisi Kimlikleri Eşleme Tablosu
     const ANILIST_TO_TMDB_MAP = {
+        "21": 37854,      // ONE PIECE
         "98503": 76124,   // School Babysitters
         "113415": 95479,  // JUJUTSU KAISEN
         "127230": 114410, // Chainsaw Man
@@ -7385,6 +7386,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
 
     // Başlığa göre TMDB eşleme (AniList ID bulunamazsa)
     const TITLE_TO_TMDB_MAP = {
+        "one piece": 37854,
         "mushoku": 94664,
         "jobless reincarnation": 94664,
         "solo leveling": 127532,
@@ -9218,17 +9220,20 @@ const ANIME_GENRE_TR = {
 async function searchAniListAnime(query) {
     const gql = `
     query ($search: String) {
-      Page(page: 1, perPage: 8) {
-        media(search: $search, type: ANIME) {
+      Page(page: 1, perPage: 12) {
+        media(search: $search, type: ANIME, sort: SEARCH_MATCH) {
           id
           title { romaji english native }
           coverImage { extraLarge large }
           bannerImage
           genres
+          format
           status
           episodes
+          nextAiringEpisode { episode airingAt }
           averageScore
           description
+          seasonYear
         }
       }
     }`;
@@ -9384,19 +9389,140 @@ function renderAdminTab(tab) {
             if (qInput) qInput.value = query;
             if (rWrap) rWrap.innerHTML = '<p style="font-size:0.84rem; color:var(--text-dim); text-align:center; padding:24px 0;">🔍 Anime ve bölümleri aranıyor, lütfen bekleyin...</p>';
             try {
-                const list = await searchAniListAnime(query);
-                if (!list.length) {
+                const rawList = await searchAniListAnime(query);
+                if (!rawList.length) {
                     if (rWrap) rWrap.innerHTML = '<p style="font-size:0.84rem; color:var(--text-dimmer); text-align:center; padding:20px 0;">Anime bulunamadı. Lütfen farklı bir isim deneyin.</p>';
                     return;
                 }
+
+                // TV serilerini ve tam eşleşmeleri önceliklendir (Film ve yan OVA'lar arkada kalsın)
+                const formatRank = { 'TV': 1, 'TV_SHORT': 2, 'ONA': 3, 'OVA': 4, 'SPECIAL': 5, 'MOVIE': 6 };
+                const qLower = query.toLowerCase();
+                const isSearchingOnePiece = qLower.includes('one piece');
+
+                const list = [...rawList].sort((a, b) => {
+                    const aTitle = (a.title?.english || a.title?.romaji || '').toLowerCase();
+                    const bTitle = (b.title?.english || b.title?.romaji || '').toLowerCase();
+
+                    // One Piece aranıyorsa ana TV serisi (ID 21) daima en başta yer alır
+                    if (isSearchingOnePiece) {
+                        if (a.id === 21) return -1;
+                        if (b.id === 21) return 1;
+                    }
+
+                    const aExact = aTitle === qLower ? 0 : 1;
+                    const bExact = bTitle === qLower ? 0 : 1;
+                    if (aExact !== bExact) return aExact - bExact;
+
+                    const aRank = formatRank[a.format] || 10;
+                    const bRank = formatRank[b.format] || 10;
+                    if (aRank !== bRank) return aRank - bRank;
+
+                    return (b.averageScore || 0) - (a.averageScore || 0);
+                });
+
                 if (rWrap) {
                     rWrap.innerHTML = list.map((a, idx) => {
                         const title = a.title?.english || a.title?.romaji || 'İsimsiz Anime';
                         const sub = a.title?.romaji && a.title.romaji !== title ? a.title.romaji : (a.title?.native || '');
                         const cover = a.coverImage?.extraLarge || a.coverImage?.large || '';
                         const trGenres = (a.genres || []).map(g => ANIME_GENRE_TR[g] || g);
-                        const rawEpisodes = a.episodes || 12;
                         const score = a.averageScore ? `★ ${(a.averageScore / 10).toFixed(1)}` : '';
+                        const titleLower = `${title} ${sub}`.toLowerCase();
+                        const isOnePieceTV = (titleLower.includes('one piece') && (a.format === 'TV' || !a.format || a.id === 21)) && a.format !== 'MOVIE';
+
+                        // Format Rozeti
+                        const formatInfo = (() => {
+                            if (a.format === 'MOVIE') return { label: '🎬 Sinema Filmi', color: '#f59e0b', bg: 'rgba(245,158,11,0.15)', isFilm: true };
+                            if (a.format === 'SPECIAL') return { label: '✨ Özel Bölüm', color: '#ec4899', bg: 'rgba(236,72,153,0.15)', isFilm: true };
+                            if (a.format === 'OVA') return { label: '📀 OVA', color: '#a855f7', bg: 'rgba(168,85,247,0.15)', isFilm: true };
+                            if (a.format === 'ONA') return { label: '🌐 İnternet Dizisi (ONA)', color: '#3b82f6', bg: 'rgba(59,130,246,0.15)', isFilm: false };
+                            if (a.format === 'TV_SHORT') return { label: '⚡ Kısa Dizi', color: '#06b6d4', bg: 'rgba(6,182,212,0.15)', isFilm: false };
+                            return { label: '📺 TV Dizisi', color: '#10b981', bg: 'rgba(16,185,129,0.15)', isFilm: false };
+                        })();
+
+                        // Bilinen efsanevi ve uzun soluklu animelerin resmi bölüm sayıları sözlüğü
+                        const KNOWN_ANIME_EPISODES = {
+                            "21": 1122,     // ONE PIECE (Ana TV Serisi)
+                            "20": 220,      // Naruto
+                            "1735": 500,    // Naruto: Shippuuden
+                            "269": 366,     // Bleach
+                            "145064": 26,   // Bleach: Thousand-Year Blood War
+                            "235": 1140,    // Detective Conan (Meitantei Conan)
+                            "223": 153,     // Dragon Ball
+                            "813": 291,     // Dragon Ball Z
+                            "21175": 131,   // Dragon Ball Super
+                            "918": 367,     // Gintama
+                            "6702": 328,    // Fairy Tail
+                            "97940": 170,   // Black Clover
+                            "11061": 148,   // Hunter x Hunter (2011)
+                            "97938": 293,   // Boruto: Naruto Next Generations
+                            "481": 224,     // Yu-Gi-Oh! Duel Monsters
+                            "249": 167,     // Inuyasha
+                            "21459": 159,   // My Hero Academia (Boku no Hero Academia)
+                            "16498": 89,    // Attack on Titan (Shingeki no Kyojin)
+                            "14719": 190,   // JoJo's Bizarre Adventure
+                            "5114": 64,     // Fullmetal Alchemist: Brotherhood
+                            "1535": 37,     // Death Note
+                            "1575": 50,     // Code Geass
+                            "9253": 24,     // Steins;Gate
+                            "20464": 85,    // Haikyuu!!
+                            "11771": 75,    // Kuroko's Basketball
+                            "17074": 101,   // Slam Dunk
+                            "10033": 147,   // Toriko
+                            "9982": 60,     // Beelzebub
+                            "1482": 103,    // D.Gray-man
+                            "1604": 203,    // Katekyo Hitman Reborn!
+                            "527": 1200     // Pokemon
+                        };
+
+                        const KNOWN_TITLE_EPISODES = [
+                            { regex: /one\s*piece/i, eps: 1122 },
+                            { regex: /detective\s*conan|meitantei\s*conan/i, eps: 1140 },
+                            { regex: /naruto\s*shippu/i, eps: 500 },
+                            { regex: /\bnaruto\b/i, eps: 220 },
+                            { regex: /\bbleach\b.*thousand|tybw/i, eps: 26 },
+                            { regex: /\bbleach\b/i, eps: 366 },
+                            { regex: /dragon\s*ball\s*z\b/i, eps: 291 },
+                            { regex: /dragon\s*ball\s*super\b/i, eps: 131 },
+                            { regex: /dragon\s*ball\s*gt\b/i, eps: 64 },
+                            { regex: /dragon\s*ball\b/i, eps: 153 },
+                            { regex: /\bgintama\b/i, eps: 367 },
+                            { regex: /fairy\s*tail\b/i, eps: 328 },
+                            { regex: /black\s*clover\b/i, eps: 170 },
+                            { regex: /hunter\s*x\s*hunter\b/i, eps: 148 },
+                            { regex: /\bboruto\b/i, eps: 293 },
+                            { regex: /yu-gi-oh|yugioh/i, eps: 224 },
+                            { regex: /\binuyasha\b/i, eps: 167 },
+                            { regex: /my\s*hero\s*academia|boku\s*no\s*hero/i, eps: 159 },
+                            { regex: /fullmetal\s*alchemist.*brotherhood/i, eps: 64 },
+                            { regex: /death\s*note/i, eps: 37 },
+                            { regex: /attack\s*on\s*titan|shingeki\s*no\s*kyojin/i, eps: 89 },
+                            { regex: /slam\s*dunk/i, eps: 101 },
+                            { regex: /reborn!|katekyo\s*hitman/i, eps: 203 },
+                            { regex: /pokemon|pok\u00e9mon/i, eps: 1200 }
+                        ];
+
+                        // Gerçek ve Doğru Bölüm Sayısı Tespiti
+                        let rawEpisodes = 12;
+                        if (KNOWN_ANIME_EPISODES[String(a.id)]) {
+                            rawEpisodes = KNOWN_ANIME_EPISODES[String(a.id)];
+                        } else {
+                            const matchedKnown = KNOWN_TITLE_EPISODES.find(k => k.regex.test(titleLower));
+                            if (matchedKnown && (a.format === 'TV' || !a.format || a.id === 21) && a.format !== 'MOVIE') {
+                                rawEpisodes = matchedKnown.eps;
+                            } else if (a.episodes && a.episodes > 0) {
+                                rawEpisodes = a.episodes;
+                            } else if (a.nextAiringEpisode?.episode) {
+                                rawEpisodes = Math.max(1, a.nextAiringEpisode.episode - 1);
+                            } else if (formatInfo.isFilm) {
+                                rawEpisodes = a.episodes || 1;
+                            } else if (a.status === 'RELEASING') {
+                                rawEpisodes = 24;
+                            } else {
+                                rawEpisodes = a.episodes || 12;
+                            }
+                        }
 
                         // Akıllı Sezon Tespiti (Örn: Season 2, 2nd Season, Part 2, S2 vs.)
                         let detectedSeason = 1;
@@ -9416,15 +9542,59 @@ function renderAdminTab(tab) {
                             return itTitle === curTitle || (curBase.length > 3 && (itTitle === curBase || itTitle.includes(curBase) || curBase.includes(itTitle)));
                         });
 
+                        // Animelere göre akıllıca uyarlanmış sezon seçenekleri (Artık saçma sapan 8 sezon yok!)
+                        let seasonOptionsHtml = '';
+                        if (formatInfo.isFilm) {
+                            seasonOptionsHtml = `<option value="1">Film / Tek Bölüm</option>`;
+                        } else if (isOnePieceTV) {
+                            seasonOptionsHtml = `
+                                <option value="1" selected>1. Sezon (Ana Seri - Tüm Bölümler)</option>
+                                <option value="custom">Özel Sezon...</option>
+                            `;
+                        } else if (detectedSeason > 1) {
+                            seasonOptionsHtml = `
+                                <option value="1">1. Sezon</option>
+                                <option value="${detectedSeason}" selected>${detectedSeason}. Sezon (Algılandı)</option>
+                                <option value="${detectedSeason + 1}">${detectedSeason + 1}. Sezon</option>
+                                <option value="custom">Özel Sezon...</option>
+                            `;
+                        } else if (matchedAnime) {
+                            seasonOptionsHtml = `
+                                <option value="1">1. Sezon (Mevcut)</option>
+                                <option value="2" selected>2. Sezon (Yeni Ekle)</option>
+                                <option value="3">3. Sezon</option>
+                                <option value="custom">Özel Sezon...</option>
+                            `;
+                        } else {
+                            seasonOptionsHtml = `
+                                <option value="1" selected>1. Sezon (Ana Seri)</option>
+                                <option value="2">2. Sezon</option>
+                                <option value="custom">Özel Sezon...</option>
+                            `;
+                        }
+
+                        const statusBadge = a.status === 'RELEASING'
+                            ? `<span style="font-size:0.7rem; color:#10b981; font-weight:700; background:rgba(16,185,129,0.12); padding:2px 6px; border-radius:4px;">🟢 Yayında (${rawEpisodes} Bölüm)</span>`
+                            : (a.status === 'NOT_YET_RELEASED'
+                                ? `<span style="font-size:0.7rem; color:#f59e0b; font-weight:700; background:rgba(245,158,11,0.12); padding:2px 6px; border-radius:4px;">⏳ Yakında</span>`
+                                : `<span style="font-size:0.7rem; color:#94a3b8; font-weight:600; background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:4px;">✓ ${rawEpisodes} Bölüm</span>`);
+
                         return `
                             <div class="auto-anime-card" style="flex-direction:column; align-items:stretch; gap:12px;">
                                 <div style="display:flex; gap:12px; align-items:center;">
                                     <img class="auto-anime-thumb" src="${escapeHtml(cover)}" alt="" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'58\\' height=\\'80\\' fill=\\'%23222\\'><rect width=\\'100%\\' height=\\'100%\\'/></svg>'">
                                     <div class="auto-anime-info">
-                                        <div class="auto-anime-title" title="${escapeHtml(title)}" style="font-size:0.95rem;">${escapeHtml(title)}</div>
+                                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:3px; flex-wrap:wrap;">
+                                            <span style="font-size:0.68rem; font-weight:700; color:${formatInfo.color}; background:${formatInfo.bg}; padding:2px 7px; border-radius:4px; border:1px solid ${formatInfo.color}33;">
+                                                ${formatInfo.label}
+                                            </span>
+                                            ${statusBadge}
+                                            ${score ? `<span style="color:#fbbf24; font-weight:700; font-size:0.74rem;">${score}</span>` : ''}
+                                        </div>
+                                        <div class="auto-anime-title" title="${escapeHtml(title)}" style="font-size:0.98rem; font-weight:700; color:#fff;">${escapeHtml(title)}</div>
                                         <div class="auto-anime-sub">
                                             <span>${escapeHtml(sub)}</span>
-                                            ${score ? `<span>•</span><span style="color:#fbbf24; font-weight:700;">${score}</span>` : ''}
+                                            ${a.seasonYear ? `<span>• ${a.seasonYear}</span>` : ''}
                                         </div>
                                         <div class="auto-anime-genres">
                                             ${trGenres.slice(0, 3).map(g => `<span class="auto-genre-pill">${escapeHtml(g)}</span>`).join('')}
@@ -9434,20 +9604,44 @@ function renderAdminTab(tab) {
 
                                 <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08);">
                                     <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px;">
-                                        <!-- Sezon Seçimi -->
+                                        <!-- Sezon Seçimi (Animeye Özel) -->
                                         <div style="display:flex; align-items:center; gap:5px;">
                                             <span style="font-size:0.75rem; color:var(--text-dim); font-weight:600;">Sezon:</span>
-                                            <select id="autoSeason_${idx}" style="padding:4px 8px; background:#0b0d14; border:1px solid #38bdf8; border-radius:6px; color:#38bdf8; font-size:0.78rem; font-weight:700; cursor:pointer;">
-                                                ${[1, 2, 3, 4, 5, 6, 7, 8].map(s => `<option value="${s}" ${s === detectedSeason ? 'selected' : ''}>${s}. Sezon</option>`).join('')}
+                                            <select id="autoSeason_${idx}" class="auto-season-select" data-idx="${idx}" style="padding:4px 8px; background:#0b0d14; border:1px solid #38bdf8; border-radius:6px; color:#38bdf8; font-size:0.78rem; font-weight:700; cursor:pointer;">
+                                                ${seasonOptionsHtml}
                                             </select>
+                                            <input type="number" id="autoSeasonCustom_${idx}" placeholder="No" min="1" max="50" style="display:none; width:48px; padding:4px 6px; background:#0b0d14; border:1px solid #38bdf8; border-radius:6px; color:#fff; font-size:0.78rem; text-align:center; font-weight:700;">
                                         </div>
 
-                                        <!-- Bölüm Sayısı -->
+                                        <!-- Bölüm Sayısı & Oynatıcı Durumu -->
                                         <div style="display:flex; align-items:center; gap:5px;">
                                             <span style="font-size:0.75rem; color:var(--text-dim); font-weight:600;">Bölüm:</span>
-                                            <input type="number" id="autoEpCount_${idx}" value="${rawEpisodes}" min="1" max="250" style="width:56px; padding:4px 6px; background:#0b0d14; border:1px solid #334155; border-radius:6px; color:#fff; font-size:0.78rem; text-align:center; font-weight:700;">
+                                            <input type="number" id="autoEpCount_${idx}" value="${rawEpisodes}" min="1" max="2500" style="width:68px; padding:4px 6px; background:#0b0d14; border:1px solid #334155; border-radius:6px; color:#fff; font-size:0.78rem; text-align:center; font-weight:700;">
                                             <span style="font-size:0.72rem; color:#38bdf8;">(Oynatıcı hazır)</span>
                                         </div>
+
+                                        <!-- Uzun Animeler İçin Hızlı Bölüm Seçici Butonlar (Örn: One Piece, Naruto, Bleach) -->
+                                        ${rawEpisodes > 50 ? `
+                                        <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+                                            <button type="button" class="auto-quick-ep-btn" data-idx="${idx}" data-val="${rawEpisodes}" style="background:rgba(56,189,248,0.15); border:1px solid #0284c7; color:#38bdf8; font-size:0.7rem; padding:3px 8px; border-radius:4px; cursor:pointer; font-weight:700;" title="Tüm ${rawEpisodes} bölümü seç">
+                                                Tümü (${rawEpisodes})
+                                            </button>
+                                            ${rawEpisodes >= 500 ? `
+                                            <button type="button" class="auto-quick-ep-btn" data-idx="${idx}" data-val="500" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#94a3b8; font-size:0.7rem; padding:3px 7px; border-radius:4px; cursor:pointer;" title="İlk 500 bölüm">
+                                                İlk 500
+                                            </button>
+                                            ` : ''}
+                                            <button type="button" class="auto-quick-ep-btn" data-idx="${idx}" data-val="100" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#94a3b8; font-size:0.7rem; padding:3px 7px; border-radius:4px; cursor:pointer;" title="İlk 100 bölümü seç">
+                                                İlk 100
+                                            </button>
+                                            <button type="button" class="auto-quick-ep-btn" data-idx="${idx}" data-val="50" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#94a3b8; font-size:0.7rem; padding:3px 7px; border-radius:4px; cursor:pointer;" title="İlk 50 bölümü seç">
+                                                İlk 50
+                                            </button>
+                                            <button type="button" class="auto-quick-ep-btn" data-idx="${idx}" data-val="24" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#94a3b8; font-size:0.7rem; padding:3px 7px; border-radius:4px; cursor:pointer;" title="İlk 24 bölümü seç">
+                                                İlk 24
+                                            </button>
+                                        </div>
+                                        ` : ''}
 
                                         <!-- Mevcut Animeye Bağlama Seçeneği -->
                                         ${matchedAnime ? `
@@ -9484,6 +9678,32 @@ function renderAdminTab(tab) {
                         `;
                     }).join('');
 
+                    // Hızlı Bölüm Sayısı Butonları
+                    rWrap.querySelectorAll('.auto-quick-ep-btn').forEach(b => {
+                        b.addEventListener('click', () => {
+                            const idx = b.dataset.idx;
+                            const val = b.dataset.val;
+                            const inp = document.getElementById(`autoEpCount_${idx}`);
+                            if (inp) inp.value = val;
+                        });
+                    });
+
+                    // Özel Sezon Girişi Dinleyicisi
+                    rWrap.querySelectorAll('.auto-season-select').forEach(sel => {
+                        sel.addEventListener('change', () => {
+                            const idx = sel.dataset.idx;
+                            const customInp = document.getElementById(`autoSeasonCustom_${idx}`);
+                            if (customInp) {
+                                if (sel.value === 'custom') {
+                                    customInp.style.display = 'inline-block';
+                                    customInp.focus();
+                                } else {
+                                    customInp.style.display = 'none';
+                                }
+                            }
+                        });
+                    });
+
                     // "Sezonu & Bölümleri Ekle" butonu
                     rWrap.querySelectorAll('.auto-add-with-eps-btn').forEach(btn => {
                         btn.addEventListener('click', async () => {
@@ -9492,10 +9712,18 @@ function renderAdminTab(tab) {
                             if (!item) return;
 
                             const epInput = document.getElementById(`autoEpCount_${idx}`);
-                            const desiredEps = parseInt(epInput?.value, 10) || item.episodes || 12;
+                            const desiredEps = parseInt(epInput?.value, 10) || 12;
 
                             const seasonSelect = document.getElementById(`autoSeason_${idx}`);
-                            const selectedSeason = parseInt(seasonSelect?.value, 10) || 1;
+                            const seasonCustomInp = document.getElementById(`autoSeasonCustom_${idx}`);
+                            let selectedSeason = 1;
+                            if (seasonSelect) {
+                                if (seasonSelect.value === 'custom' && seasonCustomInp && seasonCustomInp.value) {
+                                    selectedSeason = parseInt(seasonCustomInp.value, 10) || 1;
+                                } else {
+                                    selectedSeason = parseInt(seasonSelect.value, 10) || 1;
+                                }
+                            }
 
                             const targetSelect = document.getElementById(`autoTargetSelect_${idx}`);
                             let chosenTargetId = targetSelect ? targetSelect.value : null;
@@ -9569,33 +9797,42 @@ function renderAdminTab(tab) {
                                     .map(e => e.episode_number)
                             );
 
-                            // Bölümleri sırayla ve çalışan video embed URL'siyle ekle
+                            // Bölümleri gruplar halinde paralel ekle (10'ar batch ile ışık hızında yükleme)
                             let addedCount = 0;
                             const anilistId = item.id;
-                            for (let ep = 1; ep <= desiredEps; ep++) {
-                                const pct = Math.round((ep / desiredEps) * 100);
+                            const BATCH_SIZE = 10;
+
+                            for (let startEp = 1; startEp <= desiredEps; startEp += BATCH_SIZE) {
+                                const endEp = Math.min(startEp + BATCH_SIZE - 1, desiredEps);
+                                const batchPromises = [];
+
+                                for (let ep = startEp; ep <= endEp; ep++) {
+                                    if (existingNums.has(ep)) continue;
+
+                                    const epUrl = `https://vidsrc.me/embed/anime?anilist=${anilistId}&episode=${ep}`;
+                                    const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
+
+                                    batchPromises.push(
+                                        sb.rpc('admin_add_episode', {
+                                            p_password: adminPassword,
+                                            p_anime_id: targetAnimeId,
+                                            p_episode_number: ep,
+                                            p_episode_title: epTitle,
+                                            p_video_url: epUrl
+                                        }).then(({ error }) => {
+                                            if (!error) addedCount++;
+                                        })
+                                    );
+                                }
+
+                                if (batchPromises.length > 0) {
+                                    await Promise.all(batchPromises);
+                                }
+
+                                const pct = Math.round((endEp / desiredEps) * 100);
                                 if (progBar) progBar.style.width = pct + '%';
                                 if (progPct) progPct.textContent = pct + '%';
-                                if (progText) progText.textContent = `${selectedSeason}. Sezon Bölüm ${ep} / ${desiredEps} yükleniyor...`;
-
-                                if (existingNums.has(ep)) {
-                                    continue;
-                                }
-
-                                const epUrl = `https://vidsrc.me/embed/anime?anilist=${anilistId}&episode=${ep}`;
-                                const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
-
-                                const { error: epErr } = await sb.rpc('admin_add_episode', {
-                                    p_password: adminPassword,
-                                    p_anime_id: targetAnimeId,
-                                    p_episode_number: ep,
-                                    p_episode_title: epTitle,
-                                    p_video_url: epUrl
-                                });
-
-                                if (!epErr) {
-                                    addedCount++;
-                                }
+                                if (progText) progText.textContent = `${selectedSeason}. Sezon: ${endEp} / ${desiredEps} bölüm hazır...`;
                             }
 
                             if (progBar) progBar.style.width = '100%';
