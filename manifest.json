@@ -1,0 +1,40 @@
+{
+  "background_color": "#ffffff",
+  "description": "Tennox — Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz, yüksek kalitede izle.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Tennox",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Tennox",
+  "start_url": "/",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "https://tennoxcompany.github.io/Tennox/favicon.png",
+      "type": "image/jpeg",
+      "sizes": "1024x1024",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": true,
+      "width": 1024,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://tennoxcompany.github.io/Tennox/favicon.png",
+      "type": "image/jpeg",
+      "sizes": "1024x1024",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": true,
+      "width": 1024,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ]
+}
