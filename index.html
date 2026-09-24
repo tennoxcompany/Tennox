@@ -2,8 +2,14 @@
 <html lang="tr">
 <head> <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="/manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tennox">
 <title>Tennox — Türkçe Dublaj ve Altyazılı Anime İzle</title>
 <meta name="google-site-verification" content="NRVS5ltfZsVyjbfexWeGRKRh3NHf9zABAXqeiDpA_yc" />
 <meta name="description" content="Tennox — Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz, yüksek kalitede izle.">
@@ -29,6 +35,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW reg info:', err));
+  });
+}
+</script>
 <style>
 /* =========================================================
    TOKENS — Modern karanlık, şık nötr / monokrom palet
