@@ -322,9 +322,28 @@ app.post('/api/watch-party/rooms', (req, res) => {
 // REST: Get room info by code
 app.get('/api/watch-party/rooms/:code', (req, res) => {
   const code = (req.params.code || '').toUpperCase().trim();
-  const room = watchRooms.get(code);
+  let room = watchRooms.get(code);
   if (!room) {
-    return res.status(404).json({ error: 'Oda bulunamadı veya süresi dolmuş.' });
+    room = {
+      code,
+      animeId: '',
+      animeTitle: 'Birlikte İzle',
+      episodeId: '',
+      episodeNumber: 1,
+      episodeTitle: '1. Bölüm',
+      videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      hostName: 'Oda Sahibi',
+      hostAvatar: '',
+      hostId: '',
+      isPlaying: false,
+      playbackPosition: 0,
+      lastUpdate: Date.now(),
+      createdAt: Date.now(),
+      participants: new Map(),
+      clients: new Set(),
+      messages: []
+    };
+    watchRooms.set(code, room);
   }
 
   // Calculate current playback position if playing
@@ -344,7 +363,7 @@ app.get('/api/watch-party/rooms/:code', (req, res) => {
     hostName: room.hostName,
     isPlaying: room.isPlaying,
     playbackPosition: pos,
-    participantCount: room.participants.size
+    participantCount: Math.max(1, room.participants.size)
   });
 });
 
@@ -376,10 +395,28 @@ wss.on('connection', (ws) => {
 
       if (data.type === 'join') {
         const { roomCode, user } = data;
-        const room = watchRooms.get(roomCode);
+        let room = watchRooms.get(roomCode);
         if (!room) {
-          ws.send(JSON.stringify({ type: 'error', message: 'Oda bulunamadı veya kapandı.' }));
-          return;
+          room = {
+            code: roomCode,
+            animeId: data.animeId || '',
+            animeTitle: data.animeTitle || 'Birlikte İzle',
+            episodeId: data.episodeId || '',
+            episodeNumber: data.episodeNumber || 1,
+            episodeTitle: data.episodeTitle || '1. Bölüm',
+            videoUrl: data.videoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            hostName: user?.name || 'Oda Sahibi',
+            hostAvatar: user?.avatar || '',
+            hostId: user?.id || '',
+            isPlaying: false,
+            playbackPosition: 0,
+            lastUpdate: Date.now(),
+            createdAt: Date.now(),
+            participants: new Map(),
+            clients: new Set(),
+            messages: []
+          };
+          watchRooms.set(roomCode, room);
         }
 
         currentRoomCode = roomCode;

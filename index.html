@@ -3280,12 +3280,86 @@ button { font-family: inherit; }
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7);
+    min-height: 240px;
 }
-.wp-video-box video {
+.wp-video-box video, .wp-video-box iframe {
     width: 100%;
     aspect-ratio: 16/9;
     background: #000;
     display: block;
+    border: none;
+}
+.wp-player-empty {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    background: #090a0f;
+    padding: 20px;
+    text-align: center;
+}
+.wp-server-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #090a0e;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    overflow-x: auto;
+}
+.wp-server-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+.wp-server-btn {
+    background: #15161f;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+.wp-server-btn:hover {
+    border-color: #ff4d58;
+    color: #fff;
+}
+.wp-server-btn.active {
+    background: #e50914;
+    border-color: #e50914;
+    color: #fff;
+    font-weight: 700;
+}
+.wp-ep-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: #10121a;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.wp-ep-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.wp-ep-quick-select {
+    background: #181a24;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    outline: none;
 }
 .wp-reactions-overlay {
     position: absolute;
@@ -5387,10 +5461,33 @@ button { font-family: inherit; }
 
         <div class="wp-room-layout">
             <div class="wp-video-col">
-                <div class="wp-video-box">
-                    <video id="wpVideo" playsinline controls></video>
+                <div class="wp-video-box" id="wpVideoBox">
+                    <video id="wpVideo" playsinline controls style="display:none;"></video>
+                    <iframe id="wpIframe" playsinline allowfullscreen allow="autoplay; fullscreen; picture-in-picture" style="display:none;"></iframe>
+                    <div class="wp-player-empty" id="wpPlayerEmpty">
+                        <div style="font-size:2rem; margin-bottom:8px;">🎬</div>
+                        <div style="font-weight:600; color:#fff;">Video Yükleniyor...</div>
+                        <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">Sunucuya bağlanılıyor, lütfen bekleyin.</div>
+                    </div>
                     <div class="wp-reactions-overlay" id="wpReactionsOverlay"></div>
                 </div>
+
+                <div class="wp-server-bar" id="wpServerBar" style="display:none;">
+                    <span class="wp-server-label">📡 Sunucu Değiştir:</span>
+                    <div class="wp-server-list" id="wpServerList" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+                </div>
+
+                <div class="wp-ep-nav-row" id="wpEpNavRow">
+                    <div class="wp-ep-nav-left">
+                        <span style="font-size:0.8rem; font-weight:700; color:#94a3b8;">📺 Bölüm:</span>
+                        <select class="wp-ep-quick-select" id="wpRoomEpSelect"></select>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <button class="btn btn-ghost" id="wpPrevEpBtn" style="padding:4px 10px; font-size:0.8rem;">◀ Önceki</button>
+                        <button class="btn btn-ghost" id="wpNextEpBtn" style="padding:4px 10px; font-size:0.8rem;">Sonraki ▶</button>
+                    </div>
+                </div>
+
                 <div class="wp-video-toolbar">
                     <div class="wp-toolbar-left" id="wpToolbarNotice">
                         <span>💡 Oynatma, durdurma ve ileri/geri sarma host ile herkes arasında anlık senkronizedir.</span>
@@ -11732,6 +11829,7 @@ let wpSbChannel = null;
 let wpApplyingRemoteState = false;
 let wpHeartbeatTimer = null;
 let wpCurrentEpisodes = [];
+let wpActiveServerUrl = '';
 
 function wpShowMsg(elId, text, type = 'info') {
     const el = document.getElementById(elId);
@@ -11761,26 +11859,157 @@ function wpShowFloatingReaction(emoji) {
     }, 1800);
 }
 
+// TMDB ID ve Çoklu Sunucu Üreticisi
+function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '') {
+    const TITLE_TO_TMDB = {
+        "one piece": 37854,
+        "mushoku": 94664,
+        "solo leveling": 127532,
+        "blue lock": 131041,
+        "vinland": 88803,
+        "monster": 30981,
+        "jujutsu": 95479,
+        "chainsaw": 114410,
+        "demon slayer": 85937,
+        "kimetsu": 85937,
+        "attack on titan": 1429,
+        "shingeki": 1429,
+        "death note": 13916,
+        "high school dxd": 45950,
+        "naruto": 46260,
+        "bleach": 30984,
+        "frieren": 209867,
+        "sousou no frieren": 209867,
+        "dragon ball": 12609,
+        "conan": 30983,
+        "hunter": 46298,
+        "dr. stone": 86031,
+        "black clover": 73223
+    };
+
+    let tmdbId = null;
+    if (animeTitle) {
+        const lower = animeTitle.toLowerCase();
+        for (const [kw, tId] of Object.entries(TITLE_TO_TMDB)) {
+            if (lower.includes(kw)) {
+                tmdbId = tId;
+                break;
+            }
+        }
+    }
+    if (!tmdbId) tmdbId = 37854; // Güvenli varsayılan
+
+    const servers = [];
+    if (customVideoUrl && (/\.(mp4|m3u8|webm|ogv)/i.test(customVideoUrl) || !customVideoUrl.includes('autoembed'))) {
+        servers.push({
+            id: 'custom',
+            name: '⚡ Özel Video / Fansub',
+            url: customVideoUrl,
+            isDirect: /\.(mp4|m3u8|webm|ogv)/i.test(customVideoUrl)
+        });
+    }
+
+    servers.push(
+        {
+            id: 'autoembed',
+            name: '⚡ Sunucu 1 (AutoEmbed HD)',
+            url: `https://autoembed.co/tv/tmdb/${tmdbId}-1-${episodeNum}`,
+            isDirect: false
+        },
+        {
+            id: 'vidsrcto',
+            name: '⚡ Sunucu 2 (VidSrc TO)',
+            url: `https://vidsrc.to/embed/tv/${tmdbId}/1/${episodeNum}`,
+            isDirect: false
+        },
+        {
+            id: 'vidsrcpm',
+            name: '⚡ Sunucu 3 (VidSrc PM)',
+            url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=1&episode=${episodeNum}`,
+            isDirect: false
+        },
+        {
+            id: 'videasy',
+            name: '⚡ Sunucu 4 (Videasy TV)',
+            url: `https://player.videasy.to/tv/${tmdbId}/1/${episodeNum}`,
+            isDirect: false
+        },
+        {
+            id: 'vidsrcsh',
+            name: '⚡ Sunucu 5 (VidSrc SH)',
+            url: `https://vidsrc.sh/embed/tv?tmdb=${tmdbId}&season=1&episode=${episodeNum}`,
+            isDirect: false
+        }
+    );
+
+    return servers;
+}
+
+// Animeye ait toplam bölüm sayısını akıllıca hesapla
+function wpGetAnimeTotalEpisodes(anime) {
+    if (!anime) return 12;
+    const titleLower = (anime.title || '').toLowerCase();
+    
+    if (titleLower.includes('one piece')) return 1122;
+    if (titleLower.includes('naruto shippuuden') || titleLower.includes('naruto: shippu')) return 500;
+    if (titleLower.includes('naruto')) return 220;
+    if (titleLower.includes('bleach: thousand') || titleLower.includes('tybw')) return 26;
+    if (titleLower.includes('bleach')) return 366;
+    if (titleLower.includes('conan')) return 1140;
+    if (titleLower.includes('dragon ball z')) return 291;
+    if (titleLower.includes('dragon ball super')) return 131;
+    if (titleLower.includes('dragon ball')) return 153;
+    if (titleLower.includes('gintama')) return 367;
+    if (titleLower.includes('hunter x hunter') || titleLower.includes('hunter')) return 148;
+    if (titleLower.includes('black clover')) return 170;
+    if (titleLower.includes('fairy tail')) return 328;
+    if (titleLower.includes('attack on titan') || titleLower.includes('shingeki')) return 89;
+    if (titleLower.includes('death note')) return 37;
+    if (titleLower.includes('frieren')) return 28;
+    if (titleLower.includes('jujutsu kaisen') || titleLower.includes('jujutsu')) return 47;
+    if (titleLower.includes('demon slayer') || titleLower.includes('kimetsu')) return 55;
+    if (titleLower.includes('my hero academia') || titleLower.includes('boku no hero')) return 138;
+    if (titleLower.includes('fullmetal alchemist')) return 64;
+
+    return Number(anime.episodes_count || anime.episodes) || 24;
+}
+
 async function wpLoadAnimeEpisodes(animeId) {
     const epSelect = document.getElementById('wpEpisodeSelect');
     if (!epSelect) return;
     epSelect.innerHTML = '<option value="">Bölümler yükleniyor...</option>';
+    
+    const selectedAnime = animeList.find(a => a.id === animeId);
+    let episodes = [];
+    
     try {
-        const episodes = await fetchEpisodes(animeId);
-        wpCurrentEpisodes = episodes || [];
-        if (!wpCurrentEpisodes.length) {
-            epSelect.innerHTML = '<option value="default" data-url="" data-num="1">1. Bölüm (Standart Video)</option>';
-        } else {
-            epSelect.innerHTML = wpCurrentEpisodes.map((ep, idx) => `
-                <option value="${ep.id}" data-url="${escapeHtml(ep.video_url || '')}" data-num="${ep.episode_number || idx + 1}">
-                    ${ep.episode_number ? `${ep.episode_number}. Bölüm` : `${idx + 1}. Bölüm`} - ${escapeHtml(ep.episode_title || 'Bölüm ' + (idx + 1))}
-                </option>
-            `).join('');
-        }
+        episodes = await fetchEpisodes(animeId);
     } catch (err) {
-        console.error('Bölüm listesi yüklenemedi:', err);
-        epSelect.innerHTML = '<option value="default" data-url="" data-num="1">1. Bölüm</option>';
+        console.warn('DB bölüm çekme uyarısı:', err);
     }
+
+    if (episodes && episodes.length > 0) {
+        wpCurrentEpisodes = episodes;
+    } else {
+        // Dinamik olarak serinin tüm gerçek bölümlerini üret
+        const totalEps = wpGetAnimeTotalEpisodes(selectedAnime);
+        wpCurrentEpisodes = Array.from({ length: totalEps }, (_, i) => {
+            const num = i + 1;
+            const servers = wpGetServersForEpisode(selectedAnime?.title || '', num, selectedAnime?.video_url || '');
+            return {
+                id: `ep_dyn_${animeId}_${num}`,
+                episode_number: num,
+                episode_title: `${num}. Bölüm`,
+                video_url: servers[0]?.url || ''
+            };
+        });
+    }
+
+    epSelect.innerHTML = wpCurrentEpisodes.map((ep, idx) => `
+        <option value="${ep.id}" data-url="${escapeHtml(ep.video_url || '')}" data-num="${ep.episode_number || idx + 1}">
+            ${ep.episode_number ? `${ep.episode_number}. Bölüm` : `${idx + 1}. Bölüm`} - ${escapeHtml(ep.episode_title || 'Bölüm ' + (idx + 1))}
+        </option>
+    `).join('');
 }
 
 function wpGetLocalRooms() {
@@ -11821,9 +12050,7 @@ async function wpFetchPublicRooms() {
                 rooms = await res.json();
             }
         }
-    } catch (err) {
-        // Fallback for static GitHub Pages hosting
-    }
+    } catch (err) {}
 
     if (!rooms || rooms.length === 0) {
         rooms = wpGetLocalRooms();
@@ -11912,18 +12139,10 @@ document.getElementById('wpCreateRoomBtn')?.addEventListener('click', async () =
         episodeTitle = opt.textContent.trim();
     }
 
-    // Seçilen animede kayıtlı bölüm yoksa varsa anime listesindeki ilk bölümü dene
-    if (!videoUrl && wpCurrentEpisodes.length > 0) {
-        const firstEp = wpCurrentEpisodes[0];
-        episodeId = firstEp.id;
-        episodeNumber = firstEp.episode_number || 1;
-        episodeTitle = firstEp.episode_title || '1. Bölüm';
-        videoUrl = firstEp.video_url || '';
-    }
-
-    // Son çare örnek video (testin aksamaması için)
+    // Video URL yoksa otomatik sunucu linkini oluştur
     if (!videoUrl) {
-        videoUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+        const servers = wpGetServersForEpisode(animeTitle, episodeNumber, selectedAnime?.video_url || '');
+        videoUrl = servers[0]?.url || 'https://autoembed.co/tv/tmdb/37854-1-' + episodeNumber;
     }
 
     const hostName = currentDisplayName || (currentUser?.email ? currentUser.email.split('@')[0] : 'Oda Sahibi');
@@ -11950,7 +12169,7 @@ document.getElementById('wpCreateRoomBtn')?.addEventListener('click', async () =
 
     wpShowMsg('wpCreateMsg', 'Oda kuruluyor...', 'info');
 
-    // Sunucuya kaydetmeyi dene (GitHub Pages'te sessizce lokale geçer)
+    // Sunucuya kaydetmeyi dene
     try {
         const res = await fetch('/api/watch-party/rooms', {
             method: 'POST',
@@ -12003,13 +12222,13 @@ async function wpJoinRoomByCode(code) {
         roomData = localRooms.find(r => r.code === code);
     }
 
-    // Kod geçerliyse ancak sunucuda yoksa anında odayı oluştur ve bağla
     if (!roomData) {
         roomData = {
             code,
             animeTitle: 'Canlı Birlikte İzleme',
-            episodeTitle: 'Ortak Yayın',
-            videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            episodeNumber: 1,
+            episodeTitle: '1. Bölüm',
+            videoUrl: 'https://autoembed.co/tv/tmdb/37854-1-1',
             hostId: '',
             hostName: 'Host',
             isPlaying: false,
@@ -12018,8 +12237,105 @@ async function wpJoinRoomByCode(code) {
     }
 
     wpClearMsg('wpLobbyMsg');
-    const isHost = (currentUser?.id && currentUser.id === roomData.hostId);
+    const isHost = Boolean(currentUser?.id && currentUser.id === roomData.hostId);
     wpEnterRoom(roomData, isHost);
+}
+
+// Oynatıcıyı (HTML5 Video veya Iframe Embed) Doğru Şekilde Başlat
+function wpRenderActivePlayer(videoUrl, animeTitle, episodeNum = 1) {
+    const videoEl = document.getElementById('wpVideo');
+    const iframeEl = document.getElementById('wpIframe');
+    const emptyEl = document.getElementById('wpPlayerEmpty');
+    const serverBar = document.getElementById('wpServerBar');
+    const serverList = document.getElementById('wpServerList');
+
+    if (!videoUrl) {
+        if (videoEl) { videoEl.style.display = 'none'; videoEl.src = ''; }
+        if (iframeEl) { iframeEl.style.display = 'none'; iframeEl.src = ''; }
+        if (emptyEl) emptyEl.style.display = 'flex';
+        return;
+    }
+
+    const isDirect = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(videoUrl);
+    wpActiveServerUrl = videoUrl;
+
+    if (isDirect) {
+        if (iframeEl) { iframeEl.style.display = 'none'; iframeEl.src = ''; }
+        if (emptyEl) emptyEl.style.display = 'none';
+        if (serverBar) serverBar.style.display = 'none';
+        if (videoEl) {
+            videoEl.style.display = 'block';
+            videoEl.src = videoUrl;
+            videoEl.controls = true;
+        }
+    } else {
+        // Embed/Iframe Oynatıcı
+        if (videoEl) { videoEl.style.display = 'none'; videoEl.pause(); videoEl.src = ''; }
+        if (emptyEl) emptyEl.style.display = 'none';
+        if (iframeEl) {
+            iframeEl.style.display = 'block';
+            if (iframeEl.src !== videoUrl) {
+                iframeEl.src = videoUrl;
+            }
+        }
+
+        // Çoklu Sunucu Butonlarını Doldur
+        const servers = wpGetServersForEpisode(animeTitle, episodeNum, videoUrl);
+        if (serverBar && serverList && servers.length > 0) {
+            serverBar.style.display = 'flex';
+            serverList.innerHTML = servers.map(srv => {
+                const isActive = (srv.url === wpActiveServerUrl);
+                return `<button class="wp-server-btn ${isActive ? 'active' : ''}" data-url="${escapeHtml(srv.url)}">${escapeHtml(srv.name)}</button>`;
+            }).join('');
+
+            serverList.querySelectorAll('.wp-server-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const nextUrl = btn.dataset.url;
+                    if (nextUrl && iframeEl) {
+                        wpActiveServerUrl = nextUrl;
+                        iframeEl.src = nextUrl;
+                        serverList.querySelectorAll('.wp-server-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        
+                        if (wpIsHost) {
+                            wpBroadcastEpisodeState(wpCurrentRoom.episodeNumber, wpCurrentRoom.episodeTitle, nextUrl);
+                        }
+                    }
+                });
+            });
+        }
+    }
+}
+
+// Host Bölüm Değiştirdiğinde Tüm Odaya Yayınla
+function wpBroadcastEpisodeState(episodeNum, episodeTitle, videoUrl) {
+    if (!wpCurrentRoom) return;
+    wpCurrentRoom.episodeNumber = episodeNum;
+    wpCurrentRoom.episodeTitle = episodeTitle;
+    wpCurrentRoom.videoUrl = videoUrl;
+
+    const payload = {
+        type: 'change_episode',
+        episodeNumber: episodeNum,
+        episodeTitle: episodeTitle,
+        videoUrl: videoUrl
+    };
+
+    if (wpSbChannel) {
+        try {
+            wpSbChannel.send({
+                type: 'broadcast',
+                event: 'episode_changed',
+                payload
+            });
+        } catch (e) {}
+    }
+
+    if (wpSocket && wpSocket.readyState === WebSocket.OPEN) {
+        try {
+            wpSocket.send(JSON.stringify(payload));
+        } catch (e) {}
+    }
 }
 
 // ODAYA GİRİŞ VE CANLI SENKRONİZASYON (Supabase Realtime + WebSocket)
@@ -12050,16 +12366,60 @@ function wpEnterRoom(room, isHost) {
     const toolbarNotice = document.getElementById('wpToolbarNotice');
     if (toolbarNotice) {
         toolbarNotice.innerHTML = isHost
-            ? '<span>👑 <strong>Sen Hostsın:</strong> Videoyu oynat, durdur ve sar; odadaki tüm izleyiciler seninle senkronize olur.</span>'
+            ? '<span>👑 <strong>Sen Hostsın:</strong> Bölüm veya sunucu değiştirdiğinde odadaki tüm izleyiciler seninle anında senkronize olur.</span>'
             : `<span>🟢 <strong>Host (${escapeHtml(room.hostName || 'Oda Sahibi')})</strong> ile canlı senkronize izliyorsun.</span>`;
     }
 
-    const videoEl = document.getElementById('wpVideo');
-    if (videoEl) {
-        videoEl.src = room.videoUrl || '';
-        videoEl.controls = true;
-        if (room.playbackPosition) videoEl.currentTime = room.playbackPosition;
-        if (room.isPlaying) videoEl.play().catch(() => {});
+    // Oynatıcıyı yükle
+    wpRenderActivePlayer(room.videoUrl, room.animeTitle, room.episodeNumber || 1);
+
+    // Bölüm Seçiciyi Hazırla
+    const epSelect = document.getElementById('wpRoomEpSelect');
+    const selectedAnime = animeList.find(a => a.id === room.animeId || a.title === room.animeTitle);
+    const totalEps = wpGetAnimeTotalEpisodes(selectedAnime || { title: room.animeTitle });
+    
+    if (epSelect) {
+        epSelect.innerHTML = Array.from({ length: totalEps }, (_, i) => {
+            const n = i + 1;
+            return `<option value="${n}" ${n === Number(room.episodeNumber) ? 'selected' : ''}>${n}. Bölüm</option>`;
+        }).join('');
+
+        epSelect.disabled = !isHost;
+        epSelect.onchange = (e) => {
+            if (!wpIsHost) return;
+            const newEp = Number(e.target.value);
+            const servers = wpGetServersForEpisode(room.animeTitle, newEp, selectedAnime?.video_url || '');
+            const newUrl = servers[0]?.url || '';
+            const newTitle = `${newEp}. Bölüm`;
+            
+            document.getElementById('wpRoomEpisodeTitle').textContent = `${newEp}. Bölüm - ${newTitle}`;
+            wpRenderActivePlayer(newUrl, room.animeTitle, newEp);
+            wpBroadcastEpisodeState(newEp, newTitle, newUrl);
+            wpAppendMessage({ system: true, text: `👑 Host ${newEp}. Bölüme geçti.` });
+        };
+    }
+
+    const prevBtn = document.getElementById('wpPrevEpBtn');
+    const nextBtn = document.getElementById('wpNextEpBtn');
+    if (prevBtn) {
+        prevBtn.style.display = isHost ? 'inline-block' : 'none';
+        prevBtn.onclick = () => {
+            const currentEp = Number(wpCurrentRoom?.episodeNumber || 1);
+            if (currentEp > 1 && epSelect) {
+                epSelect.value = currentEp - 1;
+                epSelect.dispatchEvent(new Event('change'));
+            }
+        };
+    }
+    if (nextBtn) {
+        nextBtn.style.display = isHost ? 'inline-block' : 'none';
+        nextBtn.onclick = () => {
+            const currentEp = Number(wpCurrentRoom?.episodeNumber || 1);
+            if (currentEp < totalEps && epSelect) {
+                epSelect.value = currentEp + 1;
+                epSelect.dispatchEvent(new Event('change'));
+            }
+        };
     }
 
     // Temiz sohbet kutusu
@@ -12073,7 +12433,7 @@ function wpEnterRoom(room, isHost) {
         isHost: wpIsHost
     };
 
-    // 1. Supabase Realtime Broadcast Kanalı Başlat (GitHub Pages ve Her Yerde Çalışır)
+    // 1. Supabase Realtime Broadcast Kanalı Başlat
     try {
         wpSbChannel = sb.channel('watch-party-' + room.code, {
             config: { broadcast: { self: false }, presence: { key: userInfo.id } }
@@ -12081,7 +12441,8 @@ function wpEnterRoom(room, isHost) {
 
         wpSbChannel
             .on('broadcast', { event: 'video_sync' }, ({ payload }) => {
-                if (!payload || !videoEl) return;
+                const videoEl = document.getElementById('wpVideo');
+                if (!payload || !videoEl || videoEl.style.display === 'none') return;
                 wpApplyingRemoteState = true;
                 const pos = Number(payload.position) || 0;
                 if (Math.abs(videoEl.currentTime - pos) > 1.3) {
@@ -12093,6 +12454,22 @@ function wpEnterRoom(room, isHost) {
                     videoEl.pause();
                 }
                 setTimeout(() => { wpApplyingRemoteState = false; }, 400);
+            })
+            .on('broadcast', { event: 'episode_changed' }, ({ payload }) => {
+                if (!payload) return;
+                const epNum = payload.episodeNumber || 1;
+                const epTitle = payload.episodeTitle || `${epNum}. Bölüm`;
+                const vUrl = payload.videoUrl;
+                
+                if (wpCurrentRoom) {
+                    wpCurrentRoom.episodeNumber = epNum;
+                    wpCurrentRoom.episodeTitle = epTitle;
+                    wpCurrentRoom.videoUrl = vUrl;
+                }
+                document.getElementById('wpRoomEpisodeTitle').textContent = `${epNum}. Bölüm - ${epTitle}`;
+                if (epSelect) epSelect.value = epNum;
+                wpRenderActivePlayer(vUrl, room.animeTitle, epNum);
+                wpAppendMessage({ system: true, text: `👑 Host ${epNum}. Bölümü başlattı.` });
             })
             .on('broadcast', { event: 'chat' }, ({ payload }) => {
                 if (payload) wpAppendMessage(payload);
@@ -12107,7 +12484,7 @@ function wpEnterRoom(room, isHost) {
             })
             .subscribe(async (status) => {
                 if (status === 'SUBSCRIBED') {
-                    await wpSbChannel.track(userInfo);
+                    try { await wpSbChannel.track(userInfo); } catch (e) {}
                     const syncBadge = document.getElementById('wpSyncStatusBadge');
                     if (syncBadge) {
                         syncBadge.className = 'wp-badge-sync';
@@ -12116,7 +12493,7 @@ function wpEnterRoom(room, isHost) {
                 }
             });
     } catch (sbErr) {
-        console.warn('Supabase Realtime Channel uyarısı:', sbErr);
+        console.warn('Supabase Realtime uyarısı:', sbErr);
     }
 
     // 2. Eğer Node backend mevcutsa WebSocket dene
@@ -12129,7 +12506,11 @@ function wpEnterRoom(room, isHost) {
             wpSocket.send(JSON.stringify({
                 type: 'join',
                 roomCode: room.code,
-                user: userInfo
+                user: userInfo,
+                animeTitle: room.animeTitle,
+                episodeNumber: room.episodeNumber,
+                episodeTitle: room.episodeTitle,
+                videoUrl: room.videoUrl
             }));
         };
 
@@ -12137,25 +12518,42 @@ function wpEnterRoom(room, isHost) {
             try {
                 const data = JSON.parse(event.data);
                 if (data.type === 'video_sync') {
-                    if (!videoEl) return;
+                    const videoEl = document.getElementById('wpVideo');
+                    if (!videoEl || videoEl.style.display === 'none') return;
                     wpApplyingRemoteState = true;
                     const pos = Number(data.position) || 0;
                     if (Math.abs(videoEl.currentTime - pos) > 1.3) videoEl.currentTime = pos;
                     if (data.action === 'play' || (data.isPlaying && videoEl.paused)) videoEl.play().catch(() => {});
                     else if (data.action === 'pause' || (!data.isPlaying && !videoEl.paused)) videoEl.pause();
                     setTimeout(() => { wpApplyingRemoteState = false; }, 400);
+                } else if (data.type === 'episode_changed') {
+                    const r = data.room || {};
+                    const epNum = r.episodeNumber || 1;
+                    const epTitle = r.episodeTitle || `${epNum}. Bölüm`;
+                    const vUrl = r.videoUrl;
+                    if (wpCurrentRoom) {
+                        wpCurrentRoom.episodeNumber = epNum;
+                        wpCurrentRoom.episodeTitle = epTitle;
+                        wpCurrentRoom.videoUrl = vUrl;
+                    }
+                    document.getElementById('wpRoomEpisodeTitle').textContent = `${epNum}. Bölüm - ${epTitle}`;
+                    if (epSelect) epSelect.value = epNum;
+                    wpRenderActivePlayer(vUrl, room.animeTitle, epNum);
+                    if (data.message) wpAppendMessage(data.message);
                 } else if (data.type === 'chat') {
                     wpAppendMessage(data.message);
                 } else if (data.type === 'reaction') {
                     wpShowFloatingReaction(data.emoji);
                 } else if (data.type === 'user_joined' || data.type === 'user_left') {
                     if (data.participants) wpUpdateParticipantsCount(data.participants.length);
+                    if (data.message) wpAppendMessage(data.message);
                 }
             } catch (e) {}
         };
     } catch (wsErr) {}
 
-    // Host kontrollerini dinle
+    // HTML5 Video Oynatma Kontrolleri (Direct video için)
+    const videoEl = document.getElementById('wpVideo');
     if (videoEl) {
         videoEl.onplay = () => {
             if (wpApplyingRemoteState) return;
@@ -12173,7 +12571,7 @@ function wpEnterRoom(room, isHost) {
 
     // Host için her 3 saniyede bir senkronizasyon yayını
     wpHeartbeatTimer = setInterval(() => {
-        if (wpIsHost && videoEl) {
+        if (wpIsHost && videoEl && videoEl.style.display !== 'none') {
             wpSendVideoSync('heartbeat', videoEl.currentTime, !videoEl.paused);
         }
     }, 3000);
@@ -12182,17 +12580,21 @@ function wpEnterRoom(room, isHost) {
 function wpSendVideoSync(action, position, isPlaying) {
     const payload = { action, position, isPlaying };
     if (wpSbChannel) {
-        wpSbChannel.send({
-            type: 'broadcast',
-            event: 'video_sync',
-            payload
-        });
+        try {
+            wpSbChannel.send({
+                type: 'broadcast',
+                event: 'video_sync',
+                payload
+            });
+        } catch (e) {}
     }
     if (wpSocket && wpSocket.readyState === WebSocket.OPEN) {
-        wpSocket.send(JSON.stringify({
-            type: 'video_sync',
-            ...payload
-        }));
+        try {
+            wpSocket.send(JSON.stringify({
+                type: 'video_sync',
+                ...payload
+            }));
+        } catch (e) {}
     }
 }
 
@@ -12211,7 +12613,7 @@ function wpAppendMessage(msg) {
         div.textContent = msg.text;
     } else {
         div.className = 'wp-chat-msg';
-        const isHost = msg.user && msg.user.isHost;
+        const isHost = Boolean(msg.user && msg.user.isHost);
         const authorName = msg.user ? msg.user.name : (msg.sender || 'İzleyici');
         div.innerHTML = `
             <span class="wp-chat-author ${isHost ? 'host' : ''}">${escapeHtml(authorName)}${isHost ? ' 👑' : ''}:</span>
@@ -12248,18 +12650,22 @@ function wpSendChatMessage() {
     wpAppendMessage(msgObj);
 
     if (wpSbChannel) {
-        wpSbChannel.send({
-            type: 'broadcast',
-            event: 'chat',
-            payload: msgObj
-        });
+        try {
+            wpSbChannel.send({
+                type: 'broadcast',
+                event: 'chat',
+                payload: msgObj
+            });
+        } catch (e) {}
     }
 
     if (wpSocket && wpSocket.readyState === WebSocket.OPEN) {
-        wpSocket.send(JSON.stringify({
-            type: 'chat',
-            text
-        }));
+        try {
+            wpSocket.send(JSON.stringify({
+                type: 'chat',
+                text
+            }));
+        } catch (e) {}
     }
 }
 
@@ -12271,18 +12677,22 @@ document.querySelectorAll('.wp-reaction-btn').forEach(btn => {
         wpShowFloatingReaction(emoji);
 
         if (wpSbChannel) {
-            wpSbChannel.send({
-                type: 'broadcast',
-                event: 'reaction',
-                payload: { emoji }
-            });
+            try {
+                wpSbChannel.send({
+                    type: 'broadcast',
+                    event: 'reaction',
+                    payload: { emoji }
+                });
+            } catch (e) {}
         }
 
         if (wpSocket && wpSocket.readyState === WebSocket.OPEN) {
-            wpSocket.send(JSON.stringify({
-                type: 'reaction',
-                emoji
-            }));
+            try {
+                wpSocket.send(JSON.stringify({
+                    type: 'reaction',
+                    emoji
+                }));
+            } catch (e) {}
         }
     });
 });
@@ -12293,9 +12703,15 @@ document.getElementById('wpSyncBtn')?.addEventListener('click', async () => {
     const btn = document.getElementById('wpSyncBtn');
     if (btn) btn.textContent = 'Eşitleniyor...';
 
-    if (wpIsHost) {
-        const videoEl = document.getElementById('wpVideo');
-        if (videoEl) wpSendVideoSync('heartbeat', videoEl.currentTime, !videoEl.paused);
+    const iframeEl = document.getElementById('wpIframe');
+    const videoEl = document.getElementById('wpVideo');
+
+    if (iframeEl && iframeEl.style.display !== 'none' && iframeEl.src) {
+        const currentSrc = iframeEl.src;
+        iframeEl.src = '';
+        setTimeout(() => { iframeEl.src = currentSrc; }, 100);
+    } else if (wpIsHost && videoEl) {
+        wpSendVideoSync('heartbeat', videoEl.currentTime, !videoEl.paused);
     }
 
     if (btn) {
@@ -12344,6 +12760,10 @@ document.getElementById('wpLeaveRoomBtn')?.addEventListener('click', () => {
     if (videoEl) {
         videoEl.pause();
         videoEl.src = '';
+    }
+    const iframeEl = document.getElementById('wpIframe');
+    if (iframeEl) {
+        iframeEl.src = '';
     }
 
     initWatchPartyLobby();
