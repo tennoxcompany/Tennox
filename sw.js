@@ -1,9 +1,9 @@
-const CACHE_NAME = 'tennox-cache-v1';
+const CACHE_NAME = 'tennox-cache-v2';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/favicon.png',
-  '/manifest.json'
+  './',
+  './index.html',
+  './favicon.png',
+  './manifest.json'
 ];
 
 self.addEventListener('install', (event) => {
@@ -31,7 +31,6 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only cache GET requests and non-API/non-embed requests
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (url.pathname.startsWith('/api/') || url.hostname.includes('supabase') || url.hostname.includes('vidsrc') || url.hostname.includes('autoembed')) {
