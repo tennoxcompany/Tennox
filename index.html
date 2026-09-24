@@ -7874,7 +7874,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     // Sunucu eşleme için AniList veya Dizi Kimliği yakalama
     let aId = null;
     let eNum = episodeNumber || 1;
-    const aniUrlMatch = parsedSource.url.match(/anilist=(\d+)/i) || parsedSource.url.match(/\/anime\/(\d+)/i) || parsedSource.url.match(/\/embed\/(\d+)/i);
+    const aniUrlMatch = parsedSource.url.match(/anilist=(\d+)/i) || parsedSource.url.match(/\/anime\/(\d+)/i);
     if (aniUrlMatch) {
         aId = aniUrlMatch[1];
     }
@@ -7926,6 +7926,21 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         "conan": 235
     };
 
+    // AniList ID'yi öncelikle anime başlığından tespit et
+    let aniId = null;
+    if (anime && anime.title) {
+        const lowerTitle = anime.title.toLowerCase();
+        for (const [kw, anilistId] of Object.entries(TITLE_TO_ANILIST_MAP)) {
+            if (lowerTitle.includes(kw)) {
+                aniId = String(anilistId);
+                break;
+            }
+        }
+    }
+    if (!aniId && aId) {
+        aniId = aId;
+    }
+
     // Bilinen AniList -> TMDB TV Dizisi Kimlikleri Eşleme Tablosu
     const ANILIST_TO_TMDB_MAP = {
         "21": 37854,      // ONE PIECE
@@ -7974,17 +7989,6 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         "school babysitters": 76124
     };
 
-    let aniId = aId;
-    if (!aniId && anime && anime.title) {
-        const lowerTitle = anime.title.toLowerCase();
-        for (const [kw, anilistId] of Object.entries(TITLE_TO_ANILIST_MAP)) {
-            if (lowerTitle.includes(kw)) {
-                aniId = String(anilistId);
-                break;
-            }
-        }
-    }
-
     let tmdbId = aniId && ANILIST_TO_TMDB_MAP[aniId] ? ANILIST_TO_TMDB_MAP[aniId] : null;
     if (!tmdbId && anime && anime.title) {
         const lowerTitle = anime.title.toLowerCase();
@@ -7996,9 +8000,9 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         }
     }
 
-    // Doğrulanmış ve çalışan çoklu anime yayın sunucuları (Orijinal Japonca Ses Öncelikli)
+    // Doğrulanmış ve çalışan çoklu anime yayın sunucuları (%100 Orijinal Japonca Ses)
     let embedServers = [];
-    let initialEmbedUrl = parsedSource.url;
+    let initialEmbedUrl = '';
 
     if (parsedSource.isEmbed) {
         // 1. Orijinal Japonca Sesli Özel Anime Sunucuları (Yalnızca Japonca SUB)
@@ -8011,16 +8015,16 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
                 },
                 {
-                    id: 'srv-vidsrcto-ani',
-                    name: '🇯🇵 Sunucu 2 (VidSrc TO Japonca)',
+                    id: 'srv-videasy-ani',
+                    name: '🇯🇵 Sunucu 2 (Videasy Anime HD)',
                     badge: 'Japonca HD',
-                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
+                    url: `https://player.videasy.to/anime/${aniId}/${eNum}?sub=1`
                 },
                 {
-                    id: 'srv-videasy-ani',
-                    name: '🇯🇵 Sunucu 3 (Videasy Anime HD)',
+                    id: 'srv-vidsrcto-ani',
+                    name: '🇯🇵 Sunucu 3 (VidSrc TO Japonca)',
                     badge: 'Japonca',
-                    url: `https://player.videasy.to/anime/${aniId}/${eNum}`
+                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrcsh-ani',
@@ -8054,18 +8058,13 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     name: '🇯🇵 Sunucu 2 (Videasy HD)',
                     badge: 'Japonca',
                     url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-autoembed-sub',
-                    name: '🇯🇵 Sunucu 3 (AutoEmbed)',
-                    badge: 'Japonca',
-                    url: `https://autoembed.co/tv/tmdb/${tmdbId}-${seasonNumber}-${eNum}`
                 }
             );
         }
 
-        // Eğer veritabanındaki orijinal bağlantı özel bir kaynak ise (Google Drive, MP4, Fansub vb.), en başa ekle
-        if (parsedSource.url && !parsedSource.url.includes('vidsrc.me/embed/anime') && !parsedSource.url.includes('player.videasy.to/anime') && !parsedSource.url.includes('autoembed.co/tv/tmdb')) {
+        // Eğer kullanıcı özel kendi direct mp4/m3u8 veya Google Drive dosyasını yüklemişse başa ekle
+        const isCustomDirectFile = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(parsedSource.url) || parsedSource.url.includes('drive.google.com');
+        if (isCustomDirectFile) {
             embedServers.unshift({
                 id: 'srv-orig',
                 name: '💎 Özel Video / Fansub',
@@ -8076,6 +8075,8 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
 
         if (embedServers.length > 0) {
             initialEmbedUrl = embedServers[0].url;
+        } else {
+            initialEmbedUrl = parsedSource.url;
         }
     }
 
