@@ -7883,6 +7883,49 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         eNum = epUrlMatch[1];
     }
 
+    // Bilinen Anime Başlıkları -> AniList ID Haritası (Orijinal Japonca Ses Kaynakları İçin)
+    const TITLE_TO_ANILIST_MAP = {
+        "one piece": 21,
+        "high school dxd": 11617,
+        "dxd": 11617,
+        "naruto shippuuden": 1735,
+        "naruto: shippuuden": 1735,
+        "naruto": 20,
+        "bleach: thousand": 145064,
+        "bleach": 269,
+        "jujutsu kaisen": 113415,
+        "jujutsu": 113415,
+        "chainsaw": 127230,
+        "demon slayer": 101922,
+        "kimetsu": 101922,
+        "attack on titan": 16498,
+        "shingeki": 16498,
+        "death note": 1535,
+        "solo leveling": 151807,
+        "blue lock": 137822,
+        "frieren": 154587,
+        "sousou no frieren": 154587,
+        "mushoku": 108465,
+        "jobless reincarnation": 108465,
+        "dragon ball z": 813,
+        "dragon ball super": 21175,
+        "dragon ball": 223,
+        "hunter x hunter": 11061,
+        "hunter": 11061,
+        "black clover": 97940,
+        "black bullet": 20458,
+        "redo of healer": 113851,
+        "monster": 19,
+        "vinland": 101348,
+        "school babysitters": 98503,
+        "my hero academia": 21459,
+        "boku no hero": 21459,
+        "tokyo ghoul": 20605,
+        "dr. stone": 105333,
+        "spy x family": 140960,
+        "conan": 235
+    };
+
     // Bilinen AniList -> TMDB TV Dizisi Kimlikleri Eşleme Tablosu
     const ANILIST_TO_TMDB_MAP = {
         "21": 37854,      // ONE PIECE
@@ -7896,12 +7939,14 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         "20458": 60834,   // Black Bullet
         "113851": 99071,  // Redo of Healer
         "20": 46260,      // Naruto
+        "1735": 46261,    // Naruto Shippuden
         "269": 30984,     // Bleach
         "19": 30981,      // Monster
         "101348": 88803,  // Vinland Saga
         "151807": 127532, // Solo Leveling
         "137822": 131041, // BLUE LOCK
-        "108465": 94664   // Mushoku Tensei: Jobless Reincarnation
+        "108465": 94664,  // Mushoku Tensei: Jobless Reincarnation
+        "154587": 209867  // Frieren
     };
 
     // Başlığa göre TMDB eşleme (AniList ID bulunamazsa)
@@ -7920,14 +7965,27 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         "attack on titan": 1429,
         "death note": 13916,
         "high school dxd": 45950,
+        "dxd": 45950,
         "black bullet": 60834,
         "redo of healer": 99071,
         "naruto": 46260,
         "bleach": 30984,
+        "frieren": 209867,
         "school babysitters": 76124
     };
 
-    let tmdbId = aId && ANILIST_TO_TMDB_MAP[aId] ? ANILIST_TO_TMDB_MAP[aId] : null;
+    let aniId = aId;
+    if (!aniId && anime && anime.title) {
+        const lowerTitle = anime.title.toLowerCase();
+        for (const [kw, anilistId] of Object.entries(TITLE_TO_ANILIST_MAP)) {
+            if (lowerTitle.includes(kw)) {
+                aniId = String(anilistId);
+                break;
+            }
+        }
+    }
+
+    let tmdbId = aniId && ANILIST_TO_TMDB_MAP[aniId] ? ANILIST_TO_TMDB_MAP[aniId] : null;
     if (!tmdbId && anime && anime.title) {
         const lowerTitle = anime.title.toLowerCase();
         for (const [kw, tId] of Object.entries(TITLE_TO_TMDB_MAP)) {
@@ -7938,86 +7996,70 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         }
     }
 
-    // Doğrulanmış ve çalışan çoklu anime yayın sunucuları
+    // Doğrulanmış ve çalışan çoklu anime yayın sunucuları (Orijinal Japonca Ses Öncelikli)
     let embedServers = [];
     let initialEmbedUrl = parsedSource.url;
 
     if (parsedSource.isEmbed) {
-        // TMDB ID varsa en kararlı ve hızlı sunucu listesini oluştur
-        if (tmdbId) {
+        // 1. Orijinal Japonca Sesli Özel Anime Sunucuları (Öncelikli)
+        if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-autoembed',
-                    name: '⚡ Sunucu 1 (AutoEmbed HD)',
-                    badge: 'Hızlı Başlatma',
-                    url: `https://autoembed.co/tv/tmdb/${tmdbId}-${seasonNumber}-${eNum}`
+                    id: 'srv-vidsrcto-ani',
+                    name: '🇯🇵 Sunucu 1 (Orijinal Japonca HD)',
+                    badge: 'Japonca Ses',
+                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
                 },
-                {
-                    id: 'srv-vidsrcto',
-                    name: '⚡ Sunucu 2 (VidSrc TO)',
-                    badge: 'Kesintisiz',
-                    url: `https://vidsrc.to/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcpm',
-                    name: '⚡ Sunucu 3 (VidSrc PM)',
-                    badge: 'Popüler',
-                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcsh',
-                    name: '⚡ Sunucu 4 (VidSrc SH)',
-                    badge: 'Stabil',
-                    url: `https://vidsrc.sh/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                },
-                {
-                    id: 'srv-videasy-tv',
-                    name: '⚡ Sunucu 5 (Videasy TV)',
-                    badge: 'Full HD',
-                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcme',
-                    name: '⚡ Sunucu 6 (VidSrc Global)',
-                    badge: 'Global',
-                    url: `https://vidsrc.me/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                }
-            );
-        } else if (aId) {
-            // Sadece AniList ID varsa çalışan anime sunucuları
-            embedServers.push(
                 {
                     id: 'srv-vidsrcpm-ani',
-                    name: '⚡ Sunucu 1 (VidSrc PM)',
-                    badge: 'Hızlı',
-                    url: `https://vidsrc.pm/embed/anime?anilist=${aId}&episode=${eNum}`
+                    name: '🇯🇵 Sunucu 2 (Japonca / VidSrc)',
+                    badge: 'Altyazılı',
+                    url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
                 },
                 {
-                    id: 'srv-vidsrcsh-ani',
-                    name: '⚡ Sunucu 2 (VidSrc SH)',
-                    badge: 'Stabil',
-                    url: `https://vidsrc.sh/embed/anime?anilist=${aId}&episode=${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcme-ani',
-                    name: '⚡ Sunucu 3 (VidSrc Global)',
-                    badge: 'Global',
-                    url: `https://vidsrc.me/embed/anime?anilist=${aId}&episode=${eNum}`
+                    id: 'srv-videasy-ani',
+                    name: '🇯🇵 Sunucu 3 (Videasy Anime HD)',
+                    badge: 'Japonca',
+                    url: `https://player.videasy.to/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-2embed-ani',
-                    name: '⚡ Sunucu 4 (2Embed Ayna)',
+                    name: '🇯🇵 Sunucu 4 (2Embed Japonca)',
                     badge: 'Alternatif',
-                    url: `https://www.2embed.cc/embed/anime/${aId}/${eNum}`
+                    url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcsh-ani',
+                    name: '🇯🇵 Sunucu 5 (VidSrc SH Japonca)',
+                    badge: 'Stabil',
+                    url: `https://vidsrc.sh/embed/anime?anilist=${aniId}&episode=${eNum}`
                 }
             );
         }
 
-        // Eğer veritabanındaki orijinal bağlantı özel bir kaynak ise (Google Drive, YouTube vb.), sunucu listesine ekle
-        if (parsedSource.url && !parsedSource.url.includes('vidsrc.me/embed/anime') && !parsedSource.url.includes('player.videasy.to/anime')) {
+        // 2. TMDB Tabanlı Alternatif ve Çoklu Dil Sunucuları
+        if (tmdbId) {
+            embedServers.push(
+                {
+                    id: 'srv-autoembed',
+                    name: '⚡ Sunucu 6 (AutoEmbed Çoklu Dil)',
+                    badge: 'Hızlı',
+                    url: `https://autoembed.co/tv/tmdb/${tmdbId}-${seasonNumber}-${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcto-tv',
+                    name: '🇺🇸 Sunucu 7 (İngilizce Dublaj)',
+                    badge: 'Dublaj',
+                    url: `https://vidsrc.to/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                }
+            );
+        }
+
+        // Eğer veritabanındaki orijinal bağlantı özel bir kaynak ise (Google Drive, MP4, Fansub vb.), en başa ekle
+        if (parsedSource.url && !parsedSource.url.includes('vidsrc.me/embed/anime') && !parsedSource.url.includes('player.videasy.to/anime') && !parsedSource.url.includes('autoembed.co/tv/tmdb')) {
             embedServers.unshift({
                 id: 'srv-orig',
-                name: '💎 Orijinal Kaynak',
+                name: '💎 Özel Video / Fansub',
                 badge: 'Özel',
                 url: parsedSource.url
             });
@@ -11859,8 +11901,50 @@ function wpShowFloatingReaction(emoji) {
     }, 1800);
 }
 
-// TMDB ID ve Çoklu Sunucu Üreticisi
+// TMDB / AniList ID ve Çoklu Sunucu Üreticisi (Orijinal Japonca Ses Öncelikli)
 function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '') {
+    const TITLE_TO_ANILIST = {
+        "one piece": 21,
+        "high school dxd": 11617,
+        "dxd": 11617,
+        "naruto shippuuden": 1735,
+        "naruto: shippuuden": 1735,
+        "naruto": 20,
+        "bleach: thousand": 145064,
+        "bleach": 269,
+        "jujutsu kaisen": 113415,
+        "jujutsu": 113415,
+        "chainsaw": 127230,
+        "demon slayer": 101922,
+        "kimetsu": 101922,
+        "attack on titan": 16498,
+        "shingeki": 16498,
+        "death note": 1535,
+        "solo leveling": 151807,
+        "blue lock": 137822,
+        "frieren": 154587,
+        "sousou no frieren": 154587,
+        "mushoku": 108465,
+        "jobless reincarnation": 108465,
+        "dragon ball z": 813,
+        "dragon ball super": 21175,
+        "dragon ball": 223,
+        "hunter x hunter": 11061,
+        "hunter": 11061,
+        "black clover": 97940,
+        "black bullet": 20458,
+        "redo of healer": 113851,
+        "monster": 19,
+        "vinland": 101348,
+        "school babysitters": 98503,
+        "my hero academia": 21459,
+        "boku no hero": 21459,
+        "tokyo ghoul": 20605,
+        "dr. stone": 105333,
+        "spy x family": 140960,
+        "conan": 235
+    };
+
     const TITLE_TO_TMDB = {
         "one piece": 37854,
         "mushoku": 94664,
@@ -11876,6 +11960,7 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
         "shingeki": 1429,
         "death note": 13916,
         "high school dxd": 45950,
+        "dxd": 45950,
         "naruto": 46260,
         "bleach": 30984,
         "frieren": 209867,
@@ -11887,9 +11972,16 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
         "black clover": 73223
     };
 
+    let aniId = null;
     let tmdbId = null;
     if (animeTitle) {
         const lower = animeTitle.toLowerCase();
+        for (const [kw, aId] of Object.entries(TITLE_TO_ANILIST)) {
+            if (lower.includes(kw)) {
+                aniId = aId;
+                break;
+            }
+        }
         for (const [kw, tId] of Object.entries(TITLE_TO_TMDB)) {
             if (lower.includes(kw)) {
                 tmdbId = tId;
@@ -11900,7 +11992,7 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
     if (!tmdbId) tmdbId = 37854; // Güvenli varsayılan
 
     const servers = [];
-    if (customVideoUrl && (/\.(mp4|m3u8|webm|ogv)/i.test(customVideoUrl) || !customVideoUrl.includes('autoembed'))) {
+    if (customVideoUrl && (/\.(mp4|m3u8|webm|ogv)/i.test(customVideoUrl) || (!customVideoUrl.includes('autoembed') && !customVideoUrl.includes('vidsrc')))) {
         servers.push({
             id: 'custom',
             name: '⚡ Özel Video / Fansub',
@@ -11909,35 +12001,46 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
         });
     }
 
+    if (aniId) {
+        servers.push(
+            {
+                id: 'vidsrcto-ani',
+                name: '🇯🇵 Sunucu 1 (Orijinal Japonca HD)',
+                url: `https://vidsrc.to/embed/anime/${aniId}/${episodeNum}`,
+                isDirect: false
+            },
+            {
+                id: 'vidsrcpm-ani',
+                name: '🇯🇵 Sunucu 2 (Japonca / VidSrc)',
+                url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
+                isDirect: false
+            },
+            {
+                id: 'videasy-ani',
+                name: '🇯🇵 Sunucu 3 (Videasy Anime HD)',
+                url: `https://player.videasy.to/anime/${aniId}/${episodeNum}`,
+                isDirect: false
+            },
+            {
+                id: '2embed-ani',
+                name: '🇯🇵 Sunucu 4 (2Embed Japonca)',
+                url: `https://www.2embed.cc/embed/anime/${aniId}/${episodeNum}`,
+                isDirect: false
+            }
+        );
+    }
+
     servers.push(
         {
             id: 'autoembed',
-            name: '⚡ Sunucu 1 (AutoEmbed HD)',
+            name: '⚡ Sunucu 5 (AutoEmbed Çoklu Dil)',
             url: `https://autoembed.co/tv/tmdb/${tmdbId}-1-${episodeNum}`,
             isDirect: false
         },
         {
-            id: 'vidsrcto',
-            name: '⚡ Sunucu 2 (VidSrc TO)',
+            id: 'vidsrcto-tv',
+            name: '🇺🇸 Sunucu 6 (İngilizce Dublaj)',
             url: `https://vidsrc.to/embed/tv/${tmdbId}/1/${episodeNum}`,
-            isDirect: false
-        },
-        {
-            id: 'vidsrcpm',
-            name: '⚡ Sunucu 3 (VidSrc PM)',
-            url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=1&episode=${episodeNum}`,
-            isDirect: false
-        },
-        {
-            id: 'videasy',
-            name: '⚡ Sunucu 4 (Videasy TV)',
-            url: `https://player.videasy.to/tv/${tmdbId}/1/${episodeNum}`,
-            isDirect: false
-        },
-        {
-            id: 'vidsrcsh',
-            name: '⚡ Sunucu 5 (VidSrc SH)',
-            url: `https://vidsrc.sh/embed/tv?tmdb=${tmdbId}&season=1&episode=${episodeNum}`,
             isDirect: false
         }
     );
