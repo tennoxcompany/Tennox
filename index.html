@@ -7326,11 +7326,14 @@ function parseVideoSource(rawUrl) {
         return { isEmbed: true, url: `https://www.dailymotion.com/embed/video/${dmMatch[1]}?autoplay=1` };
     }
 
-    // Bilinen anime video sunucuları ve embed oynatıcılar (Vidmoly, Doodstream, Streamwish, Filemoon, Sibnet, Ok.ru, VidSrc, MultiEmbed vb.)
-    const isEmbedDomain = /vidmoly|dood|streamwish|filemoon|sibnet|ok\.ru|mega\.nz\/embed|vidspeeds|streamtape|play|vidsrc|multiembed|2embed|embed/i.test(clean) || clean.includes('/embed') || clean.includes('embed=') || clean.includes('anilist=');
+    // Doğrudan video dosyası mı (.mp4, .m3u8, .webm, .ogv)?
     const isDirectExt = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(clean);
+    if (isDirectExt) {
+        return { isEmbed: false, url: clean };
+    }
 
-    if (isEmbedDomain && !isDirectExt) {
+    // Başında http/https olan ve doğrudan dosya uzantısı olmayan tüm bağlantılar gömülü web oynatıcısıdır
+    if (/^https?:\/\//i.test(clean)) {
         return { isEmbed: true, url: clean };
     }
 
@@ -7348,11 +7351,20 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     const fullEpisodeTitle = `${anime.title} ${seasonNumber}. Sezon ${episodeNumber}. Bölüm`;
     const parsedSource = parseVideoSource(videoUrl);
 
-    const aniMatch = parsedSource.url.match(/anilist=(\d+)&episode=(\d+)/i);
+    // Sunucu eşleme için AniList veya Dizi Kimliği yakalama
+    let aId = null;
+    let eNum = episodeNumber;
+    const aniUrlMatch = parsedSource.url.match(/anilist=(\d+)/i) || parsedSource.url.match(/\/anime\/(\d+)/i) || parsedSource.url.match(/\/embed\/(\d+)/i);
+    if (aniUrlMatch) {
+        aId = aniUrlMatch[1];
+    }
+    const epUrlMatch = parsedSource.url.match(/episode=(\d+)/i) || parsedSource.url.match(/\/(\d+)$/);
+    if (epUrlMatch) {
+        eNum = epUrlMatch[1];
+    }
+
     let serverSwitchHtml = '';
-    if (parsedSource.isEmbed && aniMatch) {
-        const aId = aniMatch[1];
-        const eNum = aniMatch[2];
+    if (parsedSource.isEmbed && aId) {
         serverSwitchHtml = `
             <div class="acx-servers-bar" style="display:flex;align-items:center;gap:6px;margin-right:8px;">
                 <button class="acx-server-btn active" data-url="https://vidsrc.me/embed/anime?anilist=${aId}&episode=${eNum}" style="background:rgba(229,9,20,0.85);border:1px solid #e50914;color:#fff;font-size:0.74rem;padding:4px 8px;border-radius:6px;cursor:pointer;font-weight:700;">⚡ Sunucu 1</button>
@@ -7389,13 +7401,12 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                             src="${escapeHtml(parsedSource.url)}" 
                             style="width:100%;height:100%;border:none;background:#000;" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-                            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" 
                             allowfullscreen></iframe>
 
                     <!-- AI Studio Sandbox Helper Notice -->
                     <div id="acxSandboxNotice" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(11,13,20,0.92);border:1px solid rgba(56,189,248,0.35);backdrop-filter:blur(10px);border-radius:10px;padding:8px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;z-index:20;max-width:92%;box-shadow:0 10px 30px rgba(0,0,0,0.8);font-size:0.77rem;color:#e2e8f0;">
                         <span style="font-size:1rem;">💡</span>
-                        <span>Önizlemede sandbox engeli olursa doğrudan izleyin:</span>
+                        <span>Oynatıcı engellenirse doğrudan izleyin:</span>
                         <a id="acxNoticeExtLink" href="${escapeHtml(parsedSource.url)}" target="_blank" rel="noopener noreferrer" style="background:#e50914;color:#fff;padding:4px 10px;border-radius:6px;font-weight:700;text-decoration:none;font-size:0.74rem;">▶ Yeni Sekmede Oynat ↗</a>
                         <a href="https://ais-pre-33n3cfuqkk7lhy3ajzql3o-534159098630.europe-west2.run.app" target="_blank" rel="noopener noreferrer" style="background:rgba(255,255,255,0.1);color:#38bdf8;padding:4px 10px;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.74rem;">🌐 Bağımsız Sitede Aç</a>
                         <button type="button" onclick="document.getElementById('acxSandboxNotice').style.display='none'" style="background:transparent;border:none;color:#94a3b8;cursor:pointer;font-size:0.9rem;padding:0 4px;" title="Kapat">✕</button>
@@ -7540,6 +7551,31 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     const settingsPopup = document.getElementById('acxSettingsPopup');
     const drawer = document.getElementById('acxDrawer');
 
+    // Video doğrudan oynatılamazsa veya hata verirse otomatik iframe'e çevirme
+    const switchToIframeFallback = (urlToUse) => {
+        const stageEl = document.getElementById('acxStage');
+        if (!stageEl) return;
+        const targetUrl = urlToUse || parsedSource.url;
+        stageEl.innerHTML = `
+            <iframe id="acxIframePlayer" 
+                    src="${escapeHtml(targetUrl)}" 
+                    style="width:100%;height:100%;border:none;background:#000;" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                    allowfullscreen></iframe>
+        `;
+        const bBar = document.getElementById('acxBottomBar');
+        if (bBar) bBar.style.display = 'none';
+        const cCtrls = document.getElementById('acxCenterControls');
+        if (cCtrls) cCtrls.style.display = 'none';
+    };
+
+    if (video) {
+        video.addEventListener('error', (e) => {
+            console.warn('Video yükleme hatası, alternatif web oynatıcısına yönlendiriliyor...', e);
+            switchToIframeFallback();
+        });
+    }
+
     // Bölümlere Dön Butonu
     document.getElementById('acxPlayerBackBtn')?.addEventListener('click', () => {
         if (video) video.pause();
@@ -7578,9 +7614,16 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     const togglePlay = () => {
         if (!video) return;
         if (video.paused) {
-            video.play();
-            if (centerPlayIcon) centerPlayIcon.textContent = '⏸';
-            if (bottomPlayIcon) bottomPlayIcon.textContent = '⏸';
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    if (centerPlayIcon) centerPlayIcon.textContent = '⏸';
+                    if (bottomPlayIcon) bottomPlayIcon.textContent = '⏸';
+                }).catch(err => {
+                    console.warn('Video oynatma başlatılamadı, alternatif oynatıcı açılıyor:', err);
+                    switchToIframeFallback();
+                });
+            }
         } else {
             video.pause();
             if (centerPlayIcon) centerPlayIcon.textContent = '▶';
