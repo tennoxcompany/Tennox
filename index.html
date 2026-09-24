@@ -7363,45 +7363,147 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         eNum = epUrlMatch[1];
     }
 
+    // Bilinen AniList -> TMDB TV Dizisi Kimlikleri Eşleme Tablosu
+    const ANILIST_TO_TMDB_MAP = {
+        "98503": 76124,   // School Babysitters
+        "113415": 95479,  // JUJUTSU KAISEN
+        "127230": 114410, // Chainsaw Man
+        "101922": 85937,  // Demon Slayer: Kimetsu no Yaiba
+        "16498": 1429,    // Attack on Titan
+        "1535": 13916,    // Death Note
+        "11617": 45950,   // High School DxD
+        "20458": 60834,   // Black Bullet
+        "113851": 99071,  // Redo of Healer
+        "20": 46260,      // Naruto
+        "269": 30984,     // Bleach
+        "19": 30981,      // Monster
+        "101348": 88803,  // Vinland Saga
+        "151807": 127532, // Solo Leveling
+        "137822": 131041, // BLUE LOCK
+        "108465": 94664   // Mushoku Tensei: Jobless Reincarnation
+    };
+
+    // Başlığa göre TMDB eşleme (AniList ID bulunamazsa)
+    const TITLE_TO_TMDB_MAP = {
+        "mushoku": 94664,
+        "jobless reincarnation": 94664,
+        "solo leveling": 127532,
+        "blue lock": 131041,
+        "vinland": 88803,
+        "monster": 30981,
+        "jujutsu": 95479,
+        "chainsaw": 114410,
+        "demon slayer": 85937,
+        "kimetsu": 85937,
+        "attack on titan": 1429,
+        "death note": 13916,
+        "high school dxd": 45950,
+        "black bullet": 60834,
+        "redo of healer": 99071,
+        "naruto": 46260,
+        "bleach": 30984,
+        "school babysitters": 76124
+    };
+
+    let tmdbId = aId && ANILIST_TO_TMDB_MAP[aId] ? ANILIST_TO_TMDB_MAP[aId] : null;
+    if (!tmdbId && anime && anime.title) {
+        const lowerTitle = anime.title.toLowerCase();
+        for (const [kw, tId] of Object.entries(TITLE_TO_TMDB_MAP)) {
+            if (lowerTitle.includes(kw)) {
+                tmdbId = tId;
+                break;
+            }
+        }
+    }
+
     // Doğrulanmış ve çalışan çoklu anime yayın sunucuları
     let embedServers = [];
     let initialEmbedUrl = parsedSource.url;
 
-    if (parsedSource.isEmbed && aId) {
-        embedServers = [
-            {
-                id: 'srv-videasy',
-                name: '⚡ Sunucu 1 (Videasy)',
-                badge: 'HD / Hızlı',
-                url: `https://player.videasy.to/anime/${aId}/${eNum}`
-            },
-            {
-                id: 'srv-vidsrcpm',
-                name: '⚡ Sunucu 2 (VidSrc PM)',
-                badge: 'Popüler',
-                url: `https://vidsrc.pm/embed/anime?anilist=${aId}&episode=${eNum}`
-            },
-            {
-                id: 'srv-vidsrcsh',
-                name: '⚡ Sunucu 3 (VidSrc SH)',
-                badge: 'Stabil',
-                url: `https://vidsrc.sh/embed/anime?anilist=${aId}&episode=${eNum}`
-            },
-            {
-                id: 'srv-videasy2',
-                name: '⚡ Sunucu 4 (Alternatif)',
-                badge: 'Ayna',
-                url: `https://player.videasy.net/anime/${aId}/${eNum}`
-            },
-            {
-                id: 'srv-vidsrcme',
-                name: '⚡ Sunucu 5 (VidSrc Global)',
-                badge: 'Global',
-                url: `https://vidsrc.me/embed/anime?anilist=${aId}&episode=${eNum}`
-            }
-        ];
-        // vidsrc.me 301 yönlendirmesi veya ISP engeli yerine başlangıçta en hızlı ve kesintisiz sunucuyu seç
-        initialEmbedUrl = embedServers[0].url;
+    if (parsedSource.isEmbed) {
+        // TMDB ID varsa en kararlı ve hızlı sunucu listesini oluştur
+        if (tmdbId) {
+            embedServers.push(
+                {
+                    id: 'srv-autoembed',
+                    name: '⚡ Sunucu 1 (AutoEmbed HD)',
+                    badge: 'Hızlı Başlatma',
+                    url: `https://autoembed.co/tv/tmdb/${tmdbId}-${seasonNumber}-${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcto',
+                    name: '⚡ Sunucu 2 (VidSrc TO)',
+                    badge: 'Kesintisiz',
+                    url: `https://vidsrc.to/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcpm',
+                    name: '⚡ Sunucu 3 (VidSrc PM)',
+                    badge: 'Popüler',
+                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcsh',
+                    name: '⚡ Sunucu 4 (VidSrc SH)',
+                    badge: 'Stabil',
+                    url: `https://vidsrc.sh/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-videasy-tv',
+                    name: '⚡ Sunucu 5 (Videasy TV)',
+                    badge: 'Full HD',
+                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcme',
+                    name: '⚡ Sunucu 6 (VidSrc Global)',
+                    badge: 'Global',
+                    url: `https://vidsrc.me/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                }
+            );
+        } else if (aId) {
+            // Sadece AniList ID varsa çalışan anime sunucuları
+            embedServers.push(
+                {
+                    id: 'srv-vidsrcpm-ani',
+                    name: '⚡ Sunucu 1 (VidSrc PM)',
+                    badge: 'Hızlı',
+                    url: `https://vidsrc.pm/embed/anime?anilist=${aId}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcsh-ani',
+                    name: '⚡ Sunucu 2 (VidSrc SH)',
+                    badge: 'Stabil',
+                    url: `https://vidsrc.sh/embed/anime?anilist=${aId}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcme-ani',
+                    name: '⚡ Sunucu 3 (VidSrc Global)',
+                    badge: 'Global',
+                    url: `https://vidsrc.me/embed/anime?anilist=${aId}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-2embed-ani',
+                    name: '⚡ Sunucu 4 (2Embed Ayna)',
+                    badge: 'Alternatif',
+                    url: `https://www.2embed.cc/embed/anime/${aId}/${eNum}`
+                }
+            );
+        }
+
+        // Eğer veritabanındaki orijinal bağlantı özel bir kaynak ise (Google Drive, YouTube vb.), sunucu listesine ekle
+        if (parsedSource.url && !parsedSource.url.includes('vidsrc.me/embed/anime') && !parsedSource.url.includes('player.videasy.to/anime')) {
+            embedServers.unshift({
+                id: 'srv-orig',
+                name: '💎 Orijinal Kaynak',
+                badge: 'Özel',
+                url: parsedSource.url
+            });
+        }
+
+        if (embedServers.length > 0) {
+            initialEmbedUrl = embedServers[0].url;
+        }
     }
 
     modalContent.innerHTML = `
@@ -7423,11 +7525,19 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
             <!-- Sahne / Video Alanı -->
             <div class="acx-stage-container" id="acxStage" style="position:relative;">
                 ${parsedSource.isEmbed ? `
+                    <!-- Yükleme / Bağlantı Durum Katmanı -->
+                    <div id="acxPlayerLoadingSpinner" style="position:absolute;inset:0;background:#050508;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;pointer-events:none;transition:opacity 0.3s ease;">
+                        <div style="width:42px;height:42px;border:3px solid rgba(229,9,20,0.2);border-top:3px solid #e50914;border-radius:50%;animation:spin 0.75s linear infinite;margin-bottom:12px;"></div>
+                        <div style="font-size:0.86rem;color:#e2e8f0;font-weight:600;letter-spacing:0.3px;">Yayın Bağlantısı Kuruluyor...</div>
+                        <div style="font-size:0.73rem;color:#94a3b8;margin-top:4px;">Yüksek kaliteli akış yükleniyor, lütfen bekleyin</div>
+                    </div>
+
                     <iframe id="acxIframePlayer" 
                             src="${escapeHtml(initialEmbedUrl)}" 
-                            style="width:100%;height:100%;border:none;background:#000;" 
+                            style="width:100%;height:100%;border:none;background:#000;position:relative;z-index:2;" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
                             referrerpolicy="origin"
+                            onload="const sp=document.getElementById('acxPlayerLoadingSpinner');if(sp){sp.style.opacity='0';setTimeout(()=>{sp.style.display='none';},350);}"
                             allowfullscreen></iframe>
                 ` : `
                     <video id="acxVideoPlayer" src="${escapeHtml(parsedSource.url)}" playsinline preload="auto"></video>
@@ -7551,6 +7661,9 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                         `).join('')}
                     </div>
                     <div style="display:flex;align-items:center;gap:8px;">
+                        <button id="acxReloadPlayerBtn" title="Oynatıcıyı Yeniden Başlat" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;font-size:0.75rem;padding:6px 12px;border-radius:7px;cursor:pointer;font-weight:600;white-space:nowrap;transition:background 0.15s ease;">
+                            <span>🔄 Yenile</span>
+                        </button>
                         <a id="acxOpenExtLink" href="${escapeHtml(initialEmbedUrl)}" target="_blank" rel="noopener noreferrer" title="Yeni Sekmede Kesintisiz İzle" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg, #e50914, #f43f5e);color:#fff;font-size:0.75rem;padding:6px 14px;border-radius:7px;text-decoration:none;font-weight:700;box-shadow:0 2px 10px rgba(229,9,20,0.35);white-space:nowrap;">
                             <span>🚀 Yeni Sekmede Aç ↗</span>
                         </a>
@@ -7560,11 +7673,11 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 <div style="background:#08090d;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:#94a3b8;flex-wrap:wrap;gap:8px;">
                     <div style="display:flex;align-items:center;gap:6px;">
                         <span style="color:#eab308;">💡</span>
-                        <span>Video açılmazsa veya bağlantı kesilirse üstteki <b>Sunucu 2</b> veya <b>Sunucu 3</b>'ü seçiniz ya da <b>Yeni Sekmede Aç</b>'ı kullanınız.</span>
+                        <span>Video birkaç saniye içinde açılmazsa hemen yukarıdaki <b>Sunucu 2</b> veya <b>Sunucu 3</b>'ü seçiniz ya da <b>Yeni Sekmede Aç</b>'ı kullanınız.</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:6px;">
                         <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;"></span>
-                        <span style="color:#10b981;font-weight:600;">Doğrulanmış Sunucular</span>
+                        <span style="color:#10b981;font-weight:600;">Aktif & Doğrulanmış Sunucular</span>
                     </div>
                 </div>
             ` : ''}
@@ -7636,7 +7749,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         openAnimeModal(anime.id, `${seasonNumber}. Sezon`);
     });
 
-    // Embed Çoklu Sunucu Seçimi (Videasy / VidSrc PM / VidSrc SH / Alternatif)
+    // Embed Çoklu Sunucu Seçimi
     document.querySelectorAll('.acx-server-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.acx-server-btn').forEach(b => {
@@ -7651,6 +7764,11 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
             btn.style.color = '#fff';
             const targetUrl = btn.dataset.url;
             const iframe = document.getElementById('acxIframePlayer');
+            const spinner = document.getElementById('acxPlayerLoadingSpinner');
+            if (spinner) {
+                spinner.style.display = 'flex';
+                spinner.style.opacity = '1';
+            }
             if (iframe && targetUrl) {
                 iframe.src = targetUrl;
             }
@@ -7659,6 +7777,21 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 extLink.href = targetUrl;
             }
         });
+    });
+
+    // Oynatıcı Yenile Butonu
+    document.getElementById('acxReloadPlayerBtn')?.addEventListener('click', () => {
+        const iframe = document.getElementById('acxIframePlayer');
+        const spinner = document.getElementById('acxPlayerLoadingSpinner');
+        if (iframe) {
+            if (spinner) {
+                spinner.style.display = 'flex';
+                spinner.style.opacity = '1';
+            }
+            const curSrc = iframe.src;
+            iframe.src = 'about:blank';
+            setTimeout(() => { iframe.src = curSrc; }, 50);
+        }
     });
 
     // Oynat / Durdur Fonksiyonu
@@ -9449,7 +9582,7 @@ function renderAdminTab(tab) {
                                     continue;
                                 }
 
-                                const epUrl = `https://player.videasy.to/anime/${anilistId}/${ep}`;
+                                const epUrl = `https://vidsrc.me/embed/anime?anilist=${anilistId}&episode=${ep}`;
                                 const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
 
                                 const { error: epErr } = await sb.rpc('admin_add_episode', {
