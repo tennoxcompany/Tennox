@@ -8044,43 +8044,84 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         }
     }
 
+    // Bilinen IMDB Dizi Kimlikleri (Yedek & Hızlı Akış)
+    const TITLE_TO_IMDB_MAP = {
+        "high school dxd": "tt2190015",
+        "dxd": "tt2190015",
+        "one piece": "tt0388629",
+        "naruto": "tt0409591",
+        "death note": "tt0877057",
+        "demon slayer": "tt9335498",
+        "kimetsu": "tt9335498",
+        "attack on titan": "tt2560140",
+        "jujutsu": "tt12343534",
+        "chainsaw": "tt13616990",
+        "bleach": "tt0434665",
+        "solo leveling": "tt21209876",
+        "frieren": "tt22295058",
+        "monster": "tt0434706",
+        "black bullet": "tt3544604"
+    };
+
+    let imdbId = null;
+    if (anime && anime.title) {
+        const lowerTitle = anime.title.toLowerCase();
+        for (const [kw, iId] of Object.entries(TITLE_TO_IMDB_MAP)) {
+            if (lowerTitle.includes(kw)) {
+                imdbId = iId;
+                break;
+            }
+        }
+    }
+
     // Doğrulanmış ve çalışan çoklu anime yayın sunucuları (%100 Orijinal Japonca Ses)
     let embedServers = [];
     let initialEmbedUrl = '';
 
     if (parsedSource.isEmbed) {
-        // TMDB ID biliniyorsa doğrudan TV sunucularını kullan (404 vermez, kesintisiz çalışır)
-        if (tmdbId) {
+        // 1. IMDB veya TMDB ID biliniyorsa doğrudan en hızlı TV & Anime sunucuları
+        if (imdbId || tmdbId) {
+            const queryId = imdbId || tmdbId;
             embedServers.push(
                 {
-                    id: 'srv-smashy-tv',
+                    id: 'srv-smashy-main',
                     name: '🇯🇵 Sunucu 1 (Smashy Hızlı)',
                     badge: 'Kesintisiz',
-                    url: `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                    url: imdbId 
+                        ? `https://embed.smashystream.com/playere.php?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}`
+                        : `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
                 },
                 {
-                    id: 'srv-2embed-tv',
+                    id: 'srv-2embed-main',
                     name: '🇯🇵 Sunucu 2 (2Embed Orijinal)',
                     badge: 'Doğrudan',
-                    url: `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
+                    url: imdbId 
+                        ? `https://www.2embed.cc/embed/tv/${imdbId}&s=${seasonNumber}&e=${eNum}`
+                        : `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
+                },
+                {
+                    id: 'srv-vidsrccc-main',
+                    name: '🇯🇵 Sunucu 3 (VidSrc CC)',
+                    badge: 'Hızlı',
+                    url: tmdbId 
+                        ? `https://vidsrc.cc/v2/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                        : `https://vidsrc.cc/v2/embed/tv/${imdbId}/${seasonNumber}/${eNum}`
                 },
                 {
                     id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 3 (Videasy HD)',
+                    name: '🇯🇵 Sunucu 4 (Videasy HD)',
                     badge: 'HD',
-                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrccc-tv',
-                    name: '🇯🇵 Sunucu 4 (VidSrc CC)',
-                    badge: 'Hızlı',
-                    url: `https://vidsrc.cc/v2/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                    url: tmdbId 
+                        ? `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                        : `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrcpm-sub',
                     name: '🇯🇵 Sunucu 5 (VidSrc PM)',
                     badge: 'Popüler',
-                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                    url: tmdbId 
+                        ? `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                        : `https://vidsrc.pm/embed/tv?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}`
                 }
             );
         } else if (aniId) {
@@ -8304,11 +8345,13 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                         </a>
                     </div>
                 </div>
-                <!-- Sunucu Durum Bilgilendirmesi -->
-                <div style="background:#08090d;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:#94a3b8;flex-wrap:wrap;gap:8px;">
-                    <div style="display:flex;align-items:center;gap:6px;">
+                <!-- Sunucu Durum Bilgilendirmesi & Altyazı Rehberi -->
+                <div style="background:#08090d;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;color:#94a3b8;flex-wrap:wrap;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                         <span style="color:#ef4444;font-size:0.9rem;">🇯🇵</span>
-                        <span><strong>Orijinal Japonca Seslendirme (SUB)</strong> devrededir. Oynatıcı içi ses seçiminde <strong>SUB</strong> seçili olduğundan emin olunuz. Diğer Japonca alternatifler için yukarıdaki <strong>Sunucu 1, 2, 3</strong> butonlarını kullanabilirsiniz.</span>
+                        <span><strong>Orijinal Japonca Seslendirme</strong> devrededir.</span>
+                        <span style="color:rgba(255,255,255,0.2);">|</span>
+                        <span style="color:#e2e8f0;">💬 <strong>Altyazı İçin:</strong> Oynatıcının sağ altındaki <strong>[CC]</strong> veya <strong>[⚙️]</strong> simgesine basıp altyazıyı açabilirsiniz.</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:6px;">
                         <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;"></span>
