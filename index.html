@@ -8033,14 +8033,14 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-embedsu-ani',
-                    name: '🇯🇵 Sunucu 1 (EmbedSU Japonca RAW/SUB)',
-                    badge: 'Orijinal Japonca',
-                    url: `https://embed.su/embed/anime/${aniId}/${eNum}`
+                    id: 'srv-2embed-ani',
+                    name: '🇯🇵 Sunucu 1 (2Embed Orijinal Japonca)',
+                    badge: 'Orijinal Ses',
+                    url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrccc-ani',
-                    name: '🇯🇵 Sunucu 2 (VidSrc CC Japonca)',
+                    name: '🇯🇵 Sunucu 2 (VidSrc Anime SUB)',
                     badge: 'Japonca SUB',
                     url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}?sub=1`
                 },
@@ -8061,21 +8061,15 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     name: '🇯🇵 Sunucu 5 (VidSrc PM Japonca)',
                     badge: 'Japonca',
                     url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
-                },
-                {
-                    id: 'srv-2embed-ani',
-                    name: '🇯🇵 Sunucu 6 (2Embed Japonca)',
-                    badge: 'Alternatif',
-                    url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
                 }
             );
         } else if (tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-embedsu-sub',
-                    name: '🇯🇵 Sunucu 1 (EmbedSU)',
+                    id: 'srv-2embed-tv',
+                    name: '🇯🇵 Sunucu 1 (2Embed)',
                     badge: 'Japonca',
-                    url: `https://embed.su/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                    url: `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
                 },
                 {
                     id: 'srv-videasy-sub',
@@ -10411,7 +10405,7 @@ function renderAdminTab(tab) {
                                 for (let ep = startEp; ep <= endEp; ep++) {
                                     if (existingNums.has(ep)) continue;
 
-                                    const epUrl = `https://player.videasy.to/anime/${anilistId}/${ep}?audio=ja&sub=1`;
+                                    const epUrl = `https://www.2embed.cc/embed/anime/${anilistId}/${ep}`;
                                     const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
 
                                     batchPromises.push(
