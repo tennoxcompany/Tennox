@@ -7831,43 +7831,61 @@ function parseVideoSource(rawUrl) {
     // Sibnet (Türkçe Fansub En Yaygın Kaynak): https://video.sibnet.ru/video12345/ -> https://video.sibnet.ru/shell.php?videoid=12345
     const sibnetMatch = clean.match(/sibnet\.ru\/(?:video|shell\.php\?videoid=)(\d+)/);
     if (sibnetMatch) {
-        return { isEmbed: true, url: `https://video.sibnet.ru/shell.php?videoid=${sibnetMatch[1]}` };
+        return { isEmbed: true, url: `https://video.sibnet.ru/shell.php?videoid=${sibnetMatch[1]}`, provider: 'Sibnet' };
     }
 
     // Vidmoly (Türkçe Anime Oynatıcı): https://vidmoly.to/w/abc -> https://vidmoly.to/embed-abc.html
     const vidmolyMatch = clean.match(/vidmoly\.(?:to|me|net)\/(?:w\/|embed-)?([a-zA-Z0-9_-]+)(?:\.html)?/);
     if (vidmolyMatch) {
-        return { isEmbed: true, url: `https://vidmoly.to/embed-${vidmolyMatch[1]}.html` };
+        return { isEmbed: true, url: `https://vidmoly.to/embed-${vidmolyMatch[1]}.html`, provider: 'Vidmoly' };
     }
 
-    // OK.ru: https://ok.ru/video/12345 -> https://ok.ru/videoembed/12345
+    // Mail.ru Video (Türkçe Anime): https://my.mail.ru/mail/user/video/1/2.html -> embed
+    const mailruMatch = clean.match(/my\.mail\.ru\/video\/embed\/([0-9a-zA-Z_\/-]+)/) || clean.match(/mail\.ru\/[^\/]+\/[^\/]+\/video\/([0-9a-zA-Z_\/-]+)/);
+    if (mailruMatch) {
+        return { isEmbed: true, url: clean.includes('embed') ? clean : `https://my.mail.ru/video/embed/${mailruMatch[1]}`, provider: 'Mail.ru' };
+    }
+
+    // VKontakte / VK Video
+    const vkMatch = clean.match(/vk\.com\/(?:video_ext\.php\?|video-?)([0-9a-zA-Z_&=-]+)/);
+    if (vkMatch) {
+        return { isEmbed: true, url: clean.includes('video_ext.php') ? clean : `https://vk.com/video_ext.php?oid=${vkMatch[1]}`, provider: 'VK' };
+    }
+
+    // OK.ru (Odnoklassniki): https://ok.ru/video/12345 -> https://ok.ru/videoembed/12345
     const okMatch = clean.match(/ok\.ru\/(?:video|videoembed)\/(\d+)/);
     if (okMatch) {
-        return { isEmbed: true, url: `https://ok.ru/videoembed/${okMatch[1]}` };
+        return { isEmbed: true, url: `https://ok.ru/videoembed/${okMatch[1]}`, provider: 'OK.ru' };
+    }
+
+    // StreamWish / Filemoon / OneUpload / Sendvid
+    const streamwishMatch = clean.match(/(?:streamwish\.(?:to|com)|filemoon\.(?:sx|to)|sendvid\.com)\/(?:e\/|embed\/)?([a-zA-Z0-9_-]+)/);
+    if (streamwishMatch) {
+        return { isEmbed: true, url: clean.includes('/e/') || clean.includes('/embed/') ? clean : clean.replace(/\/(?:v|f|d)\//, '/e/'), provider: 'One/Stream' };
     }
 
     // Doodstream: https://dood.to/d/abc -> https://dood.to/e/abc
     const doodMatch = clean.match(/dood\.(?:to|watch|so|pm|ws|cx|sh)\/(?:d|e)\/([a-zA-Z0-9_-]+)/);
     if (doodMatch) {
-        return { isEmbed: true, url: `https://dood.to/e/${doodMatch[1]}` };
+        return { isEmbed: true, url: `https://dood.to/e/${doodMatch[1]}`, provider: 'DoodStream' };
     }
 
     // Google Drive: https://drive.google.com/file/d/ID/view -> preview
     const gDriveMatch = clean.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
     if (gDriveMatch) {
-        return { isEmbed: true, url: `https://drive.google.com/file/d/${gDriveMatch[1]}/preview` };
+        return { isEmbed: true, url: `https://drive.google.com/file/d/${gDriveMatch[1]}/preview`, provider: 'Google Drive' };
     }
 
     // YouTube
     const ytMatch = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
     if (ytMatch) {
-        return { isEmbed: true, url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1` };
+        return { isEmbed: true, url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1`, provider: 'YouTube' };
     }
 
     // Dailymotion
     const dmMatch = clean.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
     if (dmMatch) {
-        return { isEmbed: true, url: `https://www.dailymotion.com/embed/video/${dmMatch[1]}?autoplay=1` };
+        return { isEmbed: true, url: `https://www.dailymotion.com/embed/video/${dmMatch[1]}?autoplay=1`, provider: 'Dailymotion' };
     }
 
     // Doğrudan video dosyası mı (.mp4, .m3u8, .webm, .ogv)?
@@ -8080,19 +8098,24 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
             );
         }
 
-        // Eğer kullanıcı özel kendi fansub linkini (Sibnet, Vidmoly, OK.ru, Dood, Google Drive, MP4 vb.) yüklemişse en başa al
+        // Eğer kullanıcı özel kendi fansub linkini (Sibnet, Vidmoly, OK.ru, Mail.ru, VK, Dood, Streamwish, Google Drive, MP4 vb.) yüklemişse en başa al
         const isCustomDirectFile = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(parsedSource.url) || 
                                    parsedSource.url.includes('drive.google.com') ||
                                    parsedSource.url.includes('sibnet.ru') ||
                                    parsedSource.url.includes('vidmoly') ||
                                    parsedSource.url.includes('ok.ru') ||
-                                   parsedSource.url.includes('dood') ||
-                                   parsedSource.url.includes('mail.ru');
+                                   parsedSource.url.includes('mail.ru') ||
+                                   parsedSource.url.includes('vk.com') ||
+                                   parsedSource.url.includes('streamwish') ||
+                                   parsedSource.url.includes('filemoon') ||
+                                   parsedSource.url.includes('sendvid') ||
+                                   parsedSource.url.includes('dood');
         if (isCustomDirectFile) {
+            const provName = parsedSource.provider || 'Fansub';
             embedServers.unshift({
                 id: 'srv-orig',
-                name: '💎 Özel Fansub / Video',
-                badge: 'Türkçe / Orijinal',
+                name: `💎 ${provName} (Orijinal / Türkçe)`,
+                badge: 'Öncelikli',
                 url: parsedSource.url
             });
         }
