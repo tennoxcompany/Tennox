@@ -8049,53 +8049,65 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     let initialEmbedUrl = '';
 
     if (parsedSource.isEmbed) {
-        // 1. Orijinal Japonca Sesli Özel Anime Sunucuları (Yalnızca Japonca SUB)
+        // 1. Orijinal Japonca Sesli Özel Anime Sunucuları
         if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-videasy-ani',
-                    name: '🇯🇵 Sunucu 1 (Videasy HD)',
-                    badge: 'Orijinal Ses',
-                    url: `https://player.videasy.to/anime/${aniId}/${eNum}`
-                },
-                {
                     id: 'srv-vidsrccc-ani',
-                    name: '🇯🇵 Sunucu 2 (VidSrc CC)',
-                    badge: 'Japonca SUB',
+                    name: '🇯🇵 Sunucu 1 (VidSrc CC Hızlı)',
+                    badge: 'Hızlı Başlat',
                     url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrcpm-ani',
-                    name: '🇯🇵 Sunucu 3 (VidSrc PM)',
-                    badge: 'Japonca',
+                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
+                    badge: 'Kesintisiz',
                     url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}`
                 },
                 {
-                    id: 'srv-vidsrcto-ani',
-                    name: '🇯🇵 Sunucu 4 (VidSrc TO)',
-                    badge: 'Japonca',
-                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
+                    id: 'srv-vidsrcxyz-ani',
+                    name: '🇯🇵 Sunucu 3 (VidSrc XYZ)',
+                    badge: 'Popüler',
+                    url: `https://vidsrc.xyz/embed/anime?anilist=${aniId}&episode=${eNum}`
                 },
                 {
-                    id: 'srv-smashy-ani',
-                    name: '🇯🇵 Sunucu 5 (Smashy Stream)',
+                    id: 'srv-videasy-ani',
+                    name: '🇯🇵 Sunucu 4 (Videasy HD)',
+                    badge: 'HD',
+                    url: `https://player.videasy.to/anime/${aniId}/${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcto-ani',
+                    name: '🇯🇵 Sunucu 5 (VidSrc TO)',
                     badge: 'Alternatif',
-                    url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}`
+                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
                 }
             );
         } else if (tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 1 (Videasy HD)',
-                    badge: 'Japonca',
-                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?audio=ja&sub=1`
+                    id: 'srv-vidsrccc-tv',
+                    name: '🇯🇵 Sunucu 1 (VidSrc CC Hızlı)',
+                    badge: 'Hızlı',
+                    url: `https://vidsrc.cc/v2/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrcpm-sub',
                     name: '🇯🇵 Sunucu 2 (VidSrc PM)',
                     badge: 'Orijinal',
-                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&ds_lang=ja`
+                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcxyz-tv',
+                    name: '🇯🇵 Sunucu 3 (VidSrc XYZ)',
+                    badge: 'Popüler',
+                    url: `https://vidsrc.xyz/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-videasy-sub',
+                    name: '🇯🇵 Sunucu 4 (Videasy HD)',
+                    badge: 'HD',
+                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
                 }
             );
         }
