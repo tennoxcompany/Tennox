@@ -2211,6 +2211,7 @@ button { font-family: inherit; }
     margin-bottom: 28px;
     transition: all 0.25s ease;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    position: relative;
 }
 .news-card-featured:hover {
     border-color: rgba(56, 189, 248, 0.4);
@@ -2221,6 +2222,7 @@ button { font-family: inherit; }
     height: 380px;
     overflow: hidden;
     background: #0d0e14;
+    position: relative;
 }
 .news-featured-img-wrap img {
     width: 100%;
@@ -2269,6 +2271,113 @@ button { font-family: inherit; }
 .btn-news-read:hover {
     background: #272a3b;
     border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* =========================================================
+   HABERLER IZGARA VE KARTLARI (News Grid & Cards)
+   ========================================================= */
+.news-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+    margin-top: 10px;
+}
+.news-card {
+    background: #13141c;
+    border: 1px solid #2b2e3e;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.news-card:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+.news-card-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    background: #0d0e14;
+    overflow: hidden;
+}
+.news-card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.news-card:hover .news-card-img-wrap img {
+    transform: scale(1.05);
+}
+.news-badge-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+}
+.news-card-body {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.news-card-date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.news-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.news-card-desc {
+    font-size: 0.84rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+}
+.btn-news-card-read {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: all 0.2s ease;
+}
+.btn-news-card-read:hover {
+    background: #e50914;
+    border-color: #e50914;
+    color: #fff;
 }
 
 /* Katalog Üst Bilgi Çubuğu (Screenshot 1) */
@@ -6841,13 +6950,69 @@ async function renderWatchHistory() {
 }
 
 /* =========================================================
-   HABERLER
+   HABERLER & ANİME DUYURULARI
    ========================================================= */
+let cachedNewsList = [];
+
+function openNewsModal(newsId) {
+    const n = cachedNewsList.find(item => item.id === newsId);
+    if (!n) return;
+
+    let existingModal = document.getElementById('newsDetailModal');
+    if (existingModal) existingModal.remove();
+
+    const dateStr = new Date(n.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+    const formattedContent = escapeHtml(n.content).replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+
+    const modalHtml = `
+        <div id="newsDetailModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;">
+            <div style="background:#13141c;border:1px solid rgba(255,255,255,0.15);border-radius:16px;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.85);color:#fff;font-family:inherit;position:relative;">
+                ${n.image_url ? `
+                    <div style="width:100%;height:260px;overflow:hidden;position:relative;">
+                        <img src="${escapeHtml(n.image_url)}" style="width:100%;height:100%;object-fit:cover;">
+                        <button id="closeNewsDetailBtn" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;">✕</button>
+                    </div>
+                ` : `
+                    <div style="padding:16px 20px 0;display:flex;justify-content:flex-end;">
+                        <button id="closeNewsDetailBtn" style="background:none;border:none;color:#94a3b8;font-size:1.3rem;cursor:pointer;">✕</button>
+                    </div>
+                `}
+                <div style="padding:24px 28px;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+                        <span style="background:rgba(229,9,20,0.2);border:1px solid #e50914;color:#fca5a5;font-size:0.72rem;font-weight:700;padding:3px 8px;border-radius:6px;">${escapeHtml(n.source || 'Resmi Haber')}</span>
+                        <span style="font-size:0.78rem;color:#94a3b8;font-weight:600;">📅 ${dateStr}</span>
+                    </div>
+                    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;color:#fff;line-height:1.35;margin-bottom:16px;">${escapeHtml(n.title)}</h2>
+                    <div style="font-size:0.92rem;color:#cbd5e1;line-height:1.75;margin-bottom:24px;">${formattedContent}</div>
+                    <div style="display:flex;justify-content:flex-end;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
+                        <button id="closeNewsDetailBottomBtn" class="btn btn-primary" style="padding:8px 20px;font-size:0.85rem;border-radius:8px;">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    const closeModal = () => {
+        const m = document.getElementById('newsDetailModal');
+        if (m) m.remove();
+    };
+
+    document.getElementById('closeNewsDetailBtn')?.addEventListener('click', closeModal);
+    document.getElementById('closeNewsDetailBottomBtn')?.addEventListener('click', closeModal);
+    document.getElementById('newsDetailModal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'newsDetailModal') closeModal();
+    });
+}
+
 async function renderNewsPage() {
     const listEl = document.getElementById('newsList');
     if (!listEl) return;
-    listEl.innerHTML = '<p class="empty-note">Yükleniyor...</p>';
+    listEl.innerHTML = '<p class="empty-note">Resmi anime haberleri yükleniyor...</p>';
     const news = await fetchNews();
+    cachedNewsList = news;
+
     if (!news.length) {
         listEl.innerHTML = '<p class="empty-note">Henüz haber eklenmedi.</p>';
         return;
@@ -6860,26 +7025,33 @@ async function renderNewsPage() {
         <div class="news-card-featured">
             ${featuredNews.image_url ? `
                 <div class="news-featured-img-wrap">
-                    <img src="${escapeHtml(featuredNews.image_url)}" alt="${escapeHtml(featuredNews.title)}">
+                    <img src="${escapeHtml(featuredNews.image_url)}" alt="${escapeHtml(featuredNews.title)}" loading="lazy">
                 </div>` : ''}
             <div class="news-featured-body">
-                <span class="news-date-pill">${new Date(featuredNews.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'numeric', year: 'numeric' })}</span>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+                    <span style="background:rgba(229,9,20,0.2);border:1px solid #e50914;color:#fca5a5;font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:6px;">${escapeHtml(featuredNews.source || 'Öne Çıkan')}</span>
+                    <span class="news-date-pill">📅 ${new Date(featuredNews.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                </div>
                 <h2 class="news-featured-title">${escapeHtml(featuredNews.title)}</h2>
                 <p class="news-featured-desc">${escapeHtml(featuredNews.content)}</p>
-                <button class="btn-news-read" onclick="alert('${escapeHtml(featuredNews.title)}')">Daha Fazla Oku ›</button>
+                <button class="btn-news-read" onclick="openNewsModal('${featuredNews.id}')">Daha Fazla Oku ›</button>
             </div>
         </div>
     `;
 
     const othersHtml = otherNews.length ? `
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+        <div class="news-grid-layout">
             ${otherNews.map(n => `
-                <div class="news-card">
-                    ${n.image_url ? `<div class="news-card-image" style="background-image:url('${escapeHtml(n.image_url)}')"></div>` : ''}
+                <div class="news-card" onclick="openNewsModal('${n.id}')" style="cursor:pointer;">
+                    <div class="news-card-img-wrap">
+                        <img src="${escapeHtml(n.image_url || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800')}" alt="${escapeHtml(n.title)}" loading="lazy">
+                        <span class="news-badge-tag">${escapeHtml(n.source || 'Resmi Haber')}</span>
+                    </div>
                     <div class="news-card-body">
-                        <div class="news-card-date">${new Date(n.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                        <div class="news-card-title">${escapeHtml(n.title)}</div>
-                        <div class="news-card-content">${escapeHtml(n.content)}</div>
+                        <div class="news-card-date">📅 ${new Date(n.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                        <h3 class="news-card-title">${escapeHtml(n.title)}</h3>
+                        <p class="news-card-desc">${escapeHtml(n.content)}</p>
+                        <button class="btn-news-card-read">Devamını Oku ›</button>
                     </div>
                 </div>
             `).join('')}
