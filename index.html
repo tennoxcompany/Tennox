@@ -8053,34 +8053,34 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-vidsrcto-sub',
-                    name: '🇯🇵 Sunucu 1 (VidSrc Japonca SUB)',
+                    id: 'srv-videasy-ani',
+                    name: '🇯🇵 Sunucu 1 (Videasy HD)',
                     badge: 'Orijinal Ses',
-                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}/sub`
+                    url: `https://player.videasy.to/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrccc-ani',
-                    name: '🇯🇵 Sunucu 2 (VidSrc CC Japonca)',
+                    name: '🇯🇵 Sunucu 2 (VidSrc CC)',
                     badge: 'Japonca SUB',
-                    url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}?sub=1`
-                },
-                {
-                    id: 'srv-videasy-ani',
-                    name: '🇯🇵 Sunucu 3 (Videasy Japonca HD)',
-                    badge: 'Japonca HD',
-                    url: `https://player.videasy.to/anime/${aniId}/${eNum}?audio=ja&sub=1`
+                    url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrcpm-ani',
-                    name: '🇯🇵 Sunucu 4 (VidSrc PM Japonca)',
+                    name: '🇯🇵 Sunucu 3 (VidSrc PM)',
                     badge: 'Japonca',
-                    url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
+                    url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}`
                 },
                 {
-                    id: 'srv-2embed-ani',
-                    name: '🇯🇵 Sunucu 5 (2Embed Japonca)',
+                    id: 'srv-vidsrcto-ani',
+                    name: '🇯🇵 Sunucu 4 (VidSrc TO)',
+                    badge: 'Japonca',
+                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
+                },
+                {
+                    id: 'srv-smashy-ani',
+                    name: '🇯🇵 Sunucu 5 (Smashy Stream)',
                     badge: 'Alternatif',
-                    url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
+                    url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}`
                 }
             );
         } else if (tmdbId) {
