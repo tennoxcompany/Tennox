@@ -8053,14 +8053,14 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-2embed-ani',
-                    name: '🇯🇵 Sunucu 1 (2Embed Orijinal Japonca)',
+                    id: 'srv-vidsrcto-sub',
+                    name: '🇯🇵 Sunucu 1 (VidSrc Japonca SUB)',
                     badge: 'Orijinal Ses',
-                    url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
+                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}/sub`
                 },
                 {
                     id: 'srv-vidsrccc-ani',
-                    name: '🇯🇵 Sunucu 2 (VidSrc Anime SUB)',
+                    name: '🇯🇵 Sunucu 2 (VidSrc CC Japonca)',
                     badge: 'Japonca SUB',
                     url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}?sub=1`
                 },
@@ -8071,31 +8071,31 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     url: `https://player.videasy.to/anime/${aniId}/${eNum}?audio=ja&sub=1`
                 },
                 {
-                    id: 'srv-vidsrcto-sub',
-                    name: '🇯🇵 Sunucu 4 (VidSrc TO Japonca)',
-                    badge: 'Japonca',
-                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}/sub`
-                },
-                {
                     id: 'srv-vidsrcpm-ani',
-                    name: '🇯🇵 Sunucu 5 (VidSrc PM Japonca)',
+                    name: '🇯🇵 Sunucu 4 (VidSrc PM Japonca)',
                     badge: 'Japonca',
                     url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
+                },
+                {
+                    id: 'srv-2embed-ani',
+                    name: '🇯🇵 Sunucu 5 (2Embed Japonca)',
+                    badge: 'Alternatif',
+                    url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
                 }
             );
         } else if (tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-2embed-tv',
-                    name: '🇯🇵 Sunucu 1 (2Embed)',
-                    badge: 'Japonca',
-                    url: `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
-                },
-                {
                     id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 2 (Videasy HD)',
+                    name: '🇯🇵 Sunucu 1 (Videasy HD)',
                     badge: 'Japonca',
                     url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?audio=ja&sub=1`
+                },
+                {
+                    id: 'srv-vidsrcpm-sub',
+                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
+                    badge: 'Orijinal',
+                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&ds_lang=ja`
                 }
             );
         }
@@ -8159,7 +8159,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                             src="${escapeHtml(initialEmbedUrl)}" 
                             style="width:100%;height:100%;border:none;background:#000;position:relative;z-index:2;" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-                            referrerpolicy="origin"
+                            referrerpolicy="no-referrer"
                             onload="const sp=document.getElementById('acxPlayerLoadingSpinner');if(sp){sp.style.opacity='0';setTimeout(()=>{sp.style.display='none';},350);}"
                             allowfullscreen></iframe>
                 ` : `
@@ -8350,7 +8350,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     src="${escapeHtml(targetUrl)}" 
                     style="width:100%;height:100%;border:none;background:#000;" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-                    referrerpolicy="origin"
+                    referrerpolicy="no-referrer"
                     allowfullscreen></iframe>
         `;
         const bBar = document.getElementById('acxBottomBar');
