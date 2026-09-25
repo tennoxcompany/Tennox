@@ -7828,6 +7828,30 @@ function parseVideoSource(rawUrl) {
         clean = iframeMatch[1];
     }
 
+    // Sibnet (Türkçe Fansub En Yaygın Kaynak): https://video.sibnet.ru/video12345/ -> https://video.sibnet.ru/shell.php?videoid=12345
+    const sibnetMatch = clean.match(/sibnet\.ru\/(?:video|shell\.php\?videoid=)(\d+)/);
+    if (sibnetMatch) {
+        return { isEmbed: true, url: `https://video.sibnet.ru/shell.php?videoid=${sibnetMatch[1]}` };
+    }
+
+    // Vidmoly (Türkçe Anime Oynatıcı): https://vidmoly.to/w/abc -> https://vidmoly.to/embed-abc.html
+    const vidmolyMatch = clean.match(/vidmoly\.(?:to|me|net)\/(?:w\/|embed-)?([a-zA-Z0-9_-]+)(?:\.html)?/);
+    if (vidmolyMatch) {
+        return { isEmbed: true, url: `https://vidmoly.to/embed-${vidmolyMatch[1]}.html` };
+    }
+
+    // OK.ru: https://ok.ru/video/12345 -> https://ok.ru/videoembed/12345
+    const okMatch = clean.match(/ok\.ru\/(?:video|videoembed)\/(\d+)/);
+    if (okMatch) {
+        return { isEmbed: true, url: `https://ok.ru/videoembed/${okMatch[1]}` };
+    }
+
+    // Doodstream: https://dood.to/d/abc -> https://dood.to/e/abc
+    const doodMatch = clean.match(/dood\.(?:to|watch|so|pm|ws|cx|sh)\/(?:d|e)\/([a-zA-Z0-9_-]+)/);
+    if (doodMatch) {
+        return { isEmbed: true, url: `https://dood.to/e/${doodMatch[1]}` };
+    }
+
     // Google Drive: https://drive.google.com/file/d/ID/view -> preview
     const gDriveMatch = clean.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
     if (gDriveMatch) {
@@ -8009,22 +8033,22 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-vidsrcto-sub',
-                    name: '🇯🇵 Sunucu 1 (VidSrc Japonca SUB)',
+                    id: 'srv-videasy-ani',
+                    name: '🇯🇵 Sunucu 1 (Videasy Japonca HD)',
                     badge: 'Orijinal Ses',
+                    url: `https://player.videasy.to/anime/${aniId}/${eNum}?audio=ja&sub=1`
+                },
+                {
+                    id: 'srv-vidsrcto-sub',
+                    name: '🇯🇵 Sunucu 2 (VidSrc Japonca SUB)',
+                    badge: 'Japonca SUB',
                     url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}/sub`
                 },
                 {
                     id: 'srv-vidsrcpm-ani',
-                    name: '🇯🇵 Sunucu 2 (Japonca Ses / Altyazı)',
+                    name: '🇯🇵 Sunucu 3 (VidSrc PM Japonca)',
                     badge: 'Japonca',
                     url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
-                },
-                {
-                    id: 'srv-videasy-ani',
-                    name: '🇯🇵 Sunucu 3 (Videasy Anime Japonca)',
-                    badge: 'Japonca HD',
-                    url: `https://player.videasy.to/anime/${aniId}/${eNum}?audio=ja&sub=1`
                 },
                 {
                     id: 'srv-vidsrcxyz-ani',
@@ -8039,14 +8063,8 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     url: `https://vidsrc.sh/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
                 },
                 {
-                    id: 'srv-vidsrccc-ani',
-                    name: '🇯🇵 Sunucu 6 (VidSrc CC Japonca)',
-                    badge: 'Japonca',
-                    url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}?sub=1`
-                },
-                {
                     id: 'srv-2embed-ani',
-                    name: '🇯🇵 Sunucu 7 (2Embed Japonca)',
+                    name: '🇯🇵 Sunucu 6 (2Embed Japonca)',
                     badge: 'Alternatif',
                     url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
                 }
@@ -8054,27 +8072,33 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         } else if (tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-vidsrcpm-sub',
-                    name: '🇯🇵 Sunucu 1 (Japonca Ses)',
-                    badge: 'Orijinal',
-                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&ds_lang=ja`
+                    id: 'srv-videasy-sub',
+                    name: '🇯🇵 Sunucu 1 (Videasy HD)',
+                    badge: 'Japonca',
+                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?audio=ja&sub=1`
                 },
                 {
-                    id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 2 (Videasy HD)',
-                    badge: 'Japonca',
-                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?audio=ja`
+                    id: 'srv-vidsrcpm-sub',
+                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
+                    badge: 'Orijinal',
+                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&ds_lang=ja`
                 }
             );
         }
 
-        // Eğer kullanıcı özel kendi direct mp4/m3u8 veya Google Drive dosyasını yüklemişse başa ekle
-        const isCustomDirectFile = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(parsedSource.url) || parsedSource.url.includes('drive.google.com');
+        // Eğer kullanıcı özel kendi fansub linkini (Sibnet, Vidmoly, OK.ru, Dood, Google Drive, MP4 vb.) yüklemişse en başa al
+        const isCustomDirectFile = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(parsedSource.url) || 
+                                   parsedSource.url.includes('drive.google.com') ||
+                                   parsedSource.url.includes('sibnet.ru') ||
+                                   parsedSource.url.includes('vidmoly') ||
+                                   parsedSource.url.includes('ok.ru') ||
+                                   parsedSource.url.includes('dood') ||
+                                   parsedSource.url.includes('mail.ru');
         if (isCustomDirectFile) {
             embedServers.unshift({
                 id: 'srv-orig',
-                name: '💎 Özel Video / Fansub',
-                badge: 'Özel',
+                name: '💎 Özel Fansub / Video',
+                badge: 'Türkçe / Orijinal',
                 url: parsedSource.url
             });
         }
@@ -8252,12 +8276,12 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 <!-- Sunucu Durum Bilgilendirmesi -->
                 <div style="background:#08090d;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;font-size:0.73rem;color:#94a3b8;flex-wrap:wrap;gap:8px;">
                     <div style="display:flex;align-items:center;gap:6px;">
-                        <span style="color:#eab308;">💡</span>
-                        <span>Video birkaç saniye içinde açılmazsa hemen yukarıdaki <b>Sunucu 2</b> veya <b>Sunucu 3</b>'ü seçiniz ya da <b>Yeni Sekmede Aç</b>'ı kullanınız.</span>
+                        <span style="color:#ef4444;font-size:0.9rem;">🇯🇵</span>
+                        <span><strong>Orijinal Japonca Seslendirme (SUB)</strong> devrededir. Oynatıcı içi ses seçiminde <strong>SUB</strong> seçili olduğundan emin olunuz. Diğer Japonca alternatifler için yukarıdaki <strong>Sunucu 1, 2, 3</strong> butonlarını kullanabilirsiniz.</span>
                     </div>
                     <div style="display:flex;align-items:center;gap:6px;">
                         <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;"></span>
-                        <span style="color:#10b981;font-weight:600;">Aktif & Doğrulanmış Sunucular</span>
+                        <span style="color:#10b981;font-weight:600;">Japonca SUB Aktif</span>
                     </div>
                 </div>
             ` : ''}
@@ -10387,7 +10411,7 @@ function renderAdminTab(tab) {
                                 for (let ep = startEp; ep <= endEp; ep++) {
                                     if (existingNums.has(ep)) continue;
 
-                                    const epUrl = `https://vidsrc.pm/embed/anime?anilist=${anilistId}&episode=${ep}&sub=1`;
+                                    const epUrl = `https://player.videasy.to/anime/${anilistId}/${ep}?audio=ja&sub=1`;
                                     const epTitle = selectedSeason > 1 ? `[S${selectedSeason}] ${ep}. Bölüm` : `${ep}. Bölüm`;
 
                                     batchPromises.push(
