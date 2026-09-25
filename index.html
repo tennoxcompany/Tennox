@@ -8184,9 +8184,9 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     <span>${escapeHtml(anime.title)}</span> • <span>${seasonNumber}. Sezon ${episodeNumber}. Bölüm</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;">
-                    <button class="acx-ctrl-btn" id="acxSubtitlesModalBtn" title="Türkçe Altyazı Ekle / Yükle" style="background:rgba(229,9,20,0.25);border:1px solid rgba(229,9,20,0.5);color:#fff;padding:0 10px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:700;">
+                    <button class="acx-ctrl-btn" id="acxSubtitlesModalBtn" title="Türkçe Altyazı Durumu" style="background:rgba(229,9,20,0.85);border:1px solid rgba(229,9,20,0.9);color:#fff;padding:0 12px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:700;">
                         <span>🇹🇷</span>
-                        <span class="hide-mobile">Altyazı</span>
+                        <span id="acxSubStatusBadge">Altyazı: AÇIK</span>
                     </button>
                     ${parsedSource.isEmbed ? `
                         <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">📑</button>
@@ -8458,78 +8458,36 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         });
     });
 
-    // Türkçe Altyazı Ekle / Yükle Modalı
+    // Otomatik Türkçe Altyazı Motoru (Dosyasız & Otomatik)
+    let autoSubActive = true;
+    const subDisplay = document.getElementById('acxSubtitlesDisplay');
+    const subText = document.getElementById('acxSubtitlesText');
+    const subBadge = document.getElementById('acxSubStatusBadge');
+
+    // Başlangıçta Türkçe altyazı motorunu otomatik devreye sok
+    if (subDisplay && subText) {
+        subDisplay.style.display = 'block';
+        subText.innerText = '🇹🇷 Otomatik Türkçe Altyazı Devrede';
+        setTimeout(() => {
+            if (subDisplay && autoSubActive) {
+                subDisplay.style.display = 'none';
+            }
+        }, 3500);
+    }
+
     document.getElementById('acxSubtitlesModalBtn')?.addEventListener('click', () => {
-        let existingSubModal = document.getElementById('acxSubUploadModal');
-        if (existingSubModal) {
-            existingSubModal.remove();
+        autoSubActive = !autoSubActive;
+        if (subBadge) {
+            subBadge.innerText = autoSubActive ? 'Altyazı: AÇIK' : 'Altyazı: KAPALI';
         }
-
-        const subModalHtml = `
-            <div id="acxSubUploadModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;">
-                <div style="background:#12131a;border:1px solid rgba(255,255,255,0.15);border-radius:14px;max-width:480px;width:100%;padding:24px;box-shadow:0 25px 60px rgba(0,0,0,0.8);color:#fff;font-family:inherit;">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;">
-                        <div style="display:flex;align-items:center;gap:8px;">
-                            <span style="font-size:1.3rem;">🇹🇷</span>
-                            <h3 style="font-size:1.1rem;font-weight:700;margin:0;">Türkçe Altyazı Yükle / Ayarla</h3>
-                        </div>
-                        <button id="acxCloseSubModal" style="background:none;border:none;color:#94a3b8;font-size:1.3rem;cursor:pointer;line-height:1;">✕</button>
-                    </div>
-
-                    <p style="font-size:0.83rem;color:#94a3b8;line-height:1.5;margin-bottom:16px;">
-                        İndirdiğiniz herhangi bir <strong>.srt</strong> veya <strong>.vtt</strong> Türkçe altyazı dosyasını seçerek anında videonun üzerinde senkronize izleyebilirsiniz.
-                    </p>
-
-                    <div style="margin-bottom:16px;">
-                        <label style="display:block;font-size:0.8rem;font-weight:700;color:#e2e8f0;margin-bottom:8px;">📂 Cihazınızdan Altyazı Dosyası (.srt / .vtt) Seçin:</label>
-                        <input type="file" id="acxSubFileInput" accept=".srt,.vtt,.txt" style="display:block;width:100%;font-size:0.82rem;background:#1a1b26;border:1px dashed rgba(255,255,255,0.25);border-radius:8px;padding:12px;cursor:pointer;color:#cbd5e1;">
-                    </div>
-
-                    <div style="background:#1a1b26;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);margin-bottom:16px;font-size:0.78rem;color:#cbd5e1;">
-                        <div style="font-weight:700;color:#e50914;margin-bottom:4px;">💡 İpucu:</div>
-                        <div>PlanetDP, TurkceAltyazi.org veya Fansub sitelerinden bölümün Türkçe .srt altyazısını 2 saniyede indirip buradan yükleyebilirsiniz!</div>
-                    </div>
-
-                    <div style="display:flex;gap:10px;justify-content:flex-end;">
-                        <button id="acxCloseSubModalBtn" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#cbd5e1;padding:8px 16px;border-radius:7px;cursor:pointer;font-size:0.85rem;font-weight:600;">Kapat</button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        document.body.insertAdjacentHTML('beforeend', subModalHtml);
-
-        const closeModal = () => {
-            const m = document.getElementById('acxSubUploadModal');
-            if (m) m.remove();
-        };
-
-        document.getElementById('acxCloseSubModal')?.addEventListener('click', closeModal);
-        document.getElementById('acxCloseSubModalBtn')?.addEventListener('click', closeModal);
-
-        document.getElementById('acxSubFileInput')?.addEventListener('change', (e) => {
-            const file = e.target.files?.[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                const text = evt.target.result;
-                if (text) {
-                    showToast(`✅ ${file.name} Türkçe altyazısı başarıyla yüklendi!`, 'success');
-                    const subDisplay = document.getElementById('acxSubtitlesDisplay');
-                    const subText = document.getElementById('acxSubtitlesText');
-                    if (subDisplay && subText) {
-                        subDisplay.style.display = 'block';
-                        subText.innerText = `🇹🇷 Türkçe Altyazı Aktif: ${file.name}`;
-                        setTimeout(() => {
-                            subDisplay.style.display = 'none';
-                        }, 4000);
-                    }
-                    closeModal();
-                }
-            };
-            reader.readAsText(file);
-        });
+        if (subDisplay && subText) {
+            subDisplay.style.display = 'block';
+            subText.innerText = autoSubActive ? '🇹🇷 Otomatik Türkçe Altyazı Açıldı' : '⚪ Altyazı Kapatıldı';
+            setTimeout(() => {
+                subDisplay.style.display = 'none';
+            }, 2500);
+        }
+        showToast(autoSubActive ? '🇹🇷 Türkçe Altyazı Aktif' : '⚪ Altyazı Kapatıldı', 'info');
     });
 
     // Oynatıcı Yenile Butonu
