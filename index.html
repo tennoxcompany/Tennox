@@ -8083,44 +8083,44 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         if (imdbId || tmdbId) {
             embedServers.push(
                 {
+                    id: 'srv-vidlink-main',
+                    name: '🇹🇷 Sunucu 1 (VidLink TR Altyazı)',
+                    badge: 'Türkçe Altyazı',
+                    url: tmdbId 
+                        ? `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
+                        : `https://vidlink.pro/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
+                },
+                {
                     id: 'srv-smashy-main',
-                    name: '🇯🇵 Sunucu 1 (Smashy Stream)',
+                    name: '🇯🇵 Sunucu 2 (Smashy Stream)',
                     badge: 'Kesintisiz',
                     url: imdbId 
-                        ? `https://embed.smashystream.com/playere.php?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}`
-                        : `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                        ? `https://embed.smashystream.com/playere.php?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
+                        : `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
+                },
+                {
+                    id: 'srv-superembed-main',
+                    name: '🇹🇷 Sunucu 3 (SuperEmbed)',
+                    badge: 'Popüler',
+                    url: tmdbId 
+                        ? `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
+                        : `https://multiembed.mov/?video_id=${imdbId}&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
                 },
                 {
                     id: 'srv-2embed-main',
-                    name: '🇯🇵 Sunucu 2 (2Embed Orijinal)',
+                    name: '🇯🇵 Sunucu 4 (2Embed Orijinal)',
                     badge: 'Doğrudan',
                     url: imdbId 
                         ? `https://www.2embed.cc/embed/tv/${imdbId}&s=${seasonNumber}&e=${eNum}`
                         : `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
                 },
                 {
-                    id: 'srv-vidlink-main',
-                    name: '🇯🇵 Sunucu 3 (VidLink HD)',
-                    badge: 'Hızlı',
-                    url: tmdbId 
-                        ? `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                        : `https://vidlink.pro/tv/${imdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-superembed-main',
-                    name: '🇯🇵 Sunucu 4 (SuperEmbed)',
-                    badge: 'Popüler',
-                    url: tmdbId 
-                        ? `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1&s=${seasonNumber}&e=${eNum}`
-                        : `https://multiembed.mov/?video_id=${imdbId}&s=${seasonNumber}&e=${eNum}`
-                },
-                {
                     id: 'srv-videasy-sub',
                     name: '🇯🇵 Sunucu 5 (Videasy HD)',
                     badge: 'HD',
                     url: tmdbId 
-                        ? `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                        : `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}`
+                        ? `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
+                        : `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
                 }
             );
         } else if (aniId) {
@@ -8129,7 +8129,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     id: 'srv-smashy-ani',
                     name: '🇯🇵 Sunucu 1 (Smashy Stream)',
                     badge: 'Kesintisiz',
-                    url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}`
+                    url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}&sub=tr`
                 },
                 {
                     id: 'srv-2embed-ani',
@@ -8141,7 +8141,7 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     id: 'srv-videasy-ani',
                     name: '🇯🇵 Sunucu 3 (Videasy HD)',
                     badge: 'HD',
-                    url: `https://player.videasy.to/anime/${aniId}/${eNum}`
+                    url: `https://player.videasy.to/anime/${aniId}/${eNum}?sub_lang=tr&sub=1`
                 }
             );
         }
