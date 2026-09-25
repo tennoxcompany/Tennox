@@ -8049,8 +8049,41 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     let initialEmbedUrl = '';
 
     if (parsedSource.isEmbed) {
-        // 1. Orijinal Japonca Sesli Özel Anime Sunucuları
-        if (aniId) {
+        // TMDB ID biliniyorsa doğrudan TV sunucularını kullan (404 vermez, kesintisiz çalışır)
+        if (tmdbId) {
+            embedServers.push(
+                {
+                    id: 'srv-vidsrccc-tv',
+                    name: '🇯🇵 Sunucu 1 (VidSrc CC Hızlı)',
+                    badge: 'Hızlı Başlat',
+                    url: `https://vidsrc.cc/v2/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcpm-sub',
+                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
+                    badge: 'Kesintisiz',
+                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-vidsrcxyz-tv',
+                    name: '🇯🇵 Sunucu 3 (VidSrc XYZ)',
+                    badge: 'Popüler',
+                    url: `https://vidsrc.xyz/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-embedsu-tv',
+                    name: '🇯🇵 Sunucu 4 (EmbedSU)',
+                    badge: 'HD',
+                    url: `https://embed.su/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                },
+                {
+                    id: 'srv-videasy-sub',
+                    name: '🇯🇵 Sunucu 5 (Videasy HD)',
+                    badge: 'HD',
+                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                }
+            );
+        } else if (aniId) {
             embedServers.push(
                 {
                     id: 'srv-vidsrccc-ani',
@@ -8075,39 +8108,6 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     name: '🇯🇵 Sunucu 4 (Videasy HD)',
                     badge: 'HD',
                     url: `https://player.videasy.to/anime/${aniId}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcto-ani',
-                    name: '🇯🇵 Sunucu 5 (VidSrc TO)',
-                    badge: 'Alternatif',
-                    url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}`
-                }
-            );
-        } else if (tmdbId) {
-            embedServers.push(
-                {
-                    id: 'srv-vidsrccc-tv',
-                    name: '🇯🇵 Sunucu 1 (VidSrc CC Hızlı)',
-                    badge: 'Hızlı',
-                    url: `https://vidsrc.cc/v2/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcpm-sub',
-                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
-                    badge: 'Orijinal',
-                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcxyz-tv',
-                    name: '🇯🇵 Sunucu 3 (VidSrc XYZ)',
-                    badge: 'Popüler',
-                    url: `https://vidsrc.xyz/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                },
-                {
-                    id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 4 (Videasy HD)',
-                    badge: 'HD',
-                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
                 }
             );
         }
