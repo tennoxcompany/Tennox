@@ -8053,61 +8053,61 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         if (tmdbId) {
             embedServers.push(
                 {
+                    id: 'srv-smashy-tv',
+                    name: '🇯🇵 Sunucu 1 (Smashy Hızlı)',
+                    badge: 'Kesintisiz',
+                    url: `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
+                },
+                {
+                    id: 'srv-2embed-tv',
+                    name: '🇯🇵 Sunucu 2 (2Embed Orijinal)',
+                    badge: 'Doğrudan',
+                    url: `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
+                },
+                {
+                    id: 'srv-videasy-sub',
+                    name: '🇯🇵 Sunucu 3 (Videasy HD)',
+                    badge: 'HD',
+                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                },
+                {
                     id: 'srv-vidsrccc-tv',
-                    name: '🇯🇵 Sunucu 1 (VidSrc CC Hızlı)',
-                    badge: 'Hızlı Başlat',
+                    name: '🇯🇵 Sunucu 4 (VidSrc CC)',
+                    badge: 'Hızlı',
                     url: `https://vidsrc.cc/v2/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
                 },
                 {
                     id: 'srv-vidsrcpm-sub',
-                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
-                    badge: 'Kesintisiz',
-                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcxyz-tv',
-                    name: '🇯🇵 Sunucu 3 (VidSrc XYZ)',
+                    name: '🇯🇵 Sunucu 5 (VidSrc PM)',
                     badge: 'Popüler',
-                    url: `https://vidsrc.xyz/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                },
-                {
-                    id: 'srv-embedsu-tv',
-                    name: '🇯🇵 Sunucu 4 (EmbedSU)',
-                    badge: 'HD',
-                    url: `https://embed.su/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 5 (Videasy HD)',
-                    badge: 'HD',
-                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
                 }
             );
         } else if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-vidsrccc-ani',
-                    name: '🇯🇵 Sunucu 1 (VidSrc CC Hızlı)',
-                    badge: 'Hızlı Başlat',
-                    url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcpm-ani',
-                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
+                    id: 'srv-smashy-ani',
+                    name: '🇯🇵 Sunucu 1 (Smashy Hızlı)',
                     badge: 'Kesintisiz',
-                    url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}`
+                    url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}`
                 },
                 {
-                    id: 'srv-vidsrcxyz-ani',
-                    name: '🇯🇵 Sunucu 3 (VidSrc XYZ)',
-                    badge: 'Popüler',
-                    url: `https://vidsrc.xyz/embed/anime?anilist=${aniId}&episode=${eNum}`
+                    id: 'srv-2embed-ani',
+                    name: '🇯🇵 Sunucu 2 (2Embed Orijinal)',
+                    badge: 'Doğrudan',
+                    url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
                 },
                 {
                     id: 'srv-videasy-ani',
-                    name: '🇯🇵 Sunucu 4 (Videasy HD)',
+                    name: '🇯🇵 Sunucu 3 (Videasy HD)',
                     badge: 'HD',
                     url: `https://player.videasy.to/anime/${aniId}/${eNum}`
+                },
+                {
+                    id: 'srv-vidsrccc-ani',
+                    name: '🇯🇵 Sunucu 4 (VidSrc CC)',
+                    badge: 'Hızlı',
+                    url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}`
                 }
             );
         }
