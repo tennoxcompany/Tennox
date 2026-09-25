@@ -8033,34 +8033,34 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         if (aniId) {
             embedServers.push(
                 {
+                    id: 'srv-embedsu-ani',
+                    name: '🇯🇵 Sunucu 1 (EmbedSU Japonca RAW/SUB)',
+                    badge: 'Orijinal Japonca',
+                    url: `https://embed.su/embed/anime/${aniId}/${eNum}`
+                },
+                {
+                    id: 'srv-vidsrccc-ani',
+                    name: '🇯🇵 Sunucu 2 (VidSrc CC Japonca)',
+                    badge: 'Japonca SUB',
+                    url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}?sub=1`
+                },
+                {
                     id: 'srv-videasy-ani',
-                    name: '🇯🇵 Sunucu 1 (Videasy Japonca HD)',
-                    badge: 'Orijinal Ses',
+                    name: '🇯🇵 Sunucu 3 (Videasy Japonca HD)',
+                    badge: 'Japonca HD',
                     url: `https://player.videasy.to/anime/${aniId}/${eNum}?audio=ja&sub=1`
                 },
                 {
                     id: 'srv-vidsrcto-sub',
-                    name: '🇯🇵 Sunucu 2 (VidSrc Japonca SUB)',
-                    badge: 'Japonca SUB',
+                    name: '🇯🇵 Sunucu 4 (VidSrc TO Japonca)',
+                    badge: 'Japonca',
                     url: `https://vidsrc.to/embed/anime/${aniId}/${eNum}/sub`
                 },
                 {
                     id: 'srv-vidsrcpm-ani',
-                    name: '🇯🇵 Sunucu 3 (VidSrc PM Japonca)',
+                    name: '🇯🇵 Sunucu 5 (VidSrc PM Japonca)',
                     badge: 'Japonca',
                     url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
-                },
-                {
-                    id: 'srv-vidsrcxyz-ani',
-                    name: '🇯🇵 Sunucu 4 (VidSrc XYZ Japonca)',
-                    badge: 'Japonca',
-                    url: `https://vidsrc.xyz/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
-                },
-                {
-                    id: 'srv-vidsrcsh-ani',
-                    name: '🇯🇵 Sunucu 5 (VidSrc SH Japonca)',
-                    badge: 'Japonca',
-                    url: `https://vidsrc.sh/embed/anime?anilist=${aniId}&episode=${eNum}&sub=1`
                 },
                 {
                     id: 'srv-2embed-ani',
@@ -8072,16 +8072,16 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         } else if (tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 1 (Videasy HD)',
+                    id: 'srv-embedsu-sub',
+                    name: '🇯🇵 Sunucu 1 (EmbedSU)',
                     badge: 'Japonca',
-                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?audio=ja&sub=1`
+                    url: `https://embed.su/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
                 },
                 {
-                    id: 'srv-vidsrcpm-sub',
-                    name: '🇯🇵 Sunucu 2 (VidSrc PM)',
-                    badge: 'Orijinal',
-                    url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&ds_lang=ja`
+                    id: 'srv-videasy-sub',
+                    name: '🇯🇵 Sunucu 2 (Videasy HD)',
+                    badge: 'Japonca',
+                    url: `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?audio=ja&sub=1`
                 }
             );
         }
@@ -12044,15 +12044,15 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
     if (aniId) {
         servers.push(
             {
-                id: 'vidsrcto-sub',
-                name: '🇯🇵 Sunucu 1 (VidSrc Japonca SUB)',
-                url: `https://vidsrc.to/embed/anime/${aniId}/${episodeNum}/sub`,
+                id: 'embedsu-ani',
+                name: '🇯🇵 Sunucu 1 (EmbedSU Japonca RAW/SUB)',
+                url: `https://embed.su/embed/anime/${aniId}/${episodeNum}`,
                 isDirect: false
             },
             {
-                id: 'vidsrcpm-ani',
-                name: '🇯🇵 Sunucu 2 (Japonca Ses / Sub)',
-                url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
+                id: 'vidsrccc-ani',
+                name: '🇯🇵 Sunucu 2 (VidSrc CC Japonca)',
+                url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${episodeNum}?sub=1`,
                 isDirect: false
             },
             {
@@ -12062,26 +12062,20 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
                 isDirect: false
             },
             {
-                id: 'vidsrcxyz-ani',
-                name: '🇯🇵 Sunucu 4 (VidSrc XYZ Japonca)',
-                url: `https://vidsrc.xyz/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
+                id: 'vidsrcto-sub',
+                name: '🇯🇵 Sunucu 4 (VidSrc Japonca SUB)',
+                url: `https://vidsrc.to/embed/anime/${aniId}/${episodeNum}/sub`,
                 isDirect: false
             },
             {
-                id: 'vidsrcsh-ani',
-                name: '🇯🇵 Sunucu 5 (VidSrc SH Japonca)',
-                url: `https://vidsrc.sh/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
-                isDirect: false
-            },
-            {
-                id: 'vidsrccc-ani',
-                name: '🇯🇵 Sunucu 6 (VidSrc CC Japonca)',
-                url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${episodeNum}?sub=1`,
+                id: 'vidsrcpm-ani',
+                name: '🇯🇵 Sunucu 5 (VidSrc PM Japonca)',
+                url: `https://vidsrc.pm/embed/anime?anilist=${aniId}&episode=${episodeNum}&sub=1`,
                 isDirect: false
             },
             {
                 id: '2embed-ani',
-                name: '🇯🇵 Sunucu 7 (2Embed Japonca)',
+                name: '🇯🇵 Sunucu 6 (2Embed Japonca)',
                 url: `https://www.2embed.cc/embed/anime/${aniId}/${episodeNum}`,
                 isDirect: false
             }
@@ -12089,9 +12083,9 @@ function wpGetServersForEpisode(animeTitle, episodeNum = 1, customVideoUrl = '')
     } else {
         servers.push(
             {
-                id: 'vidsrcpm-fallback',
-                name: '🇯🇵 Sunucu 1 (Japonca / VidSrc)',
-                url: `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=1&episode=${episodeNum}&ds_lang=ja`,
+                id: 'embedsu-fallback',
+                name: '🇯🇵 Sunucu 1 (EmbedSU)',
+                url: `https://embed.su/embed/tv/${tmdbId}/1/${episodeNum}`,
                 isDirect: false
             },
             {
