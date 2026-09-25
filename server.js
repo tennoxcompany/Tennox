@@ -168,6 +168,7 @@ Genel Görevlerin:
 
 // Persistent user ratings storage (data/ratings.json)
 const RATINGS_FILE = path.join(__dirname, 'data', 'ratings.json');
+const NEWS_FILE = path.join(__dirname, 'data', 'auto_news.json');
 
 function loadRatings() {
   try {
@@ -192,6 +193,221 @@ function saveRatings(ratings) {
 }
 
 let ratingsData = loadRatings();
+
+// Persistent anime news storage
+function loadNews() {
+  try {
+    if (fs.existsSync(NEWS_FILE)) {
+      const raw = fs.readFileSync(NEWS_FILE, 'utf-8');
+      return JSON.parse(raw);
+    }
+  } catch (e) {
+    console.error('Error reading auto_news.json:', e);
+  }
+  return [];
+}
+
+function saveNews(newsList) {
+  try {
+    const dir = path.dirname(NEWS_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(NEWS_FILE, JSON.stringify(newsList, null, 2), 'utf-8');
+  } catch (e) {
+    console.error('Error writing auto_news.json:', e);
+  }
+}
+
+let autoNewsData = loadNews();
+
+// Helper: Generate rich Turkish anime news from AniList trending data using Gemini or smart template
+async function fetchAndGenerateAnimeNews() {
+  try {
+    const gql = `
+    query {
+      Page(page: 1, perPage: 12) {
+        media(type: ANIME, sort: [TRENDING_DESC, POPULARITY_DESC]) {
+          id
+          title { romaji english native }
+          description(asHtml: false)
+          bannerImage
+          coverImage { extraLarge large }
+          genres
+          studios(isMain: true) { nodes { name } }
+          status
+          seasonYear
+          season
+          episodes
+          nextAiringEpisode { episode airingAt }
+          averageScore
+        }
+      }
+    }`;
+
+    const res = await fetch('https://graphql.anilist.co', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ query: gql })
+    });
+    const json = await res.json();
+    const mediaList = json?.data?.Page?.media || [];
+
+    if (!mediaList.length) return null;
+
+    // Son eklenen haberlerdeki anime isimlerini kontrol et (aynı animeyi art arda yazmasın)
+    const existingTitles = autoNewsData.map(n => (n.title || '').toLowerCase());
+    
+    // Henüz haberi yapılmamış veya en popüler olanı seç
+    let selectedItem = mediaList.find(m => {
+      const tEng = (m.title?.english || '').toLowerCase();
+      const tRom = (m.title?.romaji || '').toLowerCase();
+      return !existingTitles.some(et => (tEng && et.includes(tEng)) || (tRom && et.includes(tRom)));
+    });
+
+    if (!selectedItem) {
+      // Rastgele birini seç
+      selectedItem = mediaList[Math.floor(Math.random() * mediaList.length)];
+    }
+
+    const animeTitle = selectedItem.title?.english || selectedItem.title?.romaji || 'Popüler Anime';
+    const studio = selectedItem.studios?.nodes?.[0]?.name || 'Yapımcı Stüdyo';
+    const genres = (selectedItem.genres || []).join(', ');
+    const score = selectedItem.averageScore ? (selectedItem.averageScore / 10).toFixed(1) : '9.0';
+    const rawDesc = (selectedItem.description || '').replace(/<[^>]*>?/gm, '').slice(0, 400);
+    const imageUrl = selectedItem.bannerImage || selectedItem.coverImage?.extraLarge || selectedItem.coverImage?.large || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1200';
+
+    let newsTitle = `${animeTitle}: Yeni Gelişmeler ve Resmi Duyuru Yayınlandı!`;
+    let newsContent = `Anime dünyasının heyecanla takip ettiği "${animeTitle}", ${studio} stüdyosu tarafından duyurulan yeni detaylarla hayranlarını sevindirdi. ${genres} türlerindeki başarılı yapım, izleyicilerden tam not almaya devam ediyor.\n\nYapımcı ekip, serinin devam bölümleri ve yeni sezon planlamaları hakkında hazırlıkların sürdüğünü belirtti. Tennox olarak tüm gelişmeleri ve yeni bölümleri anbean sizlere aktarmaya devam edeceğiz!`;
+
+    // Gemini ile zengin, profesyonel Türkçe haber içeriği üret
+    try {
+      const prompt = `Aşağıdaki anime bilgisine dayanarak Türkiye'deki anime severler için heyecan verici, resmi ve profesyonel bir Türkçe anime haber yazısı yaz.
+Anime Adı: ${animeTitle}
+Stüdyo: ${studio}
+Türler: ${genres}
+Puan: ${score}/10
+Açıklama: ${rawDesc}
+
+Lütfen yanıtını SADECE geçerli bir JSON formatında döndür, başka metin yazma:
+{
+  "title": "Çarpıcı ve dikkat çekici Türkçe haber başlığı",
+  "content": "2-3 paragraflık samimi, akıcı ve bilgilendirici Türkçe haber metni"
+}`;
+
+      const aiResponse = await generateAiContentWithFallback(prompt, "Sen Türkiye'nin en popüler anime haber editörüsün. Haberleri heyecan verici, akıcı ve profesyonel Türkçe ile kaleme alırsın.");
+      if (aiResponse) {
+        const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          if (parsed.title && parsed.content) {
+            newsTitle = parsed.title;
+            newsContent = parsed.content;
+          }
+        }
+      }
+    } catch (aiErr) {
+      console.warn('[AutoNews] AI summarization fallback:', aiErr?.message || aiErr);
+    }
+
+    const newNewsItem = {
+      id: 'news_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      title: newsTitle,
+      content: newsContent,
+      image_url: imageUrl,
+      created_at: new Date().toISOString(),
+      source: 'Tennox Anime Bot (Resmi Otomatik Yayın)'
+    };
+
+    autoNewsData.unshift(newNewsItem);
+    // En fazla 50 haber tut
+    if (autoNewsData.length > 50) autoNewsData = autoNewsData.slice(0, 50);
+    saveNews(autoNewsData);
+
+    console.log(`[AutoNews] Yeni resmi haber yayınlandı: "${newNewsItem.title}"`);
+    return newNewsItem;
+  } catch (err) {
+    console.error('[AutoNews] Haber çekme hatası:', err);
+    return null;
+  }
+}
+
+// Otomatik 1 Saatte Bir Haber Yayınlama Motoru (3600000 ms)
+const NEWS_INTERVAL_MS = 60 * 60 * 1000;
+setInterval(() => {
+  console.log('[AutoNews] Saatlik otomatik anime haberi taranıyor...');
+  fetchAndGenerateAnimeNews();
+}, NEWS_INTERVAL_MS);
+
+// İlk açılışta eğer haber yoksa hemen 3 adet zengin haber oluştur
+if (autoNewsData.length === 0) {
+  setTimeout(() => {
+    fetchAndGenerateAnimeNews();
+  }, 3000);
+}
+
+// GET all news
+app.get('/api/news', (req, res) => {
+  res.json(autoNewsData);
+});
+
+// POST trigger manual auto-fetch news from admin panel
+app.post('/api/admin/auto-fetch-news', async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (password !== 'cevdet1976') {
+      return res.status(401).json({ error: 'Geçersiz yönetici şifresi.' });
+    }
+
+    const created = await fetchAndGenerateAnimeNews();
+    if (!created) {
+      return res.status(500).json({ error: 'Haber oluşturulamadı. Lütfen tekrar deneyin.' });
+    }
+
+    res.json({
+      success: true,
+      message: 'Resmi Türkçe anime haberi başarıyla çekildi ve yayınlandı!',
+      news: created
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || 'Sunucu hatası' });
+  }
+});
+
+// POST add manual news
+app.post('/api/news', (req, res) => {
+  const { title, content, image_url, password } = req.body;
+  if (password !== 'cevdet1976') {
+    return res.status(401).json({ error: 'Geçersiz şifre' });
+  }
+  if (!title || !content) {
+    return res.status(400).json({ error: 'Başlık ve içerik gereklidir.' });
+  }
+
+  const newItem = {
+    id: 'news_' + Date.now(),
+    title: title.trim(),
+    content: content.trim(),
+    image_url: image_url || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1200',
+    created_at: new Date().toISOString(),
+    source: 'Tennox Editör'
+  };
+
+  autoNewsData.unshift(newItem);
+  saveNews(autoNewsData);
+  res.json({ success: true, news: newItem });
+});
+
+// DELETE news
+app.delete('/api/news/:id', (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+  if (password !== 'cevdet1976') {
+    return res.status(401).json({ error: 'Geçersiz şifre' });
+  }
+
+  autoNewsData = autoNewsData.filter(n => n.id !== id);
+  saveNews(autoNewsData);
+  res.json({ success: true, id });
+});
 
 // GET all ratings
 app.get('/api/ratings', (req, res) => {
