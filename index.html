@@ -8081,11 +8081,10 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     if (parsedSource.isEmbed) {
         // 1. IMDB veya TMDB ID biliniyorsa doğrudan en hızlı TV & Anime sunucuları
         if (imdbId || tmdbId) {
-            const queryId = imdbId || tmdbId;
             embedServers.push(
                 {
                     id: 'srv-smashy-main',
-                    name: '🇯🇵 Sunucu 1 (Smashy Hızlı)',
+                    name: '🇯🇵 Sunucu 1 (Smashy Stream)',
                     badge: 'Kesintisiz',
                     url: imdbId 
                         ? `https://embed.smashystream.com/playere.php?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}`
@@ -8100,35 +8099,35 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                         : `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
                 },
                 {
-                    id: 'srv-vidsrccc-main',
-                    name: '🇯🇵 Sunucu 3 (VidSrc CC)',
+                    id: 'srv-vidlink-main',
+                    name: '🇯🇵 Sunucu 3 (VidLink HD)',
                     badge: 'Hızlı',
                     url: tmdbId 
-                        ? `https://vidsrc.cc/v2/embed/tv/${tmdbId}/${seasonNumber}/${eNum}`
-                        : `https://vidsrc.cc/v2/embed/tv/${imdbId}/${seasonNumber}/${eNum}`
+                        ? `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${eNum}`
+                        : `https://vidlink.pro/tv/${imdbId}/${seasonNumber}/${eNum}`
+                },
+                {
+                    id: 'srv-superembed-main',
+                    name: '🇯🇵 Sunucu 4 (SuperEmbed)',
+                    badge: 'Popüler',
+                    url: tmdbId 
+                        ? `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1&s=${seasonNumber}&e=${eNum}`
+                        : `https://multiembed.mov/?video_id=${imdbId}&s=${seasonNumber}&e=${eNum}`
                 },
                 {
                     id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 4 (Videasy HD)',
+                    name: '🇯🇵 Sunucu 5 (Videasy HD)',
                     badge: 'HD',
                     url: tmdbId 
                         ? `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}`
                         : `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrcpm-sub',
-                    name: '🇯🇵 Sunucu 5 (VidSrc PM)',
-                    badge: 'Popüler',
-                    url: tmdbId 
-                        ? `https://vidsrc.pm/embed/tv?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}`
-                        : `https://vidsrc.pm/embed/tv?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}`
                 }
             );
         } else if (aniId) {
             embedServers.push(
                 {
                     id: 'srv-smashy-ani',
-                    name: '🇯🇵 Sunucu 1 (Smashy Hızlı)',
+                    name: '🇯🇵 Sunucu 1 (Smashy Stream)',
                     badge: 'Kesintisiz',
                     url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}`
                 },
@@ -8143,12 +8142,6 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                     name: '🇯🇵 Sunucu 3 (Videasy HD)',
                     badge: 'HD',
                     url: `https://player.videasy.to/anime/${aniId}/${eNum}`
-                },
-                {
-                    id: 'srv-vidsrccc-ani',
-                    name: '🇯🇵 Sunucu 4 (VidSrc CC)',
-                    badge: 'Hızlı',
-                    url: `https://vidsrc.cc/v2/embed/anime/${aniId}/${eNum}`
                 }
             );
         }
