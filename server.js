@@ -164,8 +164,46 @@ Genel Görevlerin:
   } catch (err) {
     console.error('AI Chat Error:', err);
     res.json({
-      reply: 'Yapay zeka asistanı şu anda kısa bir mola veriyor. Birkaç saniye sonra tekrar sorabilir misin? 🍿'
+      reply: 'Yapay zeka asistanı şu multi mola veriyor. Birkaç saniye sonra tekrar sorabilir misin? 🍿'
     });
+  }
+});
+
+// AI Subtitle Translation Endpoint powered by Gemini
+app.post('/api/ai/translate-subtitle', async (req, res) => {
+  try {
+    const { subtitleText, animeTitle, targetLang = 'tr' } = req.body;
+    if (!subtitleText || typeof subtitleText !== 'string' || !subtitleText.trim()) {
+      return res.status(400).json({ error: 'Çevrilecek altyazı metni boş olamaz.' });
+    }
+
+    const systemInstruction = `Sen profesyonel bir anime fansub çevirmenisin (AnimeXir AI Subtitle Engine).
+Görevlerin:
+1. Verilen anime altyazısını (SRT, VTT veya düz diyalog satırları) doğal, akıcı ve samimi bir Türkçe'ye çevirmek.
+2. Zamanlama kodlarını (00:00:00,000 --> 00:00:00,000 veya satır numaralarını) ASLA DEĞİŞTİRMEDEN birebir korumak.
+3. Anime terimlerini, hitap eklerini (Senpai, Sensei, Kun, Chan, Nakama, Jutsu vb.) ve karakter tonlamalarını yerinde ve özenle aktarmak.
+4. Çıktı olarak SADECE çevrilmiş altyazıyı döndürmek, başına veya sonuna açıklama eklememek.`;
+
+    const prompt = `Anime: ${animeTitle || 'Anime'}
+Hedef Dil: Türkçe (${targetLang})
+
+Aşağıdaki altyazıyı zaman kodlarını ve satır yapılarını bozmadan profesyonel anime Türkçe fansub diline çevir:
+
+${subtitleText.slice(0, 15000)}`;
+
+    const translated = await generateAiContentWithFallback(prompt, systemInstruction);
+    if (!translated) {
+      return res.status(500).json({ error: 'Altyazı çevirisi yapılamadı.' });
+    }
+
+    return res.json({
+      success: true,
+      translatedText: translated,
+      sourceLength: subtitleText.length
+    });
+  } catch (err) {
+    console.error('AI Subtitle Translation Error:', err);
+    return res.status(500).json({ error: 'Altyazı çevrilirken bir hata oluştu.' });
   }
 });
 

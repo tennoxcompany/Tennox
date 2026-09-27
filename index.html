@@ -6466,6 +6466,104 @@ button { font-family: inherit; }
     </div>
 </div>
 
+<!-- ================= TÜRKÇE ALTYAZI KILAVUZU MODALI ================= -->
+<div class="modal-overlay" id="acxSubtitleHelpModal">
+    <div class="modal-box" style="max-width: 520px; text-align: left; padding: 26px 28px;">
+        <button class="modal-close" id="acxSubtitleHelpCloseBtn">×</button>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom: 14px;">
+            <span style="font-size:1.8rem;">🇹🇷</span>
+            <div>
+                <h3 style="font-size:1.25rem; font-weight:800; color:#fff; margin:0;">Türkçe Altyazı Rehberi</h3>
+                <p style="font-size:0.8rem; color:#94a3b8; margin:2px 0 0;">AnimeXir yüksek kaliteli kesintisiz altyazı sistemi</p>
+            </div>
+        </div>
+        
+        <div style="background: rgba(229,9,20,0.1); border: 1px solid rgba(229,9,20,0.25); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 0.86rem; color: #fecaca; line-height: 1.5;">
+            <strong>✓ 1. ve 2. Sunucu Otomatik Türkçe Altyazılıdır:</strong> Video başladığında Türkçe altyazı varsayılan olarak açılır.
+        </div>
+
+        <div style="font-size:0.86rem; color:#cbd5e1; line-height:1.65; display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+                <span style="background:#1e293b; color:#38bdf8; font-weight:700; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</span>
+                <div>
+                    <strong style="color:#fff;">Oynatıcı İçi [CC] Menüsü:</strong>
+                    Video açıldığında ekranın sağ altındaki <strong>[CC]</strong> veya <strong>[⚙️]</strong> simgesine tıklayarak <em>"Turkish / Türkçe"</em> seçeneğini açabilir, altyazı font boyutunu büyütebilirsiniz.
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+                <span style="background:#1e293b; color:#38bdf8; font-weight:700; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</span>
+                <div>
+                    <strong style="color:#fff;">Sunucu Değiştirme (Sağ Menü):</strong>
+                    Sağdaki listeden <strong>1. VidLink VIP</strong>, <strong>2. Smashy</strong> veya <strong>3. Videasy HD</strong> sunucularını seçerek alternatif Türkçe akışlara anında geçebilirsiniz.
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+                <span style="background:#1e293b; color:#38bdf8; font-weight:700; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</span>
+                <div>
+                    <strong style="color:#fff;">Yeni Sekmede Aç Butonu:</strong>
+                    Tarayıcınız iframe içi çerez veya altyazı kısıtlaması uygularsa alttaki <strong>"🚀 Yeni Sekmede Aç"</strong> butonuna basarak tam ekranda doğrudan izleyebilirsiniz.
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="acxSubtitleHelpOkBtn" style="width:100%; margin-top:22px; padding:12px; font-weight:700;">Anladım, İzlemeye Devam Et</button>
+    </div>
+</div>
+
+<!-- ================= YAPAY ZEKA ALTYAZI ÇEVİRİCİ MODALI ================= -->
+<div class="modal-overlay" id="acxAiTranslateModal">
+    <div class="modal-box" style="max-width: 640px; text-align: left; padding: 24px 26px;">
+        <button class="modal-close" id="acxAiTranslateCloseBtn">×</button>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom: 12px;">
+            <span style="font-size:1.8rem; background:linear-gradient(135deg,#8b5cf6,#ec4899); border-radius:10px; padding:4px 8px; display:inline-block;">🤖</span>
+            <div>
+                <h3 style="font-size:1.25rem; font-weight:800; color:#fff; margin:0;">AnimeXir AI Altyazı Çevirmeni</h3>
+                <p style="font-size:0.8rem; color:#94a3b8; margin:2px 0 0;">Gemini destekli anlık Türkçe anime fansub çeviri motoru</p>
+            </div>
+        </div>
+
+        <div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.25); border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:0.82rem; color:#ddd6fe; line-height:1.5;">
+            ✨ İngilizce veya Japonca altyazıyı (.srt, .vtt veya diyalog metni) yapıştır veya dosya yükle; yapay zeka anime terimlerini koruyarak saniyeler içinde doğal Türkçe fansuba çevirsin!
+        </div>
+
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+            <label class="btn btn-ghost" style="padding:6px 14px; font-size:0.8rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px; border:1px dashed rgba(255,255,255,0.25);">
+                <span>📁 .SRT / .VTT Dosyası Seç</span>
+                <input type="file" id="acxAiSubFileInput" accept=".srt,.vtt,.txt" style="display:none;">
+            </label>
+            <button type="button" class="btn btn-ghost" id="acxAiSubSampleBtn" style="padding:6px 12px; font-size:0.8rem; color:#94a3b8;">Örnek Metin Doldur</button>
+        </div>
+
+        <div class="field" style="margin-bottom:12px;">
+            <label style="font-size:0.8rem; color:#cbd5e1; font-weight:600; display:flex; justify-content:space-between;">
+                <span>Kaynak Altyazı Metni (İngilizce / Japonca):</span>
+                <span id="acxAiSubCharCount" style="color:#94a3b8; font-size:0.75rem;">0 karakter</span>
+            </label>
+            <textarea id="acxAiSubInputText" rows="5" placeholder="1
+00:00:01,000 --> 00:00:04,000
+I will become the Pirate King!
+Senpai, watch out!" style="width:100%; background:#0f1018; border:1px solid rgba(255,255,255,0.15); border-radius:8px; padding:10px; color:#fff; font-family:monospace; font-size:0.82rem; outline:none; resize:vertical;"></textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="acxAiSubStartTranslateBtn" style="width:100%; padding:12px; font-weight:700; background:linear-gradient(135deg,#8b5cf6,#ec4899); border:none; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span>✨ Yapay Zeka İle Türkçe'ye Çevir</span>
+        </button>
+
+        <div id="acxAiSubResultWrap" style="display:none; margin-top:16px;">
+            <label style="font-size:0.8rem; color:#10b981; font-weight:700; margin-bottom:6px; display:block;">✓ Türkçe Çevrilmiş Altyazı:</label>
+            <textarea id="acxAiSubOutputText" rows="6" readonly style="width:100%; background:#090a10; border:1px solid #10b981; border-radius:8px; padding:10px; color:#a7f3d0; font-family:monospace; font-size:0.82rem; outline:none; resize:vertical;"></textarea>
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+                <button type="button" class="btn btn-ghost" id="acxAiSubCopyBtn" style="padding:6px 14px; font-size:0.8rem;">📋 Kopyala</button>
+                <button type="button" class="btn btn-primary" id="acxAiSubDownloadBtn" style="padding:6px 14px; font-size:0.8rem; background:#10b981; border-color:#10b981;">⬇ .SRT İndir</button>
+            </div>
+        </div>
+
+        <div id="acxAiSubStatusMsg" style="font-size:0.82rem; margin-top:10px; display:none;"></div>
+    </div>
+</div>
+
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
 
@@ -9024,6 +9122,10 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                             <span>${escapeHtml(anime.title)}</span> • <span>${seasonNumber}. Sezon ${episodeNumber}. Bölüm</span>
                         </div>
                         <div style="display:flex;align-items:center;gap:8px;">
+                            <button class="acx-ctrl-btn" id="acxAiSubTranslateBtn" title="AnimeXir Yapay Zeka Altyazı Çevirisi" style="background:linear-gradient(135deg, #8b5cf6, #ec4899);border:1px solid rgba(255,255,255,0.25);color:#fff;padding:0 12px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:700;box-shadow:0 2px 8px rgba(139,92,246,0.35);">
+                                <span>🤖</span>
+                                <span>AI TR Çevirici</span>
+                            </button>
                             <button class="acx-ctrl-btn" id="acxSubtitlesModalBtn" title="Türkçe Altyazı Durumu" style="background:rgba(229,9,20,0.85);border:1px solid rgba(229,9,20,0.9);color:#fff;padding:0 12px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:700;">
                                 <span>🇹🇷</span>
                                 <span id="acxSubStatusBadge">Altyazı: AÇIK</span>
@@ -9343,19 +9445,163 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         }, 3500);
     }
 
+    // Türkçe Altyazı Rehberi Modalı Açma / Kapama
+    const openSubHelpModal = () => {
+        const m = document.getElementById('acxSubtitleHelpModal');
+        if (m) m.classList.add('open');
+    };
+    const closeSubHelpModal = () => {
+        const m = document.getElementById('acxSubtitleHelpModal');
+        if (m) m.classList.remove('open');
+    };
+
+    document.getElementById('acxSubtitleHelpCloseBtn')?.addEventListener('click', closeSubHelpModal);
+    document.getElementById('acxSubtitleHelpOkBtn')?.addEventListener('click', closeSubHelpModal);
+    document.getElementById('acxSubtitleHelpModal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'acxSubtitleHelpModal') closeSubHelpModal();
+    });
+
     document.getElementById('acxSubtitlesModalBtn')?.addEventListener('click', () => {
-        autoSubActive = !autoSubActive;
-        if (subBadge) {
-            subBadge.innerText = autoSubActive ? 'Altyazı: AÇIK' : 'Altyazı: KAPALI';
+        openSubHelpModal();
+    });
+
+    // Yapay Zeka Altyazı Çevirmeni Modalı Açma / Kapama ve Çeviri İşlemleri
+    const openAiTranslateModal = () => {
+        const m = document.getElementById('acxAiTranslateModal');
+        if (m) m.classList.add('open');
+    };
+    const closeAiTranslateModal = () => {
+        const m = document.getElementById('acxAiTranslateModal');
+        if (m) m.classList.remove('open');
+    };
+
+    document.getElementById('acxAiTranslateCloseBtn')?.addEventListener('click', closeAiTranslateModal);
+    document.getElementById('acxAiTranslateModal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'acxAiTranslateModal') closeAiTranslateModal();
+    });
+
+    document.getElementById('acxAiSubTranslateBtn')?.addEventListener('click', () => {
+        openAiTranslateModal();
+    });
+
+    // Karakter Sayacı
+    const subInput = document.getElementById('acxAiSubInputText');
+    const subCharCount = document.getElementById('acxAiSubCharCount');
+    if (subInput && subCharCount) {
+        subInput.addEventListener('input', () => {
+            subCharCount.textContent = `${subInput.value.length} karakter`;
+        });
+    }
+
+    // Örnek Metin Butonu
+    document.getElementById('acxAiSubSampleBtn')?.addEventListener('click', () => {
+        if (subInput) {
+            subInput.value = `1\n00:00:02,150 --> 00:00:05,400\nOre wa Kaizoku Ou ni naru otoko da!\n(I'm the man who will become the Pirate King!)\n\n2\n00:00:06,200 --> 00:00:09,800\nSenpai, hold on tight, the enemy is coming with full force!\n\n3\n00:00:10,500 --> 00:00:14,000\nNever give up on your comrades! Nakama is everything.`;
+            if (subCharCount) subCharCount.textContent = `${subInput.value.length} karakter`;
         }
-        if (subDisplay && subText) {
-            subDisplay.style.display = 'block';
-            subText.innerText = autoSubActive ? '🇹🇷 Otomatik Türkçe Altyazı Açıldı' : '⚪ Altyazı Kapatıldı';
-            setTimeout(() => {
-                subDisplay.style.display = 'none';
-            }, 2500);
+    });
+
+    // Dosyadan .SRT / .VTT Okuma
+    document.getElementById('acxAiSubFileInput')?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            if (subInput) {
+                subInput.value = event.target.result;
+                if (subCharCount) subCharCount.textContent = `${subInput.value.length} karakter`;
+            }
+        };
+        reader.readAsText(file);
+    });
+
+    // Yapay Zeka Çevirisini Başlat Butonu
+    const startTranslateBtn = document.getElementById('acxAiSubStartTranslateBtn');
+    const resultWrap = document.getElementById('acxAiSubResultWrap');
+    const outputText = document.getElementById('acxAiSubOutputText');
+    const statusMsg = document.getElementById('acxAiSubStatusMsg');
+
+    startTranslateBtn?.addEventListener('click', async () => {
+        const text = subInput ? subInput.value.trim() : '';
+        if (!text) {
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = '#f87171';
+                statusMsg.textContent = 'Lütfen çevrilecek bir altyazı metni yapıştırın veya dosya seçin.';
+            }
+            return;
         }
-        showToast(autoSubActive ? '🇹🇷 Türkçe Altyazı Aktif' : '⚪ Altyazı Kapatıldı', 'info');
+
+        startTranslateBtn.disabled = true;
+        startTranslateBtn.innerHTML = '<span>⏳ Çevriliyor... Lütfen bekleyin</span>';
+        if (statusMsg) {
+            statusMsg.style.display = 'block';
+            statusMsg.style.color = '#38bdf8';
+            statusMsg.textContent = 'Yapay zeka anime terminolojisini analiz ediyor ve Türkçe fansuba çeviriyor...';
+        }
+
+        try {
+            const res = await fetch('/api/ai/translate-subtitle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    subtitleText: text,
+                    animeTitle: anime.title || 'Anime',
+                    targetLang: 'tr'
+                })
+            });
+
+            const data = await res.json();
+            if (!res.ok || data.error) {
+                throw new Error(data.error || 'Çeviri başarısız oldu.');
+            }
+
+            if (outputText) outputText.value = data.translatedText;
+            if (resultWrap) resultWrap.style.display = 'block';
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = '#34d399';
+                statusMsg.textContent = '✓ Altyazı başarıyla Türkçe fansuba çevrildi!';
+            }
+        } catch (err) {
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = '#f87171';
+                statusMsg.textContent = 'Hata: ' + (err.message || 'Çeviri tamamlanamadı.');
+            }
+        } finally {
+            startTranslateBtn.disabled = false;
+            startTranslateBtn.innerHTML = '<span>✨ Yapay Zeka İle Türkçe\'ye Çevir</span>';
+        }
+    });
+
+    // Kopyalama Butonu
+    document.getElementById('acxAiSubCopyBtn')?.addEventListener('click', () => {
+        if (outputText && outputText.value) {
+            navigator.clipboard.writeText(outputText.value).then(() => {
+                showToast('✓ Türkçe altyazı panoya kopyalandı!', 'success');
+            }).catch(() => {
+                outputText.select();
+                document.execCommand('copy');
+                showToast('✓ Altyazı kopyalandı!', 'success');
+            });
+        }
+    });
+
+    // .SRT İndirme Butonu
+    document.getElementById('acxAiSubDownloadBtn')?.addEventListener('click', () => {
+        if (outputText && outputText.value) {
+            const blob = new Blob([outputText.value], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${(anime.title || 'Anime').replace(/[^a-zA-Z0-9]/g, '_')}_TR_Altyazi.srt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('✓ Türkçe altyazı dosyası indirildi!', 'success');
+        }
     });
 
     // Oynatıcı Yenile Butonu
@@ -10831,6 +11077,7 @@ function renderAdminDashboard() {
         <div class="admin-tabs">
             <button class="admin-tab active" data-tab="auto-anime">🔥 Otomatik Anime Çek</button>
             <button class="admin-tab" data-tab="bulk-episodes">⚡ Toplu Bölüm Ekle</button>
+            <button class="admin-tab" data-tab="ai-subtitles" style="color:#c084fc; font-weight:700;">🤖 AI Altyazı Çevir</button>
             <button class="admin-tab" data-tab="anime">Manuel Anime</button>
             <button class="admin-tab" data-tab="season">Sezon Ekle</button>
             <button class="admin-tab" data-tab="episode">Bölüm Ekle</button>
@@ -11671,6 +11918,152 @@ veya
             const bText = document.getElementById('bulkUrlsText');
             if (bText) bText.value = '';
             await loadAllData();
+        });
+
+    } else if (tab === 'ai-subtitles') {
+        const animeOptions = animeList.map(a => `<option value="${escapeHtml(a.title)}">${escapeHtml(a.title)}</option>`).join('');
+        wrap.innerHTML = `
+            <div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.3); border-radius:10px; padding:14px; margin-bottom:16px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                    <span style="font-size:1.3rem;">🤖</span>
+                    <strong style="color:#c084fc; font-size:0.95rem;">AnimeXir Gemini Yapay Zeka Altyazı Çeviri Motoru</strong>
+                </div>
+                <p style="font-size:0.8rem; color:#cbd5e1; margin:0; line-height:1.5;">
+                    İngilizce veya Japonca anime altyazılarını (.srt, .vtt) zamanlama kodlarını bozmadan doğrudan Türkçe fansuba dönüştürün.
+                </p>
+            </div>
+
+            <div class="field">
+                <label>Hangi Anime İçin Çeviriyorsun?</label>
+                <select id="adminAiSubAnimeSelect">
+                    <option value="">Genel Anime / Seçiniz</option>
+                    ${animeOptions}
+                </select>
+            </div>
+
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <label class="btn btn-ghost" style="padding:6px 14px; font-size:0.8rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px; border:1px dashed rgba(255,255,255,0.25);">
+                    <span>📁 .SRT / .VTT Dosyası Yükle</span>
+                    <input type="file" id="adminAiSubFileInput" accept=".srt,.vtt,.txt" style="display:none;">
+                </label>
+                <button type="button" class="btn btn-ghost" id="adminAiSubSampleBtn" style="padding:6px 12px; font-size:0.8rem; color:#94a3b8;">Örnek Metin Doldur</button>
+            </div>
+
+            <div class="field" style="margin-bottom:14px;">
+                <label style="display:flex; justify-content:space-between;">
+                    <span>Kaynak Altyazı Metni (İngilizce/Japonca):</span>
+                    <span id="adminAiSubCharCount" style="color:#94a3b8; font-size:0.75rem;">0 karakter</span>
+                </label>
+                <textarea id="adminAiSubInput" rows="6" placeholder="1\n00:00:02,000 --> 00:00:05,000\nI will become the strongest!\nSenpai, don't give up!" style="font-family:monospace; font-size:0.82rem;"></textarea>
+            </div>
+
+            <button class="btn btn-primary" id="adminAiSubTranslateBtn" style="width:100%; padding:12px; background:linear-gradient(135deg,#8b5cf6,#ec4899); border:none; font-weight:700;">
+                ✨ Yapay Zeka ile Türkçe Fansuba Çevir
+            </button>
+
+            <div id="adminAiSubResultWrap" style="display:none; margin-top:16px;">
+                <label style="font-size:0.82rem; color:#10b981; font-weight:700; margin-bottom:6px; display:block;">✓ Çevrilmiş Türkçe Altyazı:</label>
+                <textarea id="adminAiSubOutput" rows="7" readonly style="background:#090a10; border:1px solid #10b981; color:#a7f3d0; font-family:monospace; font-size:0.82rem;"></textarea>
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+                    <button type="button" class="btn btn-ghost" id="adminAiSubCopyBtn" style="padding:6px 14px; font-size:0.8rem;">📋 Kopyala</button>
+                    <button type="button" class="btn btn-primary" id="adminAiSubDownloadBtn" style="padding:6px 14px; font-size:0.8rem; background:#10b981; border-color:#10b981;">⬇ .SRT Olarak İndir</button>
+                </div>
+            </div>
+        `;
+
+        const aInput = document.getElementById('adminAiSubInput');
+        const aCount = document.getElementById('adminAiSubCharCount');
+        if (aInput && aCount) {
+            aInput.addEventListener('input', () => {
+                aCount.textContent = `${aInput.value.length} karakter`;
+            });
+        }
+
+        document.getElementById('adminAiSubSampleBtn')?.addEventListener('click', () => {
+            if (aInput) {
+                aInput.value = `1\n00:00:01,000 --> 00:00:04,500\nI will never forgive you for hurting my nakama!\n\n2\n00:00:05,100 --> 00:00:08,200\nBankai! Tensa Zangetsu!\n\n3\n00:00:09,000 --> 00:00:12,300\nSenpai, please be careful out there!`;
+                if (aCount) aCount.textContent = `${aInput.value.length} karakter`;
+            }
+        });
+
+        document.getElementById('adminAiSubFileInput')?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                if (aInput) {
+                    aInput.value = event.target.result;
+                    if (aCount) aCount.textContent = `${aInput.value.length} karakter`;
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        const aTranslateBtn = document.getElementById('adminAiSubTranslateBtn');
+        const aOutput = document.getElementById('adminAiSubOutput');
+        const aResWrap = document.getElementById('adminAiSubResultWrap');
+
+        aTranslateBtn?.addEventListener('click', async () => {
+            const text = aInput ? aInput.value.trim() : '';
+            if (!text) {
+                showAdminMsg('Lütfen çevrilecek bir altyazı metni girin veya dosya seçin.', false);
+                return;
+            }
+
+            aTranslateBtn.disabled = true;
+            aTranslateBtn.innerHTML = '<span>⏳ Çevriliyor... (Yapay Zeka Çalışıyor)</span>';
+            showAdminMsg('Gemini yapay zeka motoru anime terminolojisini analiz ederek Türkçe çeviriyi hazırlıyor...', true);
+
+            try {
+                const animeTitle = document.getElementById('adminAiSubAnimeSelect')?.value || 'Anime';
+                const res = await fetch('/api/ai/translate-subtitle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        subtitleText: text,
+                        animeTitle: animeTitle,
+                        targetLang: 'tr'
+                    })
+                });
+
+                const data = await res.json();
+                if (!res.ok || data.error) {
+                    throw new Error(data.error || 'Çeviri başarısız oldu.');
+                }
+
+                if (aOutput) aOutput.value = data.translatedText;
+                if (aResWrap) aResWrap.style.display = 'block';
+                showAdminMsg('Tebrikler! Altyazı başarıyla Türkçe fansub formatında çevrildi ✓', true);
+            } catch (err) {
+                showAdminMsg('Çeviri hatası: ' + err.message, false);
+            } finally {
+                aTranslateBtn.disabled = false;
+                aTranslateBtn.innerHTML = '<span>✨ Yapay Zeka ile Türkçe Fansuba Çevir</span>';
+            }
+        });
+
+        document.getElementById('adminAiSubCopyBtn')?.addEventListener('click', () => {
+            if (aOutput && aOutput.value) {
+                navigator.clipboard.writeText(aOutput.value).then(() => {
+                    showAdminMsg('Türkçe altyazı kopyalandı ✓', true);
+                });
+            }
+        });
+
+        document.getElementById('adminAiSubDownloadBtn')?.addEventListener('click', () => {
+            if (aOutput && aOutput.value) {
+                const animeTitle = document.getElementById('adminAiSubAnimeSelect')?.value || 'Anime';
+                const blob = new Blob([aOutput.value], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${animeTitle.replace(/[^a-zA-Z0-9]/g, '_')}_TR_Altyazi.srt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showAdminMsg('Altyazı dosyası indirildi ✓', true);
+            }
         });
 
     } else if (tab === 'anime') {
