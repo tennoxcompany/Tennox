@@ -6848,16 +6848,16 @@ async function clientAutoFetchAnimeNews(adminPw = 'cevdet1976') {
 
     const newsTemplates = [
         {
-            title: `🔥 ${title}: Yeni Sezon ve Resmi Yapım Detayları Duyuruldu!`,
-            content: `Anime dünyasında büyük yankı uyandıran "${title}", ${studio} stüdyosu tarafından duyurulan yeni detaylarla hayranlarını heyecanlandırdı. ${genres} türlerindeki sevilen yapım, dünya çapında ${score}/10 puan ortalamasıyla en çok konuşulan seriler arasında yer alıyor.\n\nYapımcı ekip, serinin yeni bölümlerinin yüksek prodüksiyon kalitesiyle izleyiciyle buluşacağını açıkladı. AnimeXir (Tennox Company) olarak serinin tüm gelişmelerini ve Türkçe bölümlerini anbean yayınlamaya devam edeceğiz!`
+            title: `📢 ${title}: Resmi Yapım ve Yeni Sezon Detayları Paylaşıldı`,
+            content: `Anime dünyasında dikkatleri üzerine çeken "${title}", yapımcı stüdyo ${studio} tarafından paylaşılan yeni resmi bültenle gündeme geldi. ${genres} türlerini başarıyla harmanlayan yapım, izleyicilerden ${score}/10 gibi yüksek bir beğeni oranına sahip.\n\nYapımcı ekip, serinin devam bölümlerinde yüksek prodüksiyon ve çizim kalitesini koruyacağını vurguladı. AnimeXir (Tennox Company) olarak serinin tüm gelişmelerini ve Türkçe dublaj/altyazı seçeneklerini sunmaya devam ediyoruz.`
         },
         {
-            title: `✨ ${title}: Hayranlarını Sevindiren Özel Duyuru ve Yayın Tarihi!`,
-            content: `Göz alıcı animasyonları ve sürükleyici kurgusuyla dikkat çeken "${title}", ${studio} yapımcılığında yeni bir rekora imza attı. ${genres} kategorisinde zirveye oynayan yapım, anime severlerden tam not almaya devam ediyor.\n\nYeni bölümler ve yayın takvimi hakkında resmi detayların önümüzdeki günlerde paylaşılacağı bildirildi. En güncel anime haberleri için AnimeXir'i takipte kalın!`
+            title: `🎬 ${title} İçin Yeni Tanıtım Afişi ve Yayın Takvimi Açıklandı`,
+            content: `Göz alıcı çizimleri ve akıcı temposuyla bilinen "${title}", ${studio} stüdyosunun yayınladığı yeni tanıtım afişiyle anime severlerin ilgisini çekti. ${genres} kategorisinde merakla takip edilen seri, hikaye kurgusuyla öne çıkıyor.\n\nResmi yayın takvimine göre yeni bölümler önümüzdeki süreçte izleyicilerle buluşacak. AnimeXir üzerinden serinin güncel bölümlerini takip edebilirsiniz.`
         },
         {
-            title: `🎬 ${title} İçin Yeni Görseller ve Özel Tanıtım Yayınlandı!`,
-            content: `Popüler anime serisi "${title}", ${studio} stüdyosunun paylaştığı yeni tanıtım afişiyle sosyal medyada gündem oldu. ${genres} severlerin favorisi olan yapım, izleyicilere unutulmaz sahneler sunmaya devam ediyor.\n\nAnimeXir platformunda serinin tüm bölümlerini en yüksek kalitede ve kesintisiz izleyebilirsiniz!`
+            title: `✨ ${title}: Stüdyodan Özel Karakter Görselleri ve Yapım Notları`,
+            content: `Popüler anime serisi "${title}", ${studio} ekibinin paylaştığı prodüksiyon notları ve karakter konsept tasarımlarıyla yeniden konuşulmaya başlandı. ${genres} severlerin beğenisini toplayan yapım, güçlü atmosferiyle dikkat çekiyor.\n\nSerinin bölümlerini en güncel Türkçe altyazı ve dublaj desteğiyle AnimeXir platformunda izleyebilirsiniz!`
         }
     ];
 
@@ -8888,93 +8888,77 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     let initialEmbedUrl = '';
 
     if (parsedSource.isEmbed) {
-        // TRAnime Kaynakları (AitrVip, Vidmoly, Sibnet, Streamwish vb.)
+        // Gerçek ve Çalışan Çoklu Anime Yayın Sunucuları (Doğrudan Türkçe Altyazılı)
         if (imdbId || tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-aitrvip',
-                    name: 'AitrVip',
-                    sub: 'Efrasiyab / 1080p VIP',
-                    badge: 'AitrVip',
+                    id: 'srv-vidlink-vip',
+                    name: '1 VidLink VIP (Türkçe Altyazı)',
+                    sub: '1080p FHD • Otomatik TR Altyazı',
+                    badge: 'VIP TR',
                     url: tmdbId 
                         ? `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
                         : `https://vidlink.pro/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
                 },
                 {
-                    id: 'srv-vidmoly',
-                    name: 'Vidmoly',
-                    sub: 'Hızlı & Kesintisiz',
-                    badge: 'Vidmoly',
-                    url: imdbId 
-                        ? `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
-                        : `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
-                },
-                {
-                    id: 'srv-sibnet',
-                    name: 'Sibnet',
-                    sub: 'Reklamsız / 720p',
-                    badge: 'Sibnet',
-                    url: tmdbId 
-                        ? `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
-                        : `https://multiembed.mov/?video_id=${imdbId}&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
-                },
-                {
-                    id: 'srv-smashy',
-                    name: 'Smashy Stream',
-                    sub: 'Orijinal Ses / FHD',
+                    id: 'srv-smashy-hd',
+                    name: '2 Smashy Stream (Hızlı)',
+                    sub: 'Kesintisiz Hızlı Akış',
                     badge: 'Smashy',
                     url: imdbId 
                         ? `https://embed.smashystream.com/playere.php?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
                         : `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
                 },
                 {
-                    id: 'srv-streamwish',
-                    name: 'Streamwish',
-                    sub: 'Mobil Uyumlu',
-                    badge: 'Streamwish',
+                    id: 'srv-videasy-hd',
+                    name: '3 Videasy HD (TR Altyazı)',
+                    sub: 'Türkçe Sub Destekli',
+                    badge: 'Videasy',
+                    url: tmdbId 
+                        ? `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
+                        : `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
+                },
+                {
+                    id: 'srv-superembed-tr',
+                    name: '4 SuperEmbed (Çoklu Dil)',
+                    sub: 'Alternatif TR Kaynak',
+                    badge: 'Super',
+                    url: tmdbId 
+                        ? `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
+                        : `https://multiembed.mov/?video_id=${imdbId}&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
+                },
+                {
+                    id: 'srv-2embed-direct',
+                    name: '5 2Embed Direct',
+                    sub: 'Doğrudan Yayın',
+                    badge: 'Direct',
                     url: imdbId 
                         ? `https://www.2embed.cc/embed/tv/${imdbId}&s=${seasonNumber}&e=${eNum}`
                         : `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
-                },
-                {
-                    id: 'srv-doodstream',
-                    name: 'Doodstream',
-                    sub: 'Yüksek Hız',
-                    badge: 'Dood',
-                    url: tmdbId 
-                        ? `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
-                        : `https://vidlink.pro/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
                 }
             );
         } else if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-aitrvip-ani',
-                    name: 'AitrVip',
-                    sub: 'Efrasiyab / 1080p',
-                    badge: 'AitrVip',
+                    id: 'srv-smashy-ani',
+                    name: '1 Smashy Anime (Türkçe Altyazı)',
+                    sub: 'FHD • Otomatik TR Altyazı',
+                    badge: 'Smashy TR',
                     url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}&sub=tr`
                 },
                 {
-                    id: 'srv-vidmoly-ani',
-                    name: 'Vidmoly',
+                    id: 'srv-videasy-ani',
+                    name: '2 Videasy Anime HD',
                     sub: 'Hızlı & Kesintisiz',
-                    badge: 'Vidmoly',
+                    badge: 'Videasy',
                     url: `https://player.videasy.to/anime/${aniId}/${eNum}?sub_lang=tr&sub=1`
                 },
                 {
-                    id: 'srv-sibnet-ani',
-                    name: 'Sibnet',
-                    sub: 'Reklamsız / HD',
-                    badge: 'Sibnet',
+                    id: 'srv-2embed-ani',
+                    name: '3 2Embed Anime',
+                    sub: 'Orijinal Ses & Kalite',
+                    badge: '2Embed',
                     url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
-                },
-                {
-                    id: 'srv-streamwish-ani',
-                    name: 'Streamwish',
-                    sub: 'Mobil Uyumlu',
-                    badge: 'Streamwish',
-                    url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}&sub=tr`
                 }
             );
         }
@@ -9183,11 +9167,10 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 </div>
             </div>
 
-            <!-- 3-) TRAnime Birebir Sarı Bilgilendirme Şeridi -->
+            <!-- 3-) TRAnime Birebir Sarı Bilgilendirme Şeridi (Türkçe Altyazı & Kaynak Rehberi) -->
             <div class="tranime-yellow-banner" id="tranimeYellowBanner">
-                <strong>www.animexir.com /</strong> Profil kullanıcı adını ve avatarını değiştiremeyen kişiler Profil sayfasından değişiklik yapabilir.
-                <span class="bullet">•</span> <strong>1-)</strong> Üst taraftan istediğiniz fansubı, <strong>2-)</strong> Sağ taraftan da istediğiniz kaynağı seçebilirsiniz.
-                <span class="bullet">•</span> Video açılmazsa sağ taraftan farklı bir kaynak seçin. İyi Seyirler Dileriz!
+                <strong>www.animexir.com /</strong> 🇹🇷 <strong>Türkçe Altyazı:</strong> 1. Sunucu (VidLink VIP) ve 2. Sunucu (Smashy) doğrudan Türkçe altyazılıdır. Video ekranındaki <strong>[CC]</strong> veya <strong>[⚙️]</strong> simgesinden de Türkçe altyazıyı açıp boyutunu ayarlayabilirsiniz.
+                <span class="bullet">•</span> <strong>1-)</strong> Üst taraftan fansubınızı, <strong>2-)</strong> Sağ taraftan sunucunuzu seçebilirsiniz. İyi Seyirler!
             </div>
 
             <!-- 4-) Hızlı Bölüm Değiştirme ve Aksiyon Çubuğu -->

@@ -278,25 +278,36 @@ async function fetchAndGenerateAnimeNews() {
     const rawDesc = (selectedItem.description || '').replace(/<[^>]*>?/gm, '').slice(0, 400);
     const imageUrl = selectedItem.bannerImage || selectedItem.coverImage?.extraLarge || selectedItem.coverImage?.large || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1200';
 
-    let newsTitle = `${animeTitle}: Yeni Gelişmeler ve Resmi Duyuru Yayınlandı!`;
-    let newsContent = `Anime dünyasının heyecanla takip ettiği "${animeTitle}", ${studio} stüdyosu tarafından duyurulan yeni detaylarla hayranlarını sevindirdi. ${genres} türlerindeki başarılı yapım, izleyicilerden tam not almaya devam ediyor.\n\nYapımcı ekip, serinin devam bölümleri ve yeni sezon planlamaları hakkında hazırlıkların sürdüğünü belirtti. Tennox olarak tüm gelişmeleri ve yeni bölümleri anbean sizlere aktarmaya devam edeceğiz!`;
+    // Gerçekçi ve Çeşitli Resmi Anime Haberleri Şablonları (Tekdüzelikten uzak, profesyonel basın bülteni dili)
+    const newsTitleStyles = [
+      `📢 ${animeTitle}: Yeni Sezon ve Resmi Yapım Detayları Duyuruldu`,
+      `🎬 ${animeTitle} İçin Resmi Tanıtım Fragmanı ve Çıkış Tarihi Açıklandı`,
+      `✨ ${animeTitle}: ${studio} Stüdyosundan Özel Prodüksiyon Açıklaması`,
+      `🔥 ${animeTitle}: Yeni Bölüm Tarihleri ve Karakter Görselleri Paylaşıldı`,
+      `📺 ${animeTitle}: Resmi Yayın Takvimi ve Bölüm Planlaması Belli Oldu`
+    ];
+    let newsTitle = newsTitleStyles[Math.floor(Math.random() * newsTitleStyles.length)];
+    let newsContent = `${animeTitle}, resmi yapımcı stüdyo ${studio} tarafından paylaşılan son bültenle birlikte anime dünyasının gündemine oturdu.\n\n${genres} türlerini harmanlayan sevilen yapım, dünya genelinde ${score}/10 gibi yüksek bir izleyici puanına sahip.\n\n${rawDesc ? `Konusu ve Arka Planı: "${rawDesc}"\n\n` : ''}Yapımcı ekibin aktardığı bilgilere göre yeni bölümlerde görsel kalite ve animasyon çıtası daha da yukarı taşınıyor. AnimeXir (Tennox Company) olarak serinin tüm gelişmelerini ve Türkçe dublaj/altyazı seçeneklerini platformumuzda aktarmaya devam edeceğiz.`;
 
-    // Gemini ile zengin, profesyonel Türkçe haber içeriği üret
+    // Gemini ile zengin, resmi ve gerçek anime haber içeriği üret (Asla sahte 'rekora imza attı' gibi kalıplar kullanma)
     try {
-      const prompt = `Aşağıdaki anime bilgisine dayanarak Türkiye'deki anime severler için heyecan verici, resmi ve profesyonel bir Türkçe anime haber yazısı yaz.
-Anime Adı: ${animeTitle}
+      const prompt = `Aşağıdaki anime bilgilerine dayanarak Türkiye'deki anime severler için resmi, bilgilendirici, samimi ve gerçek bir anime haber bülteni yaz.
+Anime: ${animeTitle}
 Stüdyo: ${studio}
 Türler: ${genres}
 Puan: ${score}/10
 Açıklama: ${rawDesc}
 
-Lütfen yanıtını SADECE geçerli bir JSON formatında döndür, başka metin yazma:
+Kurallar:
+- Kesinlikle "rekora imza attı", "yalan/abartılı rekor kırdı" gibi klişe ve sahte ifadeler KULLANMA.
+- Gerçek bir anime haber portalı gibi (Anime News Network / Crunchyroll News / MyAnimeList Haberleri tarzında) stüdyo, karakterler, yeni bölümler ve yayın takvimi hakkında gerçekçi ve bilgilendirici bir dille yaz.
+- SADECE geçerli bir JSON formatında döndür, başka hiçbir şey yazma:
 {
-  "title": "Çarpıcı ve dikkat çekici Türkçe haber başlığı",
-  "content": "2-3 paragraflık samimi, akıcı ve bilgilendirici Türkçe haber metni"
+  "title": "Doğal ve resmi Türkçe haber başlığı",
+  "content": "2-3 paragraflık akıcı, samimi ve gerçekçi haber metni"
 }`;
 
-      const aiResponse = await generateAiContentWithFallback(prompt, "Sen Türkiye'nin en popüler anime haber editörüsün. Haberleri heyecan verici, akıcı ve profesyonel Türkçe ile kaleme alırsın.");
+      const aiResponse = await generateAiContentWithFallback(prompt, "Sen Türkiye'nin en saygın anime haber platformunun baş editörüsün. Asla sahte rekor haberleri yapmaz, resmi stüdyo duyuruları ve animasyon kalitesi üzerine odaklanırsın.");
       if (aiResponse) {
         const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
