@@ -27,7 +27,7 @@ function getSmartFallbackReply(prompt) {
     return "Keyifli vakit geçirmek için *Horimiya*, *Kaguya-sama: Love is War* veya *My Dress-Up Darling* animelerini kesinlikle öneririm!";
   }
   if (lower.includes('öneri') || lower.includes('tavsiye') || lower.includes('izle')) {
-    return "Sana harika anime önerilerim var! Aksiyon için *Attack on Titan* veya *Jujutsu Kaisen*, romantizm/komedi için *Kaguya-sama* veya *Spy x Family*, gizem için *Death Note* izleyebilirsin. Siteden dilediğin animeye hemen göz atabilirsin!";
+    return "Sana harika anime önerilerim var! Aksiyon için *Attack on Titan* veya *Jujutsu Kaisen*, romantizm/komedi için *Kaguya-sama* veya *Spy x Family*, gizem için *Death Note* izleyebilirsin. AnimeXir'den dilediğin animeye hemen göz atabilirsin!";
   }
   return `Selam! Yapay zeka servisimiz şu anda yoğunluk (kota) nedeniyle kısa bir mola veriyor. 🎬🍿
 
@@ -36,7 +36,7 @@ Bu sırada sana popüler önerilerimizden birkaçını sunabilirim:
 * **Jujutsu Kaisen** — Yüksek tempolu ve efsane dövüş sahneleri.
 * **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.
 
-Sitenin kurucusu **Kağan Sami** (@sennoxbygok) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`;
+AnimeXir kurucusu **Kağan Sami** (Tennox Company • @sennoxbygok) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`;
 }
 
 async function generateAiContentWithFallback(promptContents, systemInstruction) {
@@ -61,7 +61,7 @@ async function generateAiContentWithFallback(promptContents, systemInstruction) 
       if (isQuotaOrRateLimit) {
         return getSmartFallbackReply(typeof promptContents === 'string' ? promptContents : '');
       }
-      console.warn(`[Tennox AI] Model ${model} hatası:`, err?.message || err);
+      console.warn(`[AnimeXir AI] Model ${model} hatası:`, err?.message || err);
     }
   }
 
@@ -85,14 +85,16 @@ function getDirectIntentAnswer(msg) {
     lower.includes('patron') || 
     lower.includes('lider') ||
     lower.includes('yapımcısı') ||
-    lower.includes('girişimci')
+    lower.includes('girişimci') ||
+    lower.includes('şirket') ||
+    lower.includes('company')
   ) {
-    return `👑 **Tennox'un Sahibi ve Kurucusu:**
+    return `👑 **AnimeXir'in Kurucusu ve Şirket Bilgisi:**
 
-Tennox'un kurucusu ve sahibi **Kağan Sami**'dir (**@sennoxbygok**).
+AnimeXir platformunun kurucusu **Kağan Sami**'dir (**@sennoxbygok**) ve platform **Tennox Company** çatısı altında faaliyet göstermektedir.
 
 * **Hakkında:** Kağan Sami, **2011 doğumlu** genç ve vizyoner bir girişimcidir.
-* **Amacı & Vizyonu:** Tennox'u kurarken temel gayesi hayallerinin peşinden koşmak, anime severlere en iyi dublaj ve altyazılı izleme deneyimini sunmak ve Tennox'u ileride devasa bir teknoloji ve medya şirketi haline getirmektir! 🚀
+* **Amacı & Vizyonu:** AnimeXir'i kurarken temel gayesi hayallerinin peşinden koşmak, anime severlere en iyi dublaj ve altyazılı izleme deneyimini sunmak ve Tennox Company'yi ileride devasa bir teknoloji ve medya şirketi haline getirmektir! 🚀
 
 📬 **İletişim:**
 * **Instagram:** [@sennoxbygok](https://instagram.com/sennoxbygok)`;
@@ -100,7 +102,7 @@ Tennox'un kurucusu ve sahibi **Kağan Sami**'dir (**@sennoxbygok**).
 
   // İletişim / Instagram soruları
   if (lower.includes('iletişim') || lower.includes('instagram') || lower.includes('ulaşmak') || lower.includes('sosyal medya')) {
-    return `📬 **Tennox İletişim & Sosyal Medya:**
+    return `📬 **AnimeXir & Tennox Company İletişim:**
 
 * **Kurucu & Merkez Lider (Kağan Sami):** [@sennoxbygok](https://instagram.com/sennoxbygok)
 * **Dublaj Ekibi Lideri:** [@dublajcmyz](https://instagram.com/dublajcmyz)
@@ -125,13 +127,14 @@ app.post('/api/ai/chat', async (req, res) => {
       return res.json({ reply: directAnswer });
     }
 
-    const systemInstruction = `Sen Tennox platformunun resmi yapay zeka anime asistanısın (Tennox AI).
+    const systemInstruction = `Sen AnimeXir platformunun resmi yapay zeka anime asistanısın (AnimeXir AI). AnimeXir, Tennox Company bünyesinde geliştirilen Türkiye'nin en modern anime platformudur.
 
 Platform ve Kurucu Bilgisi:
-- Tennox'un kurucusu ve sahibi **Kağan Sami**'dir (Instagram: **@sennoxbygok**).
+- AnimeXir'in kurucusu **Kağan Sami**'dir (Instagram: **@sennoxbygok**).
+- Platformun arkasındaki çatı şirket **Tennox Company**'dir.
 - Kağan Sami, **2011 doğumlu genç ve vizyoner bir girişimcidir**.
-- Tennox'u kurarkenki temel amacı: Hayallerinin peşinden koşmak, anime tutkusunu herkesle paylaşmak, Türkiye'deki anime ve dublaj/altyazı deneyimini en kaliteli seviyeye çıkarmak ve gelecekte Tennox'u devasa, uluslararası bir şirket ve eğlence ekosistemi haline getirmektir.
-- Kullanıcılar "Buranın sahibi kim?", "Kurucusu kim?", "Kağan kim?", "Kimin sitesi?", "İletişim" gibi sorular sorduğunda Kağan Sami'yi, 2011 doğumlu genç bir girişimci olduğunu, hayallerini ve vizyonunu samimi, gururla ve net şekilde anlat ve iletişim için Instagram adresini (**@sennoxbygok** / https://instagram.com/sennoxbygok) ver.
+- AnimeXir'i kurarkenki temel amacı: Hayallerinin peşinden koşmak, anime tutkusunu herkesle paylaşmak, Türkiye'deki anime ve dublaj/altyazı deneyimini en kaliteli seviyeye çıkarmak ve gelecekte Tennox Company'yi devasa, uluslararası bir şirket ve eğlence ekosistemi haline getirmektir.
+- Kullanıcılar "Buranın sahibi kim?", "Kurucusu kim?", "Kağan kim?", "Kimin sitesi?", "İletişim", "Şirket" gibi sorular sorduğunda AnimeXir'in kurucusu Kağan Sami'yi, Tennox Company çatısını, 2011 doğumlu genç bir girişimci olduğunu, hayallerini ve vizyonunu samimi, gururla ve net şekilde anlat ve iletişim için Instagram adresini (**@sennoxbygok** / https://instagram.com/sennoxbygok) ver.
 
 Genel Görevlerin:
 1. Kullanıcılara zevklerine, ruh hallerine veya favori türlerine göre en iyi anime ve manga önerilerini sunmak.
@@ -144,18 +147,18 @@ Genel Görevlerin:
       const historyContext = history
         .filter(h => h && h.content)
         .slice(-6)
-        .map(h => `${h.role === 'user' ? 'Kullanıcı' : 'Tennox AI'}: ${h.content}`)
+        .map(h => `${h.role === 'user' ? 'Kullanıcı' : 'AnimeXir AI'}: ${h.content}`)
         .join('\n');
-      promptContents = `Önceki Sohbet:\n${historyContext}\n\nKullanıcı: ${message}\nTennox AI:`;
+      promptContents = `Önceki Sohbet:\n${historyContext}\n\nKullanıcı: ${message}\nAnimeXir AI:`;
     }
 
     try {
       const reply = await generateAiContentWithFallback(promptContents, systemInstruction);
       return res.json({ reply });
     } catch (genErr) {
-      console.warn('[Tennox AI] AI model fallback active:', genErr?.message || genErr);
+      console.warn('[AnimeXir AI] AI model fallback active:', genErr?.message || genErr);
       return res.json({
-        reply: `Selam! Yapay zeka servisimiz şu anda kısa bir mola veriyor. 🎬🍿\n\nBu sırada sana popüler önerilerimizden birkaçını sunabilirim:\n* **Sousou no Frieren** — Büyüleyici fantezi ve derin bir macera.\n* **Jujutsu Kaisen** — Yüksek tempolu ve efsane dövüş sahneleri.\n* **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.\n\nSitenin kurucusu **Kağan Sami** (@sennoxbygok) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`
+        reply: `Selam! Yapay zeka servisimiz şu anda kısa bir mola veriyor. 🎬🍿\n\nBu sırada sana popüler önerilerimizden birkaçını sunabilirim:\n* **Sousou no Frieren** — Büyüleyici fantezi ve derin bir macera.\n* **Jujutsu Kaisen** — Yüksek tempolu ve efsane dövüş sahneleri.\n* **Solo Leveling** — Zindandan çıkan en güçlü avcının yükselişi.\n\nAnimeXir ve Tennox Company kurucusu **Kağan Sami** (@sennoxbygok) hakkında bilgi almak veya özel bir anime tavsiyesi istemek için her zaman yazabilirsin!`
       });
     }
   } catch (err) {
@@ -314,7 +317,7 @@ Lütfen yanıtını SADECE geçerli bir JSON formatında döndür, başka metin 
       content: newsContent,
       image_url: imageUrl,
       created_at: new Date().toISOString(),
-      source: 'Tennox Anime Bot (Resmi Otomatik Yayın)'
+      source: 'AnimeXir Bot (Tennox Company)'
     };
 
     autoNewsData.unshift(newNewsItem);

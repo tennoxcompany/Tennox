@@ -1,12 +1,12 @@
 {
   "background_color": "#ffffff",
-  "description": "Tennox — Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz, yüksek kalitede izle.",
+  "description": "AnimeXir — Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz, yüksek kalitede izle. Tennox Company platformu.",
   "dir": "ltr",
   "display": "standalone",
-  "name": "Tennox",
+  "name": "AnimeXir",
   "orientation": "any",
   "scope": "/",
-  "short_name": "Tennox",
+  "short_name": "AnimeXir",
   "start_url": "/",
   "theme_color": "#000000",
   "icons": [

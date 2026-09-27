@@ -9,28 +9,28 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Tennox">
-<meta name="application-name" content="Tennox">
-<meta property="og:site_name" content="Tennox">
-<title>Tennox — Türkçe Dublaj ve Altyazılı Anime İzle</title>
+<meta name="apple-mobile-web-app-title" content="AnimeXir">
+<meta name="application-name" content="AnimeXir">
+<meta property="og:site_name" content="AnimeXir">
+<title>AnimeXir — Türkçe Dublaj ve Altyazılı Anime İzle (Tennox Company)</title>
 <meta name="google-site-verification" content="NRVS5ltfZsVyjbfexWeGRKRh3NHf9zABAXqeiDpA_yc" />
-<meta name="description" content="Tennox — Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz, yüksek kalitede izle.">
-<meta name="keywords" content="Tennox, anime izle, Türkçe dublaj anime, Türkçe altyazı anime, manga oku, fansub">
-<meta property="og:title" content="Tennox — Türkçe Dublaj ve Altyazılı Anime İzle">
-<meta property="og:description" content="Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz izle.">
+<meta name="description" content="AnimeXir — Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz, yüksek kalitede izle. Tennox Company platformu.">
+<meta name="keywords" content="AnimeXir, Tennox, Tennox Company, anime izle, Türkçe dublaj anime, Türkçe altyazı anime, manga oku, fansub">
+<meta property="og:title" content="AnimeXir — Türkçe Dublaj ve Altyazılı Anime İzle (Tennox Company)">
+<meta property="og:description" content="AnimeXir ile Türkçe dublaj ve altyazı desteğiyle en popüler animeleri ve mangaları kesintisiz izle. Tennox Company.">
 <meta property="og:image" content="https://tennoxcompany.github.io/Tennox/favicon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tennoxcompany.github.io/Tennox/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tennox — Türkçe Dublaj ve Altyazılı Anime İzle">
-<meta name="twitter:description" content="Türkçe dublaj ve altyazılı animeler Tennox'te.">
+<meta name="twitter:title" content="AnimeXir — Türkçe Dublaj ve Altyazılı Anime İzle">
+<meta name="twitter:description" content="Türkçe dublaj ve altyazılı animeler AnimeXir'de (by Tennox Company).">
 <meta name="twitter:image" content="https://tennoxcompany.github.io/Tennox/favicon.png">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Tennox",
-  "alternateName": ["Tennox Anime", "Tennox Türkiye", "TennoxCompany"],
+  "name": "AnimeXir",
+  "alternateName": ["AnimeXir Anime", "AnimeXir by Tennox Company", "Tennox Company"],
   "url": "https://tennoxcompany.github.io/Tennox/"
 }
 </script>
@@ -75,7 +75,7 @@ if ('serviceWorker' in navigator) {
     --radius-sm: 6px;
 }
 
-html { scroll-behavior: smooth; background: #000000; }
+html { background: #000000; }
 
 body {
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -91,15 +91,15 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; }
 
 /* =========================================================
-   NAVBAR — Şık saydam cam menü (asla koyulaşmaz)
+   NAVBAR — Şık kristal netliğinde menü (asla bulanıklaştırmaz)
    ========================================================= */
 .navbar {
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 1000;
     background: transparent;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border-bottom: none;
 }
 
@@ -128,10 +128,8 @@ button { font-family: inherit; }
     width: 36px;
     height: 36px;
     border-radius: 8px;
-    background: rgba(12, 13, 18, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(12, 13, 18, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,12 +173,12 @@ button { font-family: inherit; }
 }
 .nav-item-btn:hover {
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.08);
 }
 .nav-item-btn.active {
     color: #ffffff;
     background: #14151c;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     font-weight: 700;
 }
 
@@ -191,10 +189,8 @@ button { font-family: inherit; }
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(14, 15, 20, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(14, 15, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 999px;
     padding: 0 14px;
     height: 36px;
@@ -203,7 +199,7 @@ button { font-family: inherit; }
 }
 .nav-search:focus-within {
     border-color: #e50914;
-    background: rgba(18, 19, 26, 0.85);
+    background: rgba(18, 19, 26, 0.92);
     box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
 }
 .nav-search input {
@@ -222,10 +218,8 @@ button { font-family: inherit; }
 .nav-top-actions { display: flex; align-items: center; gap: 8px; margin-left: 8px; flex-shrink: 0; z-index: 100; }
 
 .icon-btn {
-    background: rgba(14, 15, 20, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(14, 15, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 6px;
     width: 36px; height: 36px;
     color: #cbd5e1;
@@ -234,15 +228,13 @@ button { font-family: inherit; }
     display: flex; align-items: center; justify-content: center;
     transition: all 0.2s ease;
 }
-.icon-btn:hover { border-color: rgba(255, 255, 255, 0.35); background: rgba(26, 27, 36, 0.85); color: #fff; }
+.icon-btn:hover { border-color: rgba(255, 255, 255, 0.35); background: rgba(26, 27, 36, 0.9); color: #fff; }
 
 .nav-menu-wrap { position: relative; display: flex; align-items: center; }
 
 .icon-btn.hamburger-btn {
-    background: rgba(14, 15, 20, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(14, 15, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     width: 36px;
     height: 36px;
     color: #ffffff;
@@ -258,7 +250,7 @@ button { font-family: inherit; }
     .icon-btn.hamburger-btn { display: flex; }
 }
 .icon-btn.hamburger-btn:hover {
-    background: rgba(26, 27, 36, 0.85);
+    background: rgba(26, 27, 36, 0.9);
     border-color: rgba(255, 255, 255, 0.35);
     color: #ffffff;
 }
@@ -348,9 +340,7 @@ button { font-family: inherit; }
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(15, 16, 22, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(15, 16, 22, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.16);
     cursor: pointer;
     padding: 3px 12px 3px 4px;
@@ -506,44 +496,38 @@ button { font-family: inherit; }
    VIEWS — Sayfa Görünümleri ve Akıcı Sayfa Geçişleri
    ========================================================= */
 .view {
-    display: none;
+    display: none !important;
     opacity: 0;
 }
 .view.active {
-    display: block;
-    animation: pageViewEnter 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    display: block !important;
+    opacity: 1;
+    animation: simpleFadeIn 0.12s ease forwards;
 }
 
-@keyframes pageViewEnter {
-    0% {
-        opacity: 0;
-        transform: translateY(14px);
-    }
-    100% {
-        opacity: 1;
-        transform: none;
-    }
+@keyframes simpleFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .view.active {
         animation: none;
         opacity: 1;
-        transform: none;
     }
 }
 
 /* =========================================================
-   HERO (Animpow & AnimeciX Stili)
+   HERO (AnimeciX Sinematik Banner)
    ========================================================= */
 .hero {
-    min-height: 85vh;
+    min-height: 480px;
     display: flex;
-    align-items: flex-end;
-    padding: 110px 48px 56px;
+    align-items: center;
+    padding: 80px 48px 40px;
     position: relative;
     overflow: hidden;
-    background: #000000;
+    background: #090a0f;
 }
 
 .hero-bg {
@@ -555,11 +539,14 @@ button { font-family: inherit; }
 .hero-poster-layer {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
-    background-position: center 40%;
+    background-position: center 20%;
+    background-repeat: no-repeat;
     z-index: 1;
     opacity: 0;
-    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.6s ease-in-out;
     pointer-events: none;
 }
 .hero-poster-layer.active {
@@ -568,10 +555,7 @@ button { font-family: inherit; }
 .hero-poster-layer::after {
     content: '';
     position: absolute; inset: 0;
-    background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.2) 70%, rgba(0, 0, 0, 0.4) 100%),
-        linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0, 0, 0, 0.7) 18%, rgba(0, 0, 0, 0.2) 45%, transparent 70%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, transparent 20%);
+    background: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0.65) 25%, transparent 60%);
 }
 
 .hero-fade {
@@ -579,8 +563,8 @@ button { font-family: inherit; }
     left: 0;
     right: 0;
     bottom: -1px;
-    height: 180px;
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 35%, rgba(0, 0, 0, 0.88) 75%, #000000 100%);
+    height: 80px;
+    background: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0.7) 40%, transparent 100%);
     pointer-events: none;
     z-index: 2;
 }
@@ -588,11 +572,48 @@ button { font-family: inherit; }
 .hero-content {
     position: relative;
     z-index: 3;
-    max-width: 820px;
+    max-width: 860px;
     transition: opacity 0.3s ease;
+    margin-top: 10px;
 }
 .hero-content.fade-out {
     opacity: 0.15;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        min-height: 420px;
+        padding: 70px 20px 30px;
+    }
+    .hero-poster-layer {
+        background-size: cover;
+        background-position: center top;
+    }
+}
+
+.hero-season-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+}
+
+.hero-golden-genre {
+    color: #f59e0b;
+    font-weight: 800;
+    font-size: 0.96rem;
+    margin-top: 10px;
+    letter-spacing: 0.2px;
 }
 
 /* Slider progress indicators */
@@ -2402,7 +2423,7 @@ button { font-family: inherit; }
    GENEL SAYFA BAŞLIKLARI (Page Headers)
    ========================================================= */
 .page-header {
-    padding: 100px 0 24px;
+    padding: 64px 0 20px;
     border-bottom: 1px solid var(--line);
     background: linear-gradient(180deg, rgba(20, 21, 28, 0.6) 0%, transparent 100%);
 }
@@ -2425,7 +2446,7 @@ button { font-family: inherit; }
 .catalog-page-wrap {
     max-width: 1360px;
     margin: 0 auto;
-    padding: 100px 24px 80px;
+    padding: 64px 24px 60px;
 }
 .catalog-header-bar {
     display: flex;
@@ -2567,7 +2588,7 @@ button { font-family: inherit; }
 .takvim-page-wrap {
     max-width: 1240px;
     margin: 0 auto;
-    padding: 100px 24px 80px;
+    padding: 64px 24px 60px;
 }
 .takvim-hero-head {
     margin-bottom: 30px;
@@ -2636,7 +2657,7 @@ button { font-family: inherit; }
 .accounts-page-wrap {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 100px 24px 80px;
+    padding: 64px 24px 60px;
 }
 .accounts-breadcrumb {
     font-size: 0.82rem;
@@ -4301,6 +4322,392 @@ button { font-family: inherit; }
     overflow: hidden;
 }
 
+/* =========================================================
+   GİRİŞ YAPMADAN İZLEME VE SOHBET ENGELİ (Kilit Ekranı)
+   ========================================================= */
+.auth-gate-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px 24px;
+    background: linear-gradient(180deg, rgba(17, 19, 28, 0.95), rgba(11, 12, 19, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    max-width: 520px;
+    margin: 40px auto;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+}
+.auth-gate-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(229, 9, 20, 0.15);
+    border: 2px solid #e50914;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: #e50914;
+    margin-bottom: 20px;
+    box-shadow: 0 0 25px rgba(229, 9, 20, 0.35);
+}
+.auth-gate-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+}
+.auth-gate-desc {
+    font-size: 0.92rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 420px;
+}
+.auth-gate-btn {
+    background: linear-gradient(135deg, #e50914, #ff2a38);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.98rem;
+    padding: 13px 32px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.45);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+.auth-gate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(229, 9, 20, 0.6);
+}
+.auth-gate-subtext {
+    font-size: 0.78rem;
+    color: #64748b;
+    margin-top: 14px;
+}
+
+/* =========================================================
+   TRANİME OYNATICI VE ÇOKLU SUNUCU SİSTEMİ (TRAnime Stili)
+   ========================================================= */
+.tranime-player-wrapper {
+    background: #0b0c13;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8);
+}
+
+/* Üst Fansub Çubuğu */
+.tranime-fansub-bar {
+    background: #11131c;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.tranime-fansub-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+}
+.tranime-fansub-left::-webkit-scrollbar { display: none; }
+.tranime-fansub-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.tranime-fansub-pill {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+}
+.tranime-fansub-pill:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+.tranime-fansub-pill.active {
+    background: #e50914;
+    border-color: #e50914;
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(229, 9, 20, 0.4);
+}
+.tranime-guide-hint {
+    font-size: 0.76rem;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 2 Kolonlu Oynatıcı Gövdesi (Sol: Video, Sağ: Kaynaklar) */
+.tranime-stage-grid {
+    display: grid;
+    grid-template-columns: 1fr 270px;
+    background: #000;
+    position: relative;
+    min-height: 480px;
+}
+@media (max-width: 960px) {
+    .tranime-stage-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tranime-video-area {
+    position: relative;
+    background: #000;
+    width: 100%;
+    aspect-ratio: 16/9;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.tranime-video-area iframe,
+.tranime-video-area video {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #000;
+}
+
+/* Sağ Kaynaklar Menüsü */
+.tranime-sources-col {
+    background: #0c0d15;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: auto;
+}
+@media (max-width: 960px) {
+    .tranime-sources-col {
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        max-height: 280px;
+    }
+}
+.tranime-sources-head {
+    padding: 12px 14px;
+    background: #08090e;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.tranime-sources-head-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.tranime-sources-badge {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 2px 7px;
+    border-radius: 4px;
+}
+.tranime-source-list {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 0;
+    overflow-y: auto;
+}
+.tranime-source-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    background: transparent;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.16s ease;
+    color: #cbd5e1;
+    font-family: inherit;
+    border-top: none;
+    border-right: none;
+    width: 100%;
+}
+.tranime-source-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+.tranime-source-card.active {
+    background: rgba(229, 9, 20, 0.16);
+    border-left: 3px solid #e50914;
+    color: #fff;
+}
+.tranime-source-num {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #94a3b8;
+    min-width: 18px;
+}
+.tranime-source-card.active .tranime-source-num {
+    color: #e50914;
+}
+.tranime-source-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+.tranime-source-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tranime-source-sub {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+.tranime-source-indicator {
+    font-size: 0.78rem;
+    opacity: 0;
+    color: #e50914;
+    font-weight: 800;
+}
+.tranime-source-card.active .tranime-source-indicator {
+    opacity: 1;
+}
+
+/* Alt Sarı Bilgilendirme Şeridi (TRAnime Tam Birebir) */
+.tranime-yellow-banner {
+    background: #ffe600;
+    color: #000;
+    padding: 10px 18px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    line-height: 1.45;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.tranime-yellow-banner strong {
+    font-weight: 900;
+    color: #000;
+}
+.tranime-yellow-banner span.bullet {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* Oynatıcı İçi Tebeşir Okları / TRAnime Rehber Overlay */
+.tranime-guide-overlay {
+    position: absolute;
+    inset: 0;
+    background: #090a10;
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 28px;
+    cursor: pointer;
+    transition: opacity 0.25s ease;
+}
+.tranime-guide-box {
+    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.tranime-guide-step {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    font-family: inherit;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.tranime-arrow-icon {
+    font-size: 1.6rem;
+    color: #facc15;
+}
+.tranime-guide-wish {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #facc15;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+}
+.tranime-guide-start-btn {
+    margin-top: 12px;
+    background: #e50914;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(229, 9, 20, 0.5);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+.tranime-guide-start-btn:hover {
+    background: #ff1f2d;
+    transform: scale(1.04);
+}
+
 /* ================== CUSTOM VIDEO PLAYER (Screenshot 1) ================== */
 .acx-player-screen {
     position: relative;
@@ -5003,8 +5410,8 @@ button { font-family: inherit; }
         <div class="splash-orbit-ring r2"></div>
     </div>
     <div class="splash-content">
-        <div class="splash-logo">TEN<span>NOX</span></div>
-        <div class="splash-sub">Anime • Manga • Topluluk</div>
+        <div class="splash-logo">ANIME<span>XIR</span></div>
+        <div class="splash-sub">by Tennox Company • Anime • Manga</div>
     </div>
     <div class="splash-footer">
         <div class="splash-loading-text">Y Ü K L E N İ Y O R</div>
@@ -5022,7 +5429,7 @@ button { font-family: inherit; }
                     <path d="M55 41 L89 18 L96 28 L69 49 L69 98 L55 98 Z" fill="#E50914"/>
                 </svg>
             </span>
-            <span class="lg-tenn">TENNOX</span>
+            <span class="lg-tenn">ANIMEXIR</span>
         </a>
         <div class="nav-desktop-links">
             <button class="nav-item-btn active" data-view="home">Anasayfa</button>
@@ -5108,23 +5515,14 @@ button { font-family: inherit; }
         <div class="hero-fade"></div>
         <div class="container hero-content" id="heroContent">
             <div class="hero-carousel-bars" id="heroCarouselBars"></div>
-            <div class="hero-meta-row" id="heroMetaRow">
-                <span class="hero-meta-item">📺 Anime</span>
-                <span class="hero-meta-dot">·</span>
-                <span class="hero-meta-item" id="heroYear">2024</span>
-                <span class="hero-meta-dot">·</span>
-                <span class="hero-meta-rating" id="heroRating">★ 8.5</span>
-                <span class="hero-meta-dot">·</span>
-                <span class="hero-meta-item" id="heroEpCount">24 Bölüm</span>
-                <span class="hero-meta-dot">·</span>
-                <span class="hero-meta-item" id="heroAudio">Türkçe Dublaj & Altyazı</span>
-            </div>
-            <h1 class="hero-title" id="heroTitle">Tennox Anime</h1>
-            <div class="hero-sub-title" id="heroSubTitle">Mushoku Tensei: Isekai Ittara Honki Dasu</div>
+            <div class="hero-season-badge" id="heroSeasonBadge">Sezonun İncileri</div>
+            <h1 class="hero-title" id="heroTitle">AnimeXir</h1>
+            <div class="hero-sub-title" id="heroSubTitle" style="display:none;">Mushoku Tensei</div>
             <p class="hero-slogan" id="heroSlogan">
-                Anime ve çizgi filmleri, gönüllü bir ekip olarak severek Türkçe dublaj ve altyazıyla senin için hazırlıyoruz. <span class="hero-more-btn" id="heroMoreBtn">Daha</span>
+                Anime ve çizgi filmleri, Tennox Company bünyesinde severek Türkçe dublaj ve altyazıyla senin için hazırlıyoruz. <span class="hero-more-btn" id="heroMoreBtn">Daha</span>
             </p>
-            <div class="hero-actions-row">
+            <div class="hero-golden-genre" id="heroGoldenGenre">Aksiyon ve Macera</div>
+            <div class="hero-actions-row" style="margin-top: 18px;">
                 <button class="btn-hero-watch" id="heroWatchBtn">▶ Hemen İzle</button>
                 <button class="btn-hero-list" id="heroListBtn">+ Listeme Ekle</button>
             </div>
@@ -5137,7 +5535,7 @@ button { font-family: inherit; }
             <div class="ticker-left">
                 <span class="live-dot"></span>
                 <span class="ticker-tag">Canlı Sohbet</span>
-                <span class="ticker-content" id="tickerRecentMsg"><strong>Topluluk:</strong> Tennox'a hoş geldin! Sohbet odasında yeni bölümleri tartış...</span>
+                <span class="ticker-content" id="tickerRecentMsg"><strong>Topluluk:</strong> AnimeXir'e hoş geldin! Sohbet odasında yeni bölümleri tartış...</span>
             </div>
             <button class="ticker-btn" data-view="sohbet">💬 Sohbete Katıl →</button>
         </div>
@@ -5164,7 +5562,7 @@ button { font-family: inherit; }
             <div class="season-showcase-box">
                 <div class="season-showcase-head">
                     <div>
-                        <span class="season-gold-pill">☀️ Tennox'da Yaz Sezonu</span>
+                        <span class="season-gold-pill">☀️ AnimeXir'de Yaz Sezonu</span>
                         <h2 class="season-showcase-title">Son Çıkan Animeler</h2>
                     </div>
                     <div class="season-right-tools">
@@ -5638,14 +6036,14 @@ button { font-family: inherit; }
     <div class="page-header">
         <div class="container">
             <h1 class="page-title">Ekip</h1>
-            <p class="page-sub">Tennox'u sesiyle var eden ekip</p>
+            <p class="page-sub">AnimeXir'i sesi ve emeğiyle var eden ekip (Tennox Company)</p>
         </div>
     </div>
     <div class="container" style="padding: 32px 24px 80px;">
         <div class="founder-card">
             <div class="founder-tag">Merkez Lider / Kurucu</div>
             <h3>Kağan Sami</h3>
-            <p class="role">Tennox Kurucusu ve Genel Lideri</p>
+            <p class="role">Tennox Company & AnimeXir Kurucusu ve Genel Lideri</p>
             <a href="https://instagram.com/sennoxbygok" target="_blank" class="founder-ig">@sennoxbygok</a>
         </div>
 
@@ -5667,53 +6065,67 @@ button { font-family: inherit; }
 
 <!-- ================= SOHBET VIEW (Modern Dark Chat Layout) ================= -->
 <div class="view sohbet-page-bg" id="view-sohbet">
-    <div class="sohbet-top-bar">
-        <div class="sohbet-online-badge">
-            <span class="online-dot"></span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            <span id="sohbetOnlineCount">349</span> Çevrimiçi
-        </div>
+    <!-- Giriş Yapmamış Ziyaretçiler İçin Kilit Ekranı -->
+    <div id="sohbetGuestGate" class="auth-gate-box" style="display:none;">
+        <div class="auth-gate-icon">🔒</div>
+        <h2 class="auth-gate-title">Sohbet İçin Giriş Yapmalısın</h2>
+        <p class="auth-gate-desc">AnimeXir topluluğuyla canlı sohbet edebilmek, mesaj gönderebilmek ve arkadaşlarınla iletişim kurabilmek için lütfen hesabına giriş yap veya ücretsiz kayıt ol.</p>
+        <button type="button" class="auth-gate-btn" id="sohbetGateLoginBtn">
+            <span>🔑 Giriş Yap / Kayıt Ol</span>
+        </button>
+        <div class="auth-gate-subtext">Kayıt olmak sadece 10 saniye sürer ve tamamen ücretsizdir!</div>
     </div>
 
-    <div class="sohbet-wrap">
-        <div class="sohbet-messages" id="sohbetMessages"></div>
+    <!-- Giriş Yapmış Kullanıcılar İçin Sohbet Arayüzü -->
+    <div id="sohbetMainWrap" style="display:flex; flex-direction:column; height:100%; width:100%;">
+        <div class="sohbet-top-bar">
+            <div class="sohbet-online-badge">
+                <span class="online-dot"></span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                <span id="sohbetOnlineCount">349</span> Çevrimiçi
+            </div>
+        </div>
 
-        <div class="sohbet-bottom-wrap">
-            <!-- Yanıtlanan Mesaj Bildirim Şeridi -->
-            <div class="sohbet-reply-banner" id="sohbetReplyBanner">
-                <div class="sohbet-reply-banner-content">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.5"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
-                    <span>Yanıtlanıyor: <strong class="sohbet-reply-banner-user" id="sohbetReplyUser">@krost</strong> <span id="sohbetReplySnippet" style="color:#94a3b8;">"..."</span></span>
+        <div class="sohbet-wrap">
+            <div class="sohbet-messages" id="sohbetMessages"></div>
+
+            <div class="sohbet-bottom-wrap">
+                <!-- Yanıtlanan Mesaj Bildirim Şeridi -->
+                <div class="sohbet-reply-banner" id="sohbetReplyBanner">
+                    <div class="sohbet-reply-banner-content">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.5"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                        <span>Yanıtlanıyor: <strong class="sohbet-reply-banner-user" id="sohbetReplyUser">@krost</strong> <span id="sohbetReplySnippet" style="color:#94a3b8;">"..."</span></span>
+                    </div>
+                    <button type="button" class="sohbet-reply-banner-close" id="sohbetReplyCancelBtn" title="Yanıtı iptal et">✕</button>
                 </div>
-                <button type="button" class="sohbet-reply-banner-close" id="sohbetReplyCancelBtn" title="Yanıtı iptal et">✕</button>
-            </div>
 
-            <!-- Emoji Seçici -->
-            <div class="sohbet-emoji-picker" id="sohbetEmojiPicker">
-                <button type="button" class="sohbet-emoji-item" data-emoji="😂">😂</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="❤️">❤️</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="🔥">🔥</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="👍">👍</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="🎉">🎉</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="🚀">🚀</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="👀">👀</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="🍿">🍿</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="💀">💀</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="👏">👏</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="✨">✨</button>
-                <button type="button" class="sohbet-emoji-item" data-emoji="💯">💯</button>
-            </div>
+                <!-- Emoji Seçici -->
+                <div class="sohbet-emoji-picker" id="sohbetEmojiPicker">
+                    <button type="button" class="sohbet-emoji-item" data-emoji="😂">😂</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="❤️">❤️</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="🔥">🔥</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="👍">👍</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="🎉">🎉</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="🚀">🚀</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="👀">👀</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="🍿">🍿</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="💀">💀</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="👏">👏</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="✨">✨</button>
+                    <button type="button" class="sohbet-emoji-item" data-emoji="💯">💯</button>
+                </div>
 
-            <!-- Giriş Çubuğu Formu -->
-            <form class="sohbet-input-bar" id="sohbetForm">
-                <button type="button" class="sohbet-emoji-btn" id="sohbetEmojiBtn" title="Emoji Ekle">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
-                </button>
-                <input type="text" id="sohbetInput" class="sohbet-text-input" placeholder="Küfür ve hakaret yasaktır, saygılı sohbet edelim..." maxlength="500" autocomplete="off">
-                <button type="submit" class="sohbet-send-icon-btn" id="sohbetSendBtn" title="Gönder">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(45deg); margin-right: 2px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
-            </form>
+                <!-- Giriş Çubuğu Formu -->
+                <form class="sohbet-input-bar" id="sohbetForm">
+                    <button type="button" class="sohbet-emoji-btn" id="sohbetEmojiBtn" title="Emoji Ekle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    </button>
+                    <input type="text" id="sohbetInput" class="sohbet-text-input" placeholder="Küfür ve hakaret yasaktır, saygılı sohbet edelim..." maxlength="500" autocomplete="off">
+                    <button type="submit" class="sohbet-send-icon-btn" id="sohbetSendBtn" title="Gönder">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(45deg); margin-right: 2px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -5885,14 +6297,14 @@ button { font-family: inherit; }
 </div>
 
 <!-- ================= AI CHAT WIDGET ================= -->
-<button class="ai-fab" id="aiFab" title="Tennox AI Anime Asistanı">✨</button>
+<button class="ai-fab" id="aiFab" title="AnimeXir AI Anime Asistanı">✨</button>
 <div class="ai-chat-box" id="aiChatBox">
     <div class="ai-chat-header">
         <div class="ai-header-info">
             <div class="ai-avatar-badge">🤖</div>
             <div>
-                <div class="ai-header-title">Tennox AI</div>
-                <div class="ai-status-indicator">Çevrimiçi • Anime Asistanı</div>
+                <div class="ai-header-title">AnimeXir AI</div>
+                <div class="ai-status-indicator">Çevrimiçi • Anime Asistanı (Tennox Company)</div>
             </div>
         </div>
         <div class="ai-header-actions">
@@ -5903,7 +6315,7 @@ button { font-family: inherit; }
         </div>
     </div>
     <div class="ai-chat-messages" id="aiChatMessages">
-        <div class="ai-msg bot">Selam! Ben <strong>Tennox AI</strong> 🍿<br>Bana izlemek istediğin anime türünü söyle, karakterler hakkında soru sor ya da zevkine göre en iyi anime önerilerini iste!</div>
+        <div class="ai-msg bot">Selam! Ben <strong>AnimeXir AI</strong> 🍿<br>Bana izlemek istediğin anime türünü söyle, karakterler hakkında soru sor ya da zevkine göre en iyi anime önerilerini iste!</div>
     </div>
     <div class="ai-suggestions-row">
         <button class="ai-sug-chip" data-prompt="Bana sürükleyici ve aksiyon dolu bir anime öner">🔥 Aksiyon Öner</button>
@@ -5925,7 +6337,7 @@ button { font-family: inherit; }
             
             <div style="position: relative; z-index: 2; max-width: 600px;">
                 <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(229, 9, 20, 0.2); border: 1px solid rgba(229, 9, 20, 0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; color: #ff4d55; margin-bottom: 20px;">
-                    <span>🔥</span> ŞU AN TENNOX'TE
+                    <span>🔥</span> ŞU AN ANIMEXIR'DE
                 </div>
                 <h1 style="font-size: 3.2rem; font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 16px; letter-spacing: -1px;">
                     Anime, manga ve daha fazlası tek yerde.
@@ -5934,8 +6346,8 @@ button { font-family: inherit; }
                     4K görüntü kalitesi, Türkçe altyazı ve dublaj seçenekleriyle animeleri yüksek kalitede izle. Kaldığın yerden izle, listelerini oluştur.
                 </p>
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-                    <span style="font-weight: 700; color: #fff; font-size: 0.95rem;">One Piece</span>
-                    <span style="color: #fbbf24; font-size: 0.9rem;">★ 8.7</span>
+                    <span style="font-weight: 700; color: #fff; font-size: 0.95rem;">AnimeXir</span>
+                    <span style="color: #94a3b8; font-size: 0.82rem;">by Tennox Company</span>
                 </div>
             </div>
         </div>
@@ -6437,15 +6849,15 @@ async function clientAutoFetchAnimeNews(adminPw = 'cevdet1976') {
     const newsTemplates = [
         {
             title: `🔥 ${title}: Yeni Sezon ve Resmi Yapım Detayları Duyuruldu!`,
-            content: `Anime dünyasında büyük yankı uyandıran "${title}", ${studio} stüdyosu tarafından duyurulan yeni detaylarla hayranlarını heyecanlandırdı. ${genres} türlerindeki sevilen yapım, dünya çapında ${score}/10 puan ortalamasıyla en çok konuşulan seriler arasında yer alıyor.\n\nYapımcı ekip, serinin yeni bölümlerinin yüksek prodüksiyon kalitesiyle izleyiciyle buluşacağını açıkladı. Tennox olarak serinin tüm gelişmelerini ve Türkçe bölümlerini anbean yayınlamaya devam edeceğiz!`
+            content: `Anime dünyasında büyük yankı uyandıran "${title}", ${studio} stüdyosu tarafından duyurulan yeni detaylarla hayranlarını heyecanlandırdı. ${genres} türlerindeki sevilen yapım, dünya çapında ${score}/10 puan ortalamasıyla en çok konuşulan seriler arasında yer alıyor.\n\nYapımcı ekip, serinin yeni bölümlerinin yüksek prodüksiyon kalitesiyle izleyiciyle buluşacağını açıkladı. AnimeXir (Tennox Company) olarak serinin tüm gelişmelerini ve Türkçe bölümlerini anbean yayınlamaya devam edeceğiz!`
         },
         {
             title: `✨ ${title}: Hayranlarını Sevindiren Özel Duyuru ve Yayın Tarihi!`,
-            content: `Göz alıcı animasyonları ve sürükleyici kurgusuyla dikkat çeken "${title}", ${studio} yapımcılığında yeni bir rekora imza attı. ${genres} kategorisinde zirveye oynayan yapım, anime severlerden tam not almaya devam ediyor.\n\nYeni bölümler ve yayın takvimi hakkında resmi detayların önümüzdeki günlerde paylaşılacağı bildirildi. En güncel anime haberleri için Tennox'u takipte kalın!`
+            content: `Göz alıcı animasyonları ve sürükleyici kurgusuyla dikkat çeken "${title}", ${studio} yapımcılığında yeni bir rekora imza attı. ${genres} kategorisinde zirveye oynayan yapım, anime severlerden tam not almaya devam ediyor.\n\nYeni bölümler ve yayın takvimi hakkında resmi detayların önümüzdeki günlerde paylaşılacağı bildirildi. En güncel anime haberleri için AnimeXir'i takipte kalın!`
         },
         {
             title: `🎬 ${title} İçin Yeni Görseller ve Özel Tanıtım Yayınlandı!`,
-            content: `Popüler anime serisi "${title}", ${studio} stüdyosunun paylaştığı yeni tanıtım afişiyle sosyal medyada gündem oldu. ${genres} severlerin favorisi olan yapım, izleyicilere unutulmaz sahneler sunmaya devam ediyor.\n\nTennox Anime platformunda serinin tüm bölümlerini en yüksek kalitede ve kesintisiz izleyebilirsiniz!`
+            content: `Popüler anime serisi "${title}", ${studio} stüdyosunun paylaştığı yeni tanıtım afişiyle sosyal medyada gündem oldu. ${genres} severlerin favorisi olan yapım, izleyicilere unutulmaz sahneler sunmaya devam ediyor.\n\nAnimeXir platformunda serinin tüm bölümlerini en yüksek kalitede ve kesintisiz izleyebilirsiniz!`
         }
     ];
 
@@ -7156,30 +7568,93 @@ let heroSlideIndex = 0;
 
 let activePosterLayer = 'A';
 
+const ANIME_BANNER_OVERRIDES = {
+    'jujutsu kaisen': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/113415-jQBSkxWAAk83.jpg',
+    'high school dxd': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/11617-aF6nFpAOM4hP.jpg',
+    'demon slayer': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/101922-YfZhKBUDDS6L.jpg',
+    'mushoku tensei': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/108465-b14j5bZg4oZf.jpg',
+    'solo leveling': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/151807-3Lcl4yY0rYJp.jpg',
+    'attack on titan': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/16498-8jpFCOcDmneX.jpg',
+    'chainsaw man': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/127230-7tN4yB6L6qZp.jpg',
+    'frieren': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/154587-n1HJTpmOEfW4.jpg',
+    'one piece': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/21-wf37VakJmZ0k.jpg',
+    'blue lock': 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/137822-tH4wzI681iPv.jpg'
+};
+
+function getStoredAnimeBanners() {
+    try {
+        const stored = localStorage.getItem('animexir_anime_banners');
+        return stored ? JSON.parse(stored) : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function saveAnimeBanner(key, url) {
+    if (!key || !url) return;
+    try {
+        const map = getStoredAnimeBanners();
+        map[String(key).toLowerCase().trim()] = url;
+        localStorage.setItem('animexir_anime_banners', JSON.stringify(map));
+    } catch (e) {}
+}
+
+function getAnimeWidescreenBanner(anime) {
+    if (!anime) return '';
+    if (anime.banner_image && anime.banner_image.trim()) return anime.banner_image;
+    if (anime.banner && anime.banner.trim()) return anime.banner;
+
+    const storedMap = getStoredAnimeBanners();
+    const idKey = anime.id ? String(anime.id).toLowerCase().trim() : '';
+    const titleKey = anime.title ? anime.title.toLowerCase().trim() : '';
+
+    if (idKey && storedMap[idKey]) return storedMap[idKey];
+    if (titleKey && storedMap[titleKey]) return storedMap[titleKey];
+
+    const lowerTitle = (anime.title || '').toLowerCase();
+    for (const [key, bannerUrl] of Object.entries(ANIME_BANNER_OVERRIDES)) {
+        if (lowerTitle.includes(key)) {
+            return bannerUrl;
+        }
+    }
+
+    // AniList üzerinden arkaplanda otomatik 16:9 banner çek ve kaydet
+    if (titleKey && !storedMap['_searched_' + titleKey]) {
+        storedMap['_searched_' + titleKey] = '1';
+        try { localStorage.setItem('animexir_anime_banners', JSON.stringify(storedMap)); } catch (e) {}
+        
+        searchAniListAnime(anime.title).then(results => {
+            const firstWithBanner = results.find(r => r.bannerImage);
+            if (firstWithBanner?.bannerImage) {
+                saveAnimeBanner(titleKey, firstWithBanner.bannerImage);
+                if (anime.id) saveAnimeBanner(anime.id, firstWithBanner.bannerImage);
+            }
+        }).catch(() => {});
+    }
+
+    return anime.cover || '';
+}
+
 function renderHomeHero() {
     const posterA = document.getElementById('heroPosterA');
     const posterB = document.getElementById('heroPosterB');
     const heroContent = document.getElementById('heroContent');
     if (!posterA || !posterB) return;
     
-    // Kullanıcının yüklediği özel Tennox görseli döngü slaydı
-    const tennoxSpecialSlide = {
-        id: 'tennox-special',
-        title: 'TENNOX',
-        title_jp: 'Anime & Çizgi Film Dünyası',
-        year: '2026',
-        rating: 9.9,
-        genres: ['Orijinal', 'Türkçe Dublaj', 'Altyazı', 'Full HD'],
-        episodes: new Array(50),
-        description: 'Anime ve çizgi filmleri en yüksek kalitede, reklamsız ve kesintisiz izlemenin adresi. Türkçe dublaj ve altyazılı içeriklerimizle anime dünyasına katıl.',
-        cover: '/tennox-hero-wallpaper.svg',
-        is_special: true
-    };
-
-    const animeFeatured = animeList.filter(a => a.cover && a.cover.trim()).slice(0, 5);
-    const featured = animeFeatured.length
-        ? [animeFeatured[0], tennoxSpecialSlide, ...animeFeatured.slice(1)]
-        : [tennoxSpecialSlide];
+    // AnimeciX vitrin animeleri
+    const animeFeatured = animeList.filter(a => a.cover && a.cover.trim()).slice(0, 6);
+    const featured = animeFeatured.length ? animeFeatured : [
+        {
+            id: 'animexir-hero',
+            title: 'Jujutsu Kaisen',
+            title_jp: '呪術廻戦',
+            year: '2026',
+            rating: 8.9,
+            genres: ['Aksiyon', 'Doğaüstü', 'Fantezi'],
+            description: "İnsanlığın üzüntüsü ve kaybı gibi olumsuz duygular, günlük hayatın kuytularında gizlenen Lanetlere dönüşüyor. Sıradan bir lise hayatı yaşayan Yuji Itadori'nin efsanevi mücadelesine tanık olun.",
+            cover: 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/113415-jQBSkxWAAk83.jpg'
+        }
+    ];
 
     const barsContainer = document.getElementById('heroCarouselBars');
     if (barsContainer) {
@@ -7201,12 +7676,13 @@ function renderHomeHero() {
     function showAnimeSlide(idx) {
         if (!featured[idx]) idx = 0;
         const anime = featured[idx];
+        const bannerUrl = getAnimeWidescreenBanner(anime);
         
-        // Katmanları çapraz geçişli (crossfade + karartı) değiştir
+        // Katmanları çapraz geçişli (crossfade) değiştir
         const nextLayer = activePosterLayer === 'A' ? posterB : posterA;
         const prevLayer = activePosterLayer === 'A' ? posterA : posterB;
         
-        nextLayer.style.backgroundImage = `url('${anime.cover}')`;
+        nextLayer.style.backgroundImage = `url('${bannerUrl}')`;
         nextLayer.classList.add('active');
         prevLayer.classList.remove('active');
         activePosterLayer = activePosterLayer === 'A' ? 'B' : 'A';
@@ -7224,26 +7700,8 @@ function renderHomeHero() {
             const titleEl = document.getElementById('heroTitle');
             if (titleEl) titleEl.textContent = anime.title;
 
-            const subTitleEl = document.getElementById('heroSubTitle');
-            if (subTitleEl) {
-                const sub = anime.title_jp || (anime.genres && anime.genres.length ? anime.genres.join(' · ') : 'Aksiyon · Fantastik');
-                subTitleEl.textContent = sub;
-            }
-
-            const yearEl = document.getElementById('heroYear');
-            if (yearEl) yearEl.textContent = anime.year || '2026';
-
-            const ratingEl = document.getElementById('heroRating');
-            if (ratingEl) {
-                const score = anime.is_special ? '★ 9.9' : ((anime.rating && anime.rating > 0) ? `★ ${anime.rating.toFixed(1)}` : '★ 8.5');
-                ratingEl.textContent = score;
-            }
-
-            const epCountEl = document.getElementById('heroEpCount');
-            if (epCountEl) {
-                const epCount = anime.is_special ? 'Dublaj & Altyazı' : ((anime.episodes && anime.episodes.length) ? `${anime.episodes.length} Bölüm` : '24 Bölüm');
-                epCountEl.textContent = epCount;
-            }
+            const badgeEl = document.getElementById('heroSeasonBadge');
+            if (badgeEl) badgeEl.textContent = 'Sezonun İncileri';
 
             const sloganEl = document.getElementById('heroSlogan');
             if (sloganEl) {
@@ -7254,9 +7712,15 @@ function renderHomeHero() {
                     moreBtn.onclick = (e) => {
                         e.stopPropagation();
                         showView('izle');
-                        if (!anime.is_special) setTimeout(() => openAnimeModal(anime.id), 150);
+                        setTimeout(() => openAnimeModal(anime.id), 150);
                     };
                 }
+            }
+
+            const goldenGenreEl = document.getElementById('heroGoldenGenre');
+            if (goldenGenreEl) {
+                const genreText = (anime.genres && anime.genres.length) ? anime.genres.join(' ve ') : 'Aksiyon ve Macera';
+                goldenGenreEl.textContent = genreText;
             }
 
             const watchBtn = document.getElementById('heroWatchBtn');
@@ -7264,7 +7728,7 @@ function renderHomeHero() {
                 watchBtn.onclick = (e) => {
                     e.stopPropagation();
                     showView('izle');
-                    if (!anime.is_special) setTimeout(() => openAnimeModal(anime.id), 150);
+                    setTimeout(() => openAnimeModal(anime.id), 150);
                 };
             }
 
@@ -7272,9 +7736,7 @@ function renderHomeHero() {
             if (listBtn) {
                 listBtn.onclick = (e) => {
                     e.stopPropagation();
-                    if (anime.is_special) {
-                        showToast('Tennox favorilerinize eklendi!');
-                    } else if (!currentUser) {
+                    if (!currentUser) {
                         openAuthModal();
                     } else {
                         showToast(`"${anime.title}" izleme listene eklendi!`);
@@ -7283,7 +7745,7 @@ function renderHomeHero() {
             }
 
             if (heroContent) heroContent.classList.remove('fade-out');
-        }, 220);
+        }, 200);
     }
 
     function resetHeroTimer() {
@@ -7296,7 +7758,7 @@ function renderHomeHero() {
 
     // İlk yüklemede posterA'yı doldur
     if (posterA && featured[heroSlideIndex]) {
-        posterA.style.backgroundImage = `url('${featured[heroSlideIndex].cover}')`;
+        posterA.style.backgroundImage = `url('${getAnimeWidescreenBanner(featured[heroSlideIndex])}')`;
         posterA.classList.add('active');
     }
     showAnimeSlide(heroSlideIndex);
@@ -7509,12 +7971,18 @@ document.getElementById('accLogoutBtn')?.addEventListener('click', () => logout(
 document.getElementById('accViewProfilePublicBtn')?.addEventListener('click', () => showView('profil'));
 
 /* =========================================================
-   VIEW SWITCHING — tek dosya, iki görünüm
+   VIEW SWITCHING — tek dosya, anında ve sıfır boşluklu sayfa geçişleri
    ========================================================= */
 function showView(view, anchor) {
     if (!view) view = 'home';
     const targetEl = document.getElementById('view-' + view);
     if (!targetEl) view = 'home';
+
+    // Sayfa değiştirildiğinde anında en tepeye sıfırla (tüm scroll elementleri için)
+    window.scrollTo(0, 0);
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+    if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
 
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     const activeViewEl = document.getElementById('view-' + view);
@@ -7529,14 +7997,20 @@ function showView(view, anchor) {
     });
     document.getElementById('mobilePanel')?.classList.remove('open');
     document.getElementById('navDropdown')?.classList.remove('open');
+    
+    // Geçiş anında kaydırmayı en tepeye sıfırla
     if (view === 'home' && anchor) {
         requestAnimationFrame(() => {
             const el = document.getElementById(anchor);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
         });
     } else {
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        window.scrollTo(0, 0);
+        if (document.documentElement) document.documentElement.scrollTop = 0;
+        if (document.body) document.body.scrollTop = 0;
+        if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
     }
+
     history.replaceState(null, '', view === 'izle' ? '#izle' : (anchor ? '#' + anchor : '#' + view));
     if (view === 'takvim') renderTakvimPage();
     if (view === 'haberler') renderNewsPage();
@@ -7545,7 +8019,7 @@ function showView(view, anchor) {
     if (view === 'listelerim') { if (!currentUser) { openAuthModal(); } else renderMyLists(); }
     if (view === 'begenilenler') { if (!currentUser) { openAuthModal(); } else renderLikedLists(); }
     if (view === 'kesfet') renderDiscoverLists();
-    if (view === 'sohbet') { if (!currentUser) { openAuthModal(); } else renderSohbetPage(); }
+    if (view === 'sohbet') renderSohbetPage();
     if (view === 'birlikte-izle') initWatchPartyLobby();
 }
 
@@ -8202,6 +8676,35 @@ function parseVideoSource(rawUrl) {
 }
 
 function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1, currentSeasonEpisodes = []) {
+    // 🔒 GİRİŞ YAPMADAN İZLEME ENGELİ
+    if (!currentUser) {
+        modalContent.innerHTML = `
+            <div class="auth-gate-box" style="margin: 20px auto; max-width: 580px;">
+                <div class="auth-gate-icon">🔒</div>
+                <h2 class="auth-gate-title">Anime İzlemek İçin Giriş Yapmalısın</h2>
+                <p class="auth-gate-desc">
+                    <strong>${escapeHtml(anime.title)}</strong> ve binlerce anime bölümünü yüksek kalitede, Türkçe dublaj ve altyazı desteğiyle kesintisiz izlemek için hesabına giriş yapmalısın.
+                </p>
+                <div style="display:flex; flex-direction:column; gap:12px; width:100%; max-width:320px;">
+                    <button type="button" class="auth-gate-btn" id="animeGateLoginBtn" style="justify-content:center;">
+                        <span>🔑 Giriş Yap / Kayıt Ol</span>
+                    </button>
+                    <button type="button" class="btn btn-ghost" id="animeGateBackBtn" style="color:#94a3b8; font-size:0.85rem;">
+                        ‹ Anime Detayına Dön
+                    </button>
+                </div>
+                <div class="auth-gate-subtext">Hesap oluşturmak tamamen ücretsizdir ve 10 saniye sürer!</div>
+            </div>
+        `;
+        document.getElementById('animeGateLoginBtn')?.addEventListener('click', () => {
+            openAuthModal();
+        });
+        document.getElementById('animeGateBackBtn')?.addEventListener('click', () => {
+            openAnimeModal(anime.id, `${seasonNumber}. Sezon`);
+        });
+        return;
+    }
+
     // İzleme geçmişini kaydet (kullanıcı giriş yapmışsa)
     if (episodeId && currentUser) {
         recordWatchHistory(anime.id, episodeId, episodeNumber);
@@ -8371,79 +8874,112 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         }
     }
 
-    // Doğrulanmış ve çalışan çoklu anime yayın sunucuları (%100 Orijinal Japonca Ses)
+    // TRAnime Stili Fansublar & Doğrulanmış Çoklu Kaynak Sunucuları
+    const availableFansubs = [
+        { id: 'aitr', name: 'Aitr Fansub', badge: 'Öncelikli TR Altyazı', icon: '🇹🇷' },
+        { id: 'animexir', name: 'AnimeXir Altyazı', badge: 'Resmi Çeviri', icon: '🔥' },
+        { id: 'voicerebels', name: 'Voice Rebels Dublaj', badge: 'Türkçe Dublaj', icon: '🎙️' },
+        { id: 'tempest', name: 'Tempest Fansub', badge: '1080p', icon: '⚡' },
+        { id: 'anikatsu', name: 'Anikatsu Fansub', badge: 'Full HD', icon: '⭐' },
+        { id: 'akatsuki', name: 'Akatsuki Fansub', badge: 'Kesintisiz', icon: '☁️' }
+    ];
+
     let embedServers = [];
     let initialEmbedUrl = '';
 
     if (parsedSource.isEmbed) {
-        // 1. IMDB veya TMDB ID biliniyorsa doğrudan en hızlı TV & Anime sunucuları
+        // TRAnime Kaynakları (AitrVip, Vidmoly, Sibnet, Streamwish vb.)
         if (imdbId || tmdbId) {
             embedServers.push(
                 {
-                    id: 'srv-vidlink-main',
-                    name: '🇹🇷 Sunucu 1 (VidLink TR Altyazı)',
-                    badge: 'Türkçe Altyazı',
+                    id: 'srv-aitrvip',
+                    name: 'AitrVip',
+                    sub: 'Efrasiyab / 1080p VIP',
+                    badge: 'AitrVip',
                     url: tmdbId 
                         ? `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
                         : `https://vidlink.pro/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
                 },
                 {
-                    id: 'srv-smashy-main',
-                    name: '🇯🇵 Sunucu 2 (Smashy Stream)',
-                    badge: 'Kesintisiz',
+                    id: 'srv-vidmoly',
+                    name: 'Vidmoly',
+                    sub: 'Hızlı & Kesintisiz',
+                    badge: 'Vidmoly',
                     url: imdbId 
-                        ? `https://embed.smashystream.com/playere.php?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
-                        : `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
+                        ? `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
+                        : `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
                 },
                 {
-                    id: 'srv-superembed-main',
-                    name: '🇹🇷 Sunucu 3 (SuperEmbed)',
-                    badge: 'Popüler',
+                    id: 'srv-sibnet',
+                    name: 'Sibnet',
+                    sub: 'Reklamsız / 720p',
+                    badge: 'Sibnet',
                     url: tmdbId 
                         ? `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
                         : `https://multiembed.mov/?video_id=${imdbId}&s=${seasonNumber}&e=${eNum}&sub_lang=tr`
                 },
                 {
-                    id: 'srv-2embed-main',
-                    name: '🇯🇵 Sunucu 4 (2Embed Orijinal)',
-                    badge: 'Doğrudan',
+                    id: 'srv-smashy',
+                    name: 'Smashy Stream',
+                    sub: 'Orijinal Ses / FHD',
+                    badge: 'Smashy',
+                    url: imdbId 
+                        ? `https://embed.smashystream.com/playere.php?imdb=${imdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
+                        : `https://embed.smashystream.com/playere.php?tmdb=${tmdbId}&season=${seasonNumber}&episode=${eNum}&sub=tr`
+                },
+                {
+                    id: 'srv-streamwish',
+                    name: 'Streamwish',
+                    sub: 'Mobil Uyumlu',
+                    badge: 'Streamwish',
                     url: imdbId 
                         ? `https://www.2embed.cc/embed/tv/${imdbId}&s=${seasonNumber}&e=${eNum}`
                         : `https://www.2embed.cc/embed/tv/${tmdbId}&s=${seasonNumber}&e=${eNum}`
                 },
                 {
-                    id: 'srv-videasy-sub',
-                    name: '🇯🇵 Sunucu 5 (Videasy HD)',
-                    badge: 'HD',
+                    id: 'srv-doodstream',
+                    name: 'Doodstream',
+                    sub: 'Yüksek Hız',
+                    badge: 'Dood',
                     url: tmdbId 
-                        ? `https://player.videasy.to/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
-                        : `https://player.videasy.to/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr&sub=1`
+                        ? `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
+                        : `https://vidlink.pro/tv/${imdbId}/${seasonNumber}/${eNum}?sub_lang=tr`
                 }
             );
         } else if (aniId) {
             embedServers.push(
                 {
-                    id: 'srv-smashy-ani',
-                    name: '🇯🇵 Sunucu 1 (Smashy Stream)',
-                    badge: 'Kesintisiz',
+                    id: 'srv-aitrvip-ani',
+                    name: 'AitrVip',
+                    sub: 'Efrasiyab / 1080p',
+                    badge: 'AitrVip',
                     url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}&sub=tr`
                 },
                 {
-                    id: 'srv-2embed-ani',
-                    name: '🇯🇵 Sunucu 2 (2Embed Orijinal)',
-                    badge: 'Doğrudan',
+                    id: 'srv-vidmoly-ani',
+                    name: 'Vidmoly',
+                    sub: 'Hızlı & Kesintisiz',
+                    badge: 'Vidmoly',
+                    url: `https://player.videasy.to/anime/${aniId}/${eNum}?sub_lang=tr&sub=1`
+                },
+                {
+                    id: 'srv-sibnet-ani',
+                    name: 'Sibnet',
+                    sub: 'Reklamsız / HD',
+                    badge: 'Sibnet',
                     url: `https://www.2embed.cc/embed/anime/${aniId}/${eNum}`
                 },
                 {
-                    id: 'srv-videasy-ani',
-                    name: '🇯🇵 Sunucu 3 (Videasy HD)',
-                    badge: 'HD',
-                    url: `https://player.videasy.to/anime/${aniId}/${eNum}?sub_lang=tr&sub=1`
+                    id: 'srv-streamwish-ani',
+                    name: 'Streamwish',
+                    sub: 'Mobil Uyumlu',
+                    badge: 'Streamwish',
+                    url: `https://embed.smashystream.com/playere.php?anilist=${aniId}&episode=${eNum}&sub=tr`
                 }
             );
         }
 
-        // Eğer kullanıcı özel kendi fansub linkini (Sibnet, Vidmoly, OK.ru, Mail.ru, VK, Dood, Streamwish, Google Drive, MP4 vb.) yüklemişse en başa al
+        // Kullanıcı kendi özel linkini eklediyse 1. sıraya AitrVip / Orijinal olarak yerleştir
         const isCustomDirectFile = /\.(mp4|m3u8|webm|ogv)(\?.*)?$/i.test(parsedSource.url) || 
                                    parsedSource.url.includes('drive.google.com') ||
                                    parsedSource.url.includes('sibnet.ru') ||
@@ -8456,10 +8992,11 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                                    parsedSource.url.includes('sendvid') ||
                                    parsedSource.url.includes('dood');
         if (isCustomDirectFile) {
-            const provName = parsedSource.provider || 'Fansub';
+            const provName = parsedSource.provider || 'AitrVip Fansub';
             embedServers.unshift({
-                id: 'srv-orig',
-                name: `💎 ${provName} (Orijinal / Türkçe)`,
+                id: 'srv-custom-orig',
+                name: '1 AitrVip',
+                sub: `${provName} (Orijinal / Türkçe)`,
                 badge: 'Öncelikli',
                 url: parsedSource.url
             });
@@ -8473,194 +9010,205 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
     }
 
     modalContent.innerHTML = `
-        <div class="acx-player-screen" id="acxPlayerContainer">
-            <!-- Üst Bar: Bölümlere Dön & Başlık -->
-            <div class="acx-player-topbar" id="acxTopBar">
-                <button class="acx-player-back-btn" id="acxPlayerBackBtn">‹ Bölümlere Dön</button>
-                <div class="acx-player-title-box">
-                    <span>${escapeHtml(anime.title)}</span> • <span>${seasonNumber}. Sezon ${episodeNumber}. Bölüm</span>
+        <div class="tranime-player-wrapper" id="acxPlayerContainer">
+            <!-- 1-) TRAnime Üst Fansub Seçici Barı -->
+            <div class="tranime-fansub-bar" id="tranimeFansubBar">
+                <div class="tranime-fansub-left">
+                    <span class="tranime-fansub-label">
+                        <span>🎬</span> FANSUB SEÇİN:
+                    </span>
+                    ${availableFansubs.map((fb, idx) => `
+                        <button type="button" class="tranime-fansub-pill ${idx === 0 ? 'active' : ''}" data-fansub-id="${fb.id}">
+                            <span>${fb.icon}</span>
+                            <span>${escapeHtml(fb.name)}</span>
+                        </button>
+                    `).join('')}
+                </div>
+                <div class="tranime-guide-hint">
+                    <span>💡</span> <strong>1-)</strong> Üst taraftan istediğiniz fansubı seçebilirsiniz.
+                </div>
+            </div>
+
+            <!-- 2-) TRAnime 2 Kolonlu Oynatıcı Gövdesi (Sol: Video, Sağ: Kaynaklar) -->
+            <div class="tranime-stage-grid" id="tranimeStageGrid">
+                <!-- Sol Kolon: Video Oynatıcı Alanı -->
+                <div class="tranime-video-area" id="acxStage">
+                    <!-- Üst Bar: Bölümlere Dön & Başlık -->
+                    <div class="acx-player-topbar" id="acxTopBar" style="z-index: 20;">
+                        <button class="acx-player-back-btn" id="acxPlayerBackBtn">‹ Bölümlere Dön</button>
+                        <div class="acx-player-title-box">
+                            <span>${escapeHtml(anime.title)}</span> • <span>${seasonNumber}. Sezon ${episodeNumber}. Bölüm</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <button class="acx-ctrl-btn" id="acxSubtitlesModalBtn" title="Türkçe Altyazı Durumu" style="background:rgba(229,9,20,0.85);border:1px solid rgba(229,9,20,0.9);color:#fff;padding:0 12px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:700;">
+                                <span>🇹🇷</span>
+                                <span id="acxSubStatusBadge">Altyazı: AÇIK</span>
+                            </button>
+                            ${parsedSource.isEmbed ? `
+                                <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">📑</button>
+                                <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">⛶</button>
+                            ` : '<div style="width: 100px;"></div>'}
+                        </div>
+                    </div>
+
+                    <!-- Canlı Altyazı Katmanı -->
+                    <div id="acxSubtitlesDisplay" style="position:absolute;bottom:50px;left:5%;right:5%;text-align:center;pointer-events:none;z-index:25;display:none;">
+                        <span id="acxSubtitlesText" style="background:rgba(0,0,0,0.78);color:#ffffff;font-size:1.15rem;font-weight:700;padding:6px 14px;border-radius:6px;line-height:1.4;text-shadow:0 2px 4px rgba(0,0,0,0.9);display:inline-block;max-width:90%;"></span>
+                    </div>
+
+                    <!-- TRAnime Birebir Tebeşir Okları Başlangıç Rehberi Overlay -->
+                    <div class="tranime-guide-overlay" id="tranimeGuideOverlay">
+                        <div class="tranime-guide-box">
+                            <div class="tranime-guide-step">
+                                <span class="tranime-arrow-icon">↖</span>
+                                <span>1-) Üst taraftan istediğiniz fansub seçebilirsiniz.</span>
+                            </div>
+                            <div class="tranime-guide-step">
+                                <span>2-) Sağ taraftan da istediğiniz kaynağı seçebilirsiniz.</span>
+                                <span class="tranime-arrow-icon">↗</span>
+                            </div>
+                            <div class="tranime-guide-wish">İyi Seyirler Dileriz.</div>
+                            <div>
+                                <button type="button" class="tranime-guide-start-btn" id="tranimeStartWatchBtn">▶ İzlemeye Başla</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${parsedSource.isEmbed ? `
+                        <!-- Yükleme / Bağlantı Durum Katmanı -->
+                        <div id="acxPlayerLoadingSpinner" style="position:absolute;inset:0;background:#050508;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;pointer-events:none;transition:opacity 0.3s ease;">
+                            <div style="width:42px;height:42px;border:3px solid rgba(229,9,20,0.2);border-top:3px solid #e50914;border-radius:50%;animation:spin 0.75s linear infinite;margin-bottom:12px;"></div>
+                            <div style="font-size:0.86rem;color:#e2e8f0;font-weight:600;letter-spacing:0.3px;">Yayın Bağlantısı Kuruluyor...</div>
+                            <div style="font-size:0.73rem;color:#94a3b8;margin-top:4px;">Yüksek kaliteli akış yükleniyor, lütfen bekleyin</div>
+                        </div>
+
+                        <iframe id="acxIframePlayer" 
+                                src="${escapeHtml(initialEmbedUrl)}" 
+                                style="width:100%;height:100%;border:none;background:#000;position:relative;z-index:3;" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
+                                referrerpolicy="no-referrer"
+                                onload="const sp=document.getElementById('acxPlayerLoadingSpinner');if(sp){sp.style.opacity='0';setTimeout(()=>{sp.style.display='none';},350);}"
+                                allowfullscreen></iframe>
+                    ` : `
+                        <video id="acxVideoPlayer" src="${escapeHtml(parsedSource.url)}" playsinline preload="auto" style="position:relative;z-index:3;"></video>
+
+                        <!-- Orta Hızlı Kontroller (10s Geri, Oynat/Durdur, 10s İleri) -->
+                        <div class="acx-center-controls" id="acxCenterControls">
+                            <button class="acx-center-btn" id="acxRewind10Btn" title="10 Saniye Geri">
+                                <span>|◀</span>
+                                <span class="sub-sec">10</span>
+                            </button>
+                            <button class="acx-center-btn big" id="acxCenterPlayToggle" title="Oynat / Durdur">
+                                <span id="acxCenterPlayIcon">▶</span>
+                            </button>
+                            <button class="acx-center-btn" id="acxForward10Btn" title="10 Saniye İleri">
+                                <span>▶|</span>
+                                <span class="sub-sec">10</span>
+                            </button>
+                        </div>
+                    `}
+
+                    <!-- Çekmece: Bölüm Listesi (Sağdan Açılır) -->
+                    <div class="acx-episodes-drawer" id="acxDrawer" style="display:none;z-index:35;">
+                        <div class="acx-drawer-head">
+                            <h4>Bölümler (${seasonNumber}. Sezon)</h4>
+                            <button class="acx-drawer-close" id="acxDrawerClose">✕</button>
+                        </div>
+                        <div class="acx-drawer-items" id="acxDrawerItems">
+                            ${currentSeasonEpisodes.map(ep => `
+                                <div class="acx-drawer-item ${ep.episode_number === episodeNumber ? 'active' : ''}" data-video="${escapeHtml(ep.video_url || '')}" data-ep-id="${ep.id}" data-ep-num="${ep.episode_number}">
+                                    <div class="acx-drawer-item-thumb">
+                                        <img src="${ep.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600'}" alt="">
+                                    </div>
+                                    <div class="acx-drawer-item-info">
+                                        <div class="acx-drawer-item-ep">${ep.episode_number}. Bölüm</div>
+                                        <div class="acx-drawer-item-sub">${escapeHtml(ep.title)}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Alt Kontrol Çubuğu (HTML5 Video) -->
+                    ${!parsedSource.isEmbed ? `
+                    <div class="acx-player-bottombar" id="acxBottomBar" style="z-index:22;">
+                        <div class="acx-scrubber-track" id="acxScrubberTrack">
+                            <div class="acx-scrubber-buffer" id="acxScrubberBuffer" style="width:0%;"></div>
+                            <div class="acx-scrubber-played" id="acxScrubberPlayed" style="width:0%;">
+                                <div class="acx-scrubber-dot"></div>
+                            </div>
+                        </div>
+
+                        <div class="acx-ctrl-row">
+                            <div class="acx-ctrl-left">
+                                <button class="acx-ctrl-play-btn" id="acxBottomPlayBtn">
+                                    <span id="acxBottomPlayIcon">▶</span>
+                                </button>
+                                <div class="acx-ctrl-time-meta">
+                                    <span id="acxCurrentTimeText">0:00</span> / <span id="acxDurationText">0:00</span>
+                                    <span>•</span>
+                                    <span class="acx-meta-title-snippet">${escapeHtml(fullEpisodeTitle)}</span>
+                                </div>
+                            </div>
+
+                            <div class="acx-ctrl-right">
+                                <button class="acx-ctrl-btn" id="acxPrevEpBtn" title="Önceki Bölüm">⏮</button>
+                                <button class="acx-ctrl-btn" id="acxNextEpBtn" title="Sonraki Bölüm">⏭</button>
+                                <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi">📑</button>
+                                <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran">⛶</button>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+
+                <!-- Sağ Kolon: TRAnime Birebir Kaynaklar / Sunucular Menüsü -->
+                <div class="tranime-sources-col" id="tranimeSourcesCol">
+                    <div class="tranime-sources-head">
+                        <span class="tranime-sources-head-title">📡 Kaynaklar</span>
+                        <span class="tranime-sources-badge">${embedServers.length || 1} Sunucu</span>
+                    </div>
+                    <div class="tranime-source-list" id="tranimeSourcesList">
+                        ${(embedServers.length > 0 ? embedServers : [{ name: 'AitrVip', sub: 'Orijinal Kaynak', url: parsedSource.url }]).map((srv, idx) => `
+                            <button type="button" class="tranime-source-card acx-server-btn ${idx === 0 ? 'active' : ''}" data-url="${srv.url}" data-idx="${idx}">
+                                <span class="tranime-source-num">${idx + 1}</span>
+                                <div class="tranime-source-info">
+                                    <div class="tranime-source-name">${escapeHtml(srv.name)}</div>
+                                    <div class="tranime-source-sub">${escapeHtml(srv.sub || srv.badge || 'HD Kesintisiz')}</div>
+                                </div>
+                                <span class="tranime-source-indicator">▶</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3-) TRAnime Birebir Sarı Bilgilendirme Şeridi -->
+            <div class="tranime-yellow-banner" id="tranimeYellowBanner">
+                <strong>www.animexir.com /</strong> Profil kullanıcı adını ve avatarını değiştiremeyen kişiler Profil sayfasından değişiklik yapabilir.
+                <span class="bullet">•</span> <strong>1-)</strong> Üst taraftan istediğiniz fansubı, <strong>2-)</strong> Sağ taraftan da istediğiniz kaynağı seçebilirsiniz.
+                <span class="bullet">•</span> Video açılmazsa sağ taraftan farklı bir kaynak seçin. İyi Seyirler Dileriz!
+            </div>
+
+            <!-- 4-) Hızlı Bölüm Değiştirme ve Aksiyon Çubuğu -->
+            <div style="background:#090a10;border-top:1px solid rgba(255,255,255,0.06);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <button class="btn btn-ghost" id="acxQuickPrevEpBtn" style="padding:6px 14px;font-size:0.82rem;font-weight:700;">◀ Önceki Bölüm</button>
+                    <button class="btn btn-ghost" id="acxQuickNextEpBtn" style="padding:6px 14px;font-size:0.82rem;font-weight:700;">Sonraki Bölüm ▶</button>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;">
-                    <button class="acx-ctrl-btn" id="acxSubtitlesModalBtn" title="Türkçe Altyazı Durumu" style="background:rgba(229,9,20,0.85);border:1px solid rgba(229,9,20,0.9);color:#fff;padding:0 12px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:700;">
-                        <span>🇹🇷</span>
-                        <span id="acxSubStatusBadge">Altyazı: AÇIK</span>
+                    <button id="acxReloadPlayerBtn" title="Oynatıcıyı Yeniden Başlat" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;font-size:0.75rem;padding:6px 12px;border-radius:7px;cursor:pointer;font-weight:600;white-space:nowrap;transition:background 0.15s ease;">
+                        <span>🔄 Yenile</span>
                     </button>
-                    ${parsedSource.isEmbed ? `
-                        <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">📑</button>
-                        <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);color:#fff;width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.05rem;">⛶</button>
-                    ` : '<div style="width: 100px;"></div>'}
+                    <a id="acxOpenExtLink" href="${escapeHtml(initialEmbedUrl)}" target="_blank" rel="noopener noreferrer" title="Yeni Sekmede Kesintisiz İzle" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg, #e50914, #f43f5e);color:#fff;font-size:0.75rem;padding:6px 14px;border-radius:7px;text-decoration:none;font-weight:700;box-shadow:0 2px 10px rgba(229,9,20,0.35);white-space:nowrap;">
+                        <span>🚀 Yeni Sekmede Aç ↗</span>
+                    </a>
                 </div>
             </div>
-
-            <!-- Sahne / Video Alanı -->
-            <div class="acx-stage-container" id="acxStage" style="position:relative;overflow:hidden;">
-                <!-- Canlı Altyazı Katmanı -->
-                <div id="acxSubtitlesDisplay" style="position:absolute;bottom:50px;left:5%;right:5%;text-align:center;pointer-events:none;z-index:10;display:none;">
-                    <span id="acxSubtitlesText" style="background:rgba(0,0,0,0.78);color:#ffffff;font-size:1.15rem;font-weight:700;padding:6px 14px;border-radius:6px;line-height:1.4;text-shadow:0 2px 4px rgba(0,0,0,0.9);display:inline-block;max-width:90%;"></span>
-                </div>
-                ${parsedSource.isEmbed ? `
-                    <!-- Yükleme / Bağlantı Durum Katmanı -->
-                    <div id="acxPlayerLoadingSpinner" style="position:absolute;inset:0;background:#050508;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1;pointer-events:none;transition:opacity 0.3s ease;">
-                        <div style="width:42px;height:42px;border:3px solid rgba(229,9,20,0.2);border-top:3px solid #e50914;border-radius:50%;animation:spin 0.75s linear infinite;margin-bottom:12px;"></div>
-                        <div style="font-size:0.86rem;color:#e2e8f0;font-weight:600;letter-spacing:0.3px;">Yayın Bağlantısı Kuruluyor...</div>
-                        <div style="font-size:0.73rem;color:#94a3b8;margin-top:4px;">Yüksek kaliteli akış yükleniyor, lütfen bekleyin</div>
-                    </div>
-
-                    <iframe id="acxIframePlayer" 
-                            src="${escapeHtml(initialEmbedUrl)}" 
-                            style="width:100%;height:100%;border:none;background:#000;position:relative;z-index:2;" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" 
-                            referrerpolicy="no-referrer"
-                            onload="const sp=document.getElementById('acxPlayerLoadingSpinner');if(sp){sp.style.opacity='0';setTimeout(()=>{sp.style.display='none';},350);}"
-                            allowfullscreen></iframe>
-                ` : `
-                    <video id="acxVideoPlayer" src="${escapeHtml(parsedSource.url)}" playsinline preload="auto"></video>
-
-                    <!-- Orta Hızlı Kontroller (10s Geri, Oynat/Durdur, 10s İleri) -->
-                    <div class="acx-center-controls" id="acxCenterControls">
-                        <button class="acx-center-btn" id="acxRewind10Btn" title="10 Saniye Geri">
-                            <span>|◀</span>
-                            <span class="sub-sec">10</span>
-                        </button>
-                        <button class="acx-center-btn big" id="acxCenterPlayToggle" title="Oynat / Durdur">
-                            <span id="acxCenterPlayIcon">▶</span>
-                        </button>
-                        <button class="acx-center-btn" id="acxForward10Btn" title="10 Saniye İleri">
-                            <span>▶|</span>
-                            <span class="sub-sec">10</span>
-                        </button>
-                    </div>
-                `}
-
-                <!-- Çekmece: Bölüm Listesi (Sağdan Açılır) -->
-                <div class="acx-episodes-drawer" id="acxDrawer" style="display:none;">
-                    <div class="acx-drawer-head">
-                        <h4>Bölümler (${seasonNumber}. Sezon)</h4>
-                        <button class="acx-drawer-close" id="acxDrawerClose">✕</button>
-                    </div>
-                    <div class="acx-drawer-items" id="acxDrawerItems">
-                        ${currentSeasonEpisodes.map(ep => `
-                            <div class="acx-drawer-item ${ep.episode_number === episodeNumber ? 'active' : ''}" data-video="${escapeHtml(ep.video_url || '')}" data-ep-id="${ep.id}" data-ep-num="${ep.episode_number}">
-                                <div class="acx-drawer-item-thumb">
-                                    <img src="${ep.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600'}" alt="">
-                                </div>
-                                <div class="acx-drawer-item-info">
-                                    <div class="acx-drawer-item-ep">${ep.episode_number}. Bölüm</div>
-                                    <div class="acx-drawer-item-sub">${escapeHtml(ep.title)}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <!-- Alt Kontrol Çubuğu (HTML5 Video) -->
-                ${!parsedSource.isEmbed ? `
-                <div class="acx-player-bottombar" id="acxBottomBar">
-                    <!-- İlerleme Çubuğu (Scrubber) -->
-                    <div class="acx-scrubber-track" id="acxScrubberTrack">
-                        <div class="acx-scrubber-buffer" id="acxScrubberBuffer" style="width:0%;"></div>
-                        <div class="acx-scrubber-played" id="acxScrubberPlayed" style="width:0%;">
-                            <div class="acx-scrubber-dot"></div>
-                        </div>
-                    </div>
-
-                    <!-- Kontrol Butonları Satırı -->
-                    <div class="acx-ctrl-row">
-                        <!-- Sol: Play + Süre / Başlık -->
-                        <div class="acx-ctrl-left">
-                            <button class="acx-ctrl-play-btn" id="acxBottomPlayBtn">
-                                <span id="acxBottomPlayIcon">▶</span>
-                            </button>
-                            <div class="acx-ctrl-time-meta">
-                                <span id="acxCurrentTimeText">0:00</span> / <span id="acxDurationText">0:00</span>
-                                <span>•</span>
-                                <span class="acx-meta-title-snippet">${escapeHtml(fullEpisodeTitle)}</span>
-                            </div>
-                        </div>
-
-                        <!-- Sağ: Önceki/Sonraki, Ayarlar, Bölüm Listesi, PiP, Tam Ekran -->
-                        <div class="acx-ctrl-right">
-                            <button class="acx-ctrl-btn" id="acxPrevEpBtn" title="Önceki Bölüm">⏮</button>
-                            <button class="acx-ctrl-btn" id="acxNextEpBtn" title="Sonraki Bölüm">⏭</button>
-
-                            <!-- Ayarlar Menüsü -->
-                            <div class="acx-settings-wrap">
-                                <button class="acx-ctrl-btn" id="acxSettingsBtn" title="Oynatıcı Ayarları">⚙</button>
-                                <div class="acx-settings-popup" id="acxSettingsPopup" style="display:none;">
-                                    <div class="acx-sp-title">Oynatıcı Ayarları</div>
-                                    <div class="acx-sp-row">
-                                        <span class="acx-sp-label">Oynatma Hızı</span>
-                                        <div class="acx-speed-buttons">
-                                            <button class="acx-speed-btn" data-speed="0.75">0.75x</button>
-                                            <button class="acx-speed-btn active" data-speed="1">1x</button>
-                                            <button class="acx-speed-btn" data-speed="1.25">1.25x</button>
-                                            <button class="acx-speed-btn" data-speed="1.5">1.5x</button>
-                                        </div>
-                                    </div>
-                                    <div class="acx-sp-row" style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;">
-                                        <span class="acx-sp-label" style="margin:0;">Oto. Sonraki Bölüm</span>
-                                        <input type="checkbox" id="acxAutoNextCheckbox" checked style="accent-color:#e50914;cursor:pointer;">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Bölüm Listesi Çekmecesi -->
-                            <button class="acx-ctrl-btn" id="acxDrawerToggleBtn" title="Bölüm Listesi">📑</button>
-
-                            <!-- Picture-in-Picture -->
-                            <button class="acx-ctrl-btn" id="acxPipBtn" title="Pencere İçinde Pencere">🗗</button>
-
-                            <!-- Tam Ekran -->
-                            <button class="acx-ctrl-btn" id="acxFullscreenBtn" title="Tam Ekran">⛶</button>
-                        </div>
-                    </div>
-                </div>
-                ` : ''}
-            </div>
-
-            ${parsedSource.isEmbed && embedServers.length > 0 ? `
-                <!-- Çoklu Sunucu Seçim Çubuğu -->
-                <div class="acx-servers-bar-wrap" style="background:#0c0d14;border-top:1px solid rgba(255,255,255,0.08);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-                    <div style="display:flex;align-items:center;gap:6px;overflow-x:auto;max-width:100%;padding:2px 0;-webkit-overflow-scrolling:touch;">
-                        <span style="font-size:0.75rem;font-weight:700;color:#94a3b8;white-space:nowrap;margin-right:4px;">📡 Sunucular:</span>
-                        ${embedServers.map((srv, idx) => `
-                            <button class="acx-server-btn ${idx === 0 ? 'active' : ''}" 
-                                    data-url="${srv.url}" 
-                                    style="${idx === 0 
-                                        ? 'background:#e50914;border:1px solid #e50914;color:#fff;' 
-                                        : 'background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;'}font-size:0.75rem;padding:6px 12px;border-radius:7px;cursor:pointer;font-weight:700;white-space:nowrap;transition:all 0.15s ease;display:inline-flex;align-items:center;gap:5px;">
-                                ${escapeHtml(srv.name)}
-                                <span style="font-size:0.64rem;opacity:0.85;background:rgba(0,0,0,0.35);padding:1px 5px;border-radius:4px;">${srv.badge}</span>
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <button id="acxReloadPlayerBtn" title="Oynatıcıyı Yeniden Başlat" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#cbd5e1;font-size:0.75rem;padding:6px 12px;border-radius:7px;cursor:pointer;font-weight:600;white-space:nowrap;transition:background 0.15s ease;">
-                            <span>🔄 Yenile</span>
-                        </button>
-                        <a id="acxOpenExtLink" href="${escapeHtml(initialEmbedUrl)}" target="_blank" rel="noopener noreferrer" title="Yeni Sekmede Kesintisiz İzle" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg, #e50914, #f43f5e);color:#fff;font-size:0.75rem;padding:6px 14px;border-radius:7px;text-decoration:none;font-weight:700;box-shadow:0 2px 10px rgba(229,9,20,0.35);white-space:nowrap;">
-                            <span>🚀 Yeni Sekmede Aç ↗</span>
-                        </a>
-                    </div>
-                </div>
-                <!-- Sunucu Durum Bilgilendirmesi & Altyazı Rehberi -->
-                <div style="background:#08090d;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;color:#94a3b8;flex-wrap:wrap;gap:8px;">
-                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                        <span style="color:#ef4444;font-size:0.9rem;">🇯🇵</span>
-                        <span><strong>Orijinal Japonca Seslendirme</strong> devrededir.</span>
-                        <span style="color:rgba(255,255,255,0.2);">|</span>
-                        <span style="color:#e2e8f0;">💬 <strong>Altyazı İçin:</strong> Oynatıcının sağ altındaki <strong>[CC]</strong> veya <strong>[⚙️]</strong> simgesine basıp altyazıyı açabilirsiniz.</span>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:6px;">
-                        <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;"></span>
-                        <span style="color:#10b981;font-weight:600;">Japonca SUB Aktif</span>
-                    </div>
-                </div>
-            ` : ''}
 
             <!-- Alt Puanlama Satırı -->
-            <div style="padding: 20px 24px; background: #0c0d14;">
-                <div class="player-watch-rating-row">
+            <div style="padding: 16px 20px; background: #0c0d14; border-top:1px solid rgba(255,255,255,0.05);">
+                <div class="player-watch-rating-row" style="margin-top:0;">
                     <div class="pwr-title">
                         <span>🎬 Bu animeye puanın kaç?</span>
                         <span id="playerCurrentScore" style="color:var(--warn);font-size:0.85rem;font-weight:700;"></span>
@@ -8725,19 +9273,43 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         openAnimeModal(anime.id, `${seasonNumber}. Sezon`);
     });
 
-    // Embed Çoklu Sunucu Seçimi
-    document.querySelectorAll('.acx-server-btn').forEach(btn => {
+    // TRAnime İzleme Rehberi Overlay Kapatma
+    const guideOverlay = document.getElementById('tranimeGuideOverlay');
+    const startWatchBtn = document.getElementById('tranimeStartWatchBtn');
+    const hideGuide = () => {
+        if (guideOverlay) {
+            guideOverlay.style.opacity = '0';
+            setTimeout(() => { guideOverlay.style.display = 'none'; }, 220);
+        }
+    };
+    guideOverlay?.addEventListener('click', hideGuide);
+    startWatchBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hideGuide();
+    });
+
+    // 1-) TRAnime Üst Fansub Seçimi
+    document.querySelectorAll('.tranime-fansub-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('.tranime-fansub-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            hideGuide();
+            const fName = pill.innerText.trim();
+            const toast = document.getElementById('ratingFeedbackToast');
+            if (toast) {
+                toast.textContent = `✓ ${fName} aktif edildi.`;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2500);
+            }
+        });
+    });
+
+    // 2-) TRAnime Sağ Kaynak / Sunucu Seçimi
+    document.querySelectorAll('.tranime-source-card').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.acx-server-btn').forEach(b => {
-                b.classList.remove('active');
-                b.style.background = 'rgba(255,255,255,0.08)';
-                b.style.borderColor = 'rgba(255,255,255,0.18)';
-                b.style.color = '#cbd5e1';
-            });
+            document.querySelectorAll('.tranime-source-card').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            btn.style.background = '#e50914';
-            btn.style.borderColor = '#e50914';
-            btn.style.color = '#fff';
+            hideGuide();
             const targetUrl = btn.dataset.url;
             const iframe = document.getElementById('acxIframePlayer');
             const spinner = document.getElementById('acxPlayerLoadingSpinner');
@@ -8753,6 +9325,22 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
                 extLink.href = targetUrl;
             }
         });
+    });
+
+    // Hızlı Önceki / Sonraki Bölüm Butonları
+    document.getElementById('acxQuickPrevEpBtn')?.addEventListener('click', () => {
+        if (prevEp) {
+            playEpisode(anime, prevEp.episode_number, seasonNumber);
+        } else {
+            alert('Bu ilk bölümdür.');
+        }
+    });
+    document.getElementById('acxQuickNextEpBtn')?.addEventListener('click', () => {
+        if (nextEp) {
+            playEpisode(anime, nextEp.episode_number, seasonNumber);
+        } else {
+            alert('Bu son bölümdür.');
+        }
     });
 
     // Otomatik Türkçe Altyazı Motoru (Dosyasız & Otomatik)
@@ -9276,6 +9864,8 @@ function updateAuthUI() {
     }
     const izleView = document.getElementById('view-izle');
     if (izleView && izleView.classList.contains('active')) renderWatchHistory();
+    const sohbetView = document.getElementById('view-sohbet');
+    if (sohbetView && sohbetView.classList.contains('active')) renderSohbetPage();
 }
 
 async function safeRpcCall(rpcName, params = {}) {
@@ -10373,7 +10963,7 @@ function renderAdminTab(tab) {
                     <span>🚀 Otomatik Anime & Bölüm Çekici</span>
                     <span style="background:#0284c7; color:#fff; font-size:0.68rem; padding:2px 6px; border-radius:4px; font-weight:700;">V2 — CANLI OYNATICI DESTEKLİ</span>
                 </div>
-                Animenin adını yazıp <strong>"Ara"</strong> butonuna basın. Tek tıkla animenin <strong>tüm bölümleri, çalışan video oynatıcı linkleri ve afişi</strong> Tennox veritabanına otomatik yüklenir! Eklediğiniz an ziyaretçiler hemen tıklayıp izleyebilir.
+                Animenin adını yazıp <strong>"Ara"</strong> butonuna basın. Tek tıkla animenin <strong>tüm bölümleri, çalışan video oynatıcı linkleri ve afişi</strong> AnimeXir veritabanına otomatik yüklenir! Eklediğiniz an ziyaretçiler hemen tıklayıp izleyebilir.
             </div>
 
             <div class="auto-anime-search-bar">
@@ -10870,12 +11460,17 @@ function renderAdminTab(tab) {
                                 saveAnimeSeasons(targetAnimeId, curSeasons);
                             }
 
+                            if (item.bannerImage) {
+                                saveAnimeBanner(targetAnimeId, item.bannerImage);
+                                saveAnimeBanner(title, item.bannerImage);
+                            }
+
                             delete episodesByAnime[targetAnimeId];
                             await loadAllData();
 
                             btn.classList.add('added');
                             btn.textContent = `✓ ${selectedSeason}. Sezon Eklendi`;
-                            showAdminMsg(`"${title}" ${selectedSeason}. Sezon (${desiredEps} Bölüm) başarıyla Tennox'a eklendi ve oynatıcıda izlemeye hazır! 🚀`, true);
+                            showAdminMsg(`"${title}" ${selectedSeason}. Sezon (${desiredEps} Bölüm) başarıyla AnimeXir'e eklendi ve oynatıcıda izlemeye hazır! 🚀`, true);
                         });
                     });
 
@@ -10909,9 +11504,13 @@ function renderAdminTab(tab) {
                                 return;
                             }
 
+                            if (item.bannerImage) {
+                                saveAnimeBanner(title, item.bannerImage);
+                            }
+
                             btn.classList.add('added');
                             btn.textContent = '✓ Eklendi';
-                            showAdminMsg(`"${title}" başarıyla Tennox'a eklendi! ✓`, true);
+                            showAdminMsg(`"${title}" başarıyla AnimeXir'e eklendi! ✓`, true);
                             await loadAllData();
                         });
                     });
@@ -12049,6 +12648,22 @@ function updateSohbetOnlineCount() {
 setInterval(updateSohbetOnlineCount, 15000);
 
 async function renderSohbetPage() {
+    const guestGate = document.getElementById('sohbetGuestGate');
+    const mainWrap = document.getElementById('sohbetMainWrap');
+    
+    // Giriş yapmamış kullanıcıya özel kilit ekranını göster
+    if (!currentUser) {
+        if (guestGate) guestGate.style.display = 'flex';
+        if (mainWrap) mainWrap.style.display = 'none';
+        document.getElementById('sohbetGateLoginBtn')?.addEventListener('click', () => {
+            openAuthModal();
+        });
+        return;
+    }
+
+    if (guestGate) guestGate.style.display = 'none';
+    if (mainWrap) mainWrap.style.display = 'flex';
+
     const box = document.getElementById('sohbetMessages');
     if (!box) return;
     updateSohbetOnlineCount();
