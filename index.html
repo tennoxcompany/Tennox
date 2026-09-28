@@ -9515,77 +9515,6 @@ function playEpisode(videoUrl, anime, episodeId, episodeNumber, seasonNumber = 1
         reader.readAsText(file);
     });
 
-    // Yapay Zeka Altyazı Çevirmeni Yardımcı Motoru
-    function clientSideTranslateSubtitle(subText) {
-        if (!subText) return '';
-        const lines = subText.split('\n');
-        const dict = [
-            [/\bI will become the Pirate King!\b/gi, 'Korsanlar Kralı olacağım adamım ben!'],
-            [/\bOre wa Kaizoku Ou ni naru otoko da!\b/gi, 'Korsanlar Kralı olacağım adamım ben!'],
-            [/\bI will become the strongest!\b/gi, 'En güçlüsü ben olacağım!'],
-            [/\bBankai! Tensa Zangetsu!\b/gi, 'Bankai! Tensa Zangetsu!'],
-            [/\bSenpai, don't give up!\b/gi, 'Senpai, sakın pes etme!'],
-            [/\bSenpai, watch out!\b/gi, 'Senpai, dikkat et!'],
-            [/\bSenpai, hold on tight, the enemy is coming with full force!\b/gi, 'Senpai, sıkı tutun! Düşman tüm gücüyle geliyor!'],
-            [/\bNever give up on your comrades! Nakama is everything.\b/gi, 'Yoldaşlarını asla yarı yolda bırakma! Nakama her şeydir.'],
-            [/\bI'll protect you\b/gi, 'Seni koruyacağım'],
-            [/\bI will protect\b/gi, 'Koruyacağım'],
-            [/\bNever give up\b/gi, 'Asla pes etme'],
-            [/\bWhat\?\!\b/gi, 'Ne?!'],
-            [/\bImpossible!\b/gi, 'İmkansız!'],
-            [/\bThank you\b/gi, 'Teşekkür ederim'],
-            [/\bLet's go!\b/gi, 'Hadi gidelim!'],
-            [/\bDon't worry\b/gi, 'Endişelenme'],
-            [/\bI understand\b/gi, 'Anladım'],
-            [/\bGoodbye\b/gi, 'Hoşça kal']
-        ];
-
-        const translated = lines.map(line => {
-            const trimmed = line.trim();
-            if (/^\d+$/.test(trimmed) || /^\d{2}:\d{2}:\d{2}/.test(trimmed) || line.includes('-->')) {
-                return line;
-            }
-            let out = line;
-            for (const [pattern, rep] of dict) {
-                out = out.replace(pattern, rep);
-            }
-            return out;
-        });
-
-        return translated.join('\n');
-    }
-
-    async function translateSubtitleWithAi(text, animeTitle = 'Anime') {
-        try {
-            const res = await fetch('/api/ai/translate-subtitle', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    subtitleText: text,
-                    animeTitle: animeTitle,
-                    targetLang: 'tr'
-                })
-            });
-
-            const rawText = await res.text();
-            let data;
-            try {
-                data = JSON.parse(rawText);
-            } catch (jsonErr) {
-                console.warn('API non-JSON response fallback:', jsonErr);
-                return clientSideTranslateSubtitle(text);
-            }
-
-            if (data && data.success && data.translatedText) {
-                return data.translatedText;
-            }
-            return clientSideTranslateSubtitle(text);
-        } catch (err) {
-            console.warn('Backend translate error fallback:', err);
-            return clientSideTranslateSubtitle(text);
-        }
-    }
-
     // Yapay Zeka Çevirisini Başlat Butonu
     const startTranslateBtn = document.getElementById('acxAiSubStartTranslateBtn');
     const resultWrap = document.getElementById('acxAiSubResultWrap');
@@ -10978,6 +10907,76 @@ function toggleAddToListPopover(animeId) {
     }
 }
 
+// Yapay Zeka Altyazı Çevirmeni Yardımcı Motoru (Küresel / Global Scope)
+function clientSideTranslateSubtitle(subText) {
+    if (!subText) return '';
+    const lines = subText.split('\n');
+    const dict = [
+        [/\bI will become the Pirate King!\b/gi, 'Korsanlar Kralı olacağım adamım ben!'],
+        [/\bOre wa Kaizoku Ou ni naru otoko da!\b/gi, 'Korsanlar Kralı olacağım adamım ben!'],
+        [/\bI will become the strongest!\b/gi, 'En güçlüsü ben olacağım!'],
+        [/\bBankai! Tensa Zangetsu!\b/gi, 'Bankai! Tensa Zangetsu!'],
+        [/\bSenpai, don't give up!\b/gi, 'Senpai, sakın pes etme!'],
+        [/\bSenpai, watch out!\b/gi, 'Senpai, dikkat et!'],
+        [/\bSenpai, hold on tight, the enemy is coming with full force!\b/gi, 'Senpai, sıkı tutun! Düşman tüm gücüyle geliyor!'],
+        [/\bNever give up on your comrades! Nakama is everything.\b/gi, 'Yoldaşlarını asla yarı yolda bırakma! Nakama her şeydir.'],
+        [/\bI'll protect you\b/gi, 'Seni koruyacağım'],
+        [/\bI will protect\b/gi, 'Koruyacağım'],
+        [/\bNever give up\b/gi, 'Asla pes etme'],
+        [/\bWhat\?\!\b/gi, 'Ne?!'],
+        [/\bImpossible!\b/gi, 'İmkansız!'],
+        [/\bThank you\b/gi, 'Teşekkür ederim'],
+        [/\bLet's go!\b/gi, 'Hadi gidelim!'],
+        [/\bDon't worry\b/gi, 'Endişelenme'],
+        [/\bI understand\b/gi, 'Anladım'],
+        [/\bGoodbye\b/gi, 'Hoşça kal']
+    ];
+
+    const translated = lines.map(line => {
+        const trimmed = line.trim();
+        if (/^\d+$/.test(trimmed) || /^\d{2}:\d{2}:\d{2}/.test(trimmed) || line.includes('-->')) {
+            return line;
+        }
+        let out = line;
+        for (const [pattern, rep] of dict) {
+            out = out.replace(pattern, rep);
+        }
+        return out;
+    });
+
+    return translated.join('\n');
+}
+
+async function translateSubtitleWithAi(text, animeTitle = 'Anime') {
+    try {
+        const res = await fetch('/api/ai/translate-subtitle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                subtitleText: text,
+                animeTitle: animeTitle,
+                targetLang: 'tr'
+            })
+        });
+
+        const rawText = await res.text();
+        let data;
+        try {
+            data = JSON.parse(rawText);
+        } catch (jsonErr) {
+            console.warn('API non-JSON response fallback:', jsonErr);
+            return clientSideTranslateSubtitle(text);
+        }
+
+        if (data && data.success && data.translatedText) {
+            return data.translatedText;
+        }
+        return clientSideTranslateSubtitle(text);
+    } catch (err) {
+        console.warn('Backend translate error fallback:', err);
+        return clientSideTranslateSubtitle(text);
+    }
+}
 
 /* =========================================================
    ADMIN PANEL
